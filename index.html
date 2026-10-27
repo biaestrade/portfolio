@@ -346,7 +346,8 @@ footer .contact{margin-top:0}
 .fbase{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px;padding-top:16px;border-top:1px solid var(--line)}
 .fbase a{color:var(--muted)}
 .recs{padding-top:40px;margin-top:32px;border-top:1px solid var(--line)}
-.rec-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.rec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.rec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rec-grid .rec:first-child{grid-column:1/-1}}
 .rec{margin:0;position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 24px 20px;display:flex;flex-direction:column;gap:16px}
 .rec .q{position:absolute;top:-6px;left:20px;font-family:var(--display);font-size:72px;line-height:1;color:var(--accent)}
 .rec blockquote{margin:0;font-size:16px;line-height:1.55}
@@ -587,7 +588,8 @@ footer .contact{margin-top:0}
       <div>
         <h3 class="sec">Experiência</h3>
         <ol class="timeline">
-          <li class="now"><span class="yr">2025–2026</span><div><div class="role">Supervisora de Marketing</div><div class="org">ATO Produtos</div><p>Gestão de marketing da marca de brindes e acessórios, liderando uma equipe de 3 pessoas. Cuidava das redes sociais, das avaliações e dos relatórios de resultados e do direcionamento das ações, inclusive da verba de anúncios na Meta. No 1º trimestre de 2026, as interações no Instagram cresceram 154% e os novos seguidores 257% em relação ao trimestre anterior. Também planejei e instalei os mostruários de tecidos e aviamentos, com catálogos personalizados para cada vendedor.</p></div></li>
+          <li class="now"><span class="yr">2015–atual</span><div><div class="role">Fundadora e Diretora de Planejamento</div><div class="org">Octo Comunicação</div><p>Minha marca comercial como profissional independente: planejamento de marketing, identidade visual e campanhas para pequenas e médias empresas, como Alcancy Pilates, Academia Atitude Fit, Estúdio MDS, Decorart e Marcel Imperatore.</p></div></li>
+          <li><span class="yr">2025–2026</span><div><div class="role">Supervisora de Marketing</div><div class="org">ATO Produtos</div><p>Gestão de marketing da marca de brindes e acessórios, liderando uma equipe de 3 pessoas. Cuidava das redes sociais, das avaliações e dos relatórios de resultados e do direcionamento das ações, inclusive da verba de anúncios na Meta. No 1º trimestre de 2026, as interações no Instagram cresceram 154% e os novos seguidores 257% em relação ao trimestre anterior. Também planejei e instalei os mostruários de tecidos e aviamentos, com catálogos personalizados para cada vendedor.</p></div></li>
           <li><span class="yr">2024–2025</span><div><div class="role">Gerente de Marketing</div><div class="org">Dra. Elizabeth Zamerul</div><p>Marketing digital para influenciadora de saúde mental: campanhas de venda de eBooks, cursos online e material para lançamentos.</p></div></li>
           <li><span class="yr">2022–2023</span><div><div class="role">Gerente de Marketing</div><div class="org">Lumen Star / EGP Viagens</div><p>Estratégias para dois segmentos, liderança de equipe de 4 pessoas em marketing e publicidade e acompanhamento de KPIs.</p></div></li>
           <li><span class="yr">2021–2022</span><div><div class="role">Analista de Marketing e Designer</div><div class="org">Biovida Saúde</div><p>Campanhas institucionais e promocionais para fortalecer a marca e apoiar a expansão comercial.</p></div></li>
@@ -1346,9 +1348,10 @@ footer .contact{margin-top:0}
     <div class="recs">
       <div class="process-head">
         <div><div class="label">Recomendações no LinkedIn</div><h2>Quem já trabalhou comigo</h2></div>
-        <p>Depoimentos públicos de colegas, publicados no meu perfil do LinkedIn.</p>
+        <p>Depoimentos públicos de clientes e colegas, publicados no meu perfil do LinkedIn.</p>
       </div>
       <div class="rec-grid">
+        <figure class="rec"><span class="q" aria-hidden="true">“</span><blockquote>Gostaria de agradecer pelo excelente trabalho realizado e por toda a dedicação ao meu projeto. Fiquei muito satisfeito com o resultado e com o profissionalismo demonstrado durante todo o processo. Muito obrigado pela parceria e pelo cuidado com o meu trabalho!</blockquote><figcaption><b>Marcel Imperatore</b><span>Fisioterapeuta e acupunturista · cliente</span></figcaption></figure>
         <figure class="rec"><span class="q" aria-hidden="true">“</span><blockquote>A Bea é uma excelente profissional, pontual, comprometida e dedicada. Tudo o que entrega e o que faz, o carinho vem à frente! Foca em processos e prazos, sempre entregou excelentes resultados. Foi um prazer dividir os trabalhos com você!</blockquote><figcaption><b>Barbara Szajman</b><span>Gerente de projetos · Biovida Saúde</span></figcaption></figure>
         <figure class="rec"><span class="q" aria-hidden="true">“</span><blockquote>A Beatriz é uma profissional comprometida, profissional, ágil e bem humorada. Qualquer equipe é o privilégio de ter ela em seu time.</blockquote><figcaption><b>Larissa Martins</b><span>UX e Product Designer · trabalhou na mesma equipe</span></figcaption></figure>
       </div>
