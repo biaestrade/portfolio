@@ -160,6 +160,10 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
 .dots span{width:26px;height:26px;border-radius:50%;border:2px solid var(--line)}
 .dots span.on{background:var(--gold);border-color:var(--gold)}
 .drill-box .row{justify-content:center}
+.type-row{display:grid;grid-template-columns:1fr auto;gap:8px;text-align:left}
+.type-lbl{grid-column:1/-1;font-weight:700;color:var(--muted);font-size:.95rem}
+#drill-input{font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--sky);color:var(--ink);min-width:0}
+#drill-input:focus{border-color:var(--gold);outline:none}
 .mic-status{margin:0;min-height:1.5em;font-weight:600;color:var(--muted)}
 .mic-status.ok{color:var(--ok)}
 .mic-status.bad{color:var(--bad)}
@@ -176,7 +180,7 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
 <div class="drill" id="drill" hidden role="dialog" aria-modal="true" aria-labelledby="drill-title">
   <div class="drill-box">
     <h3 id="drill-title">Feitiço de Treino</h3>
-    <p class="sub">Leia em voz alta tudo o que está no quadro e repita 5 vezes seguidas.</p>
+    <p class="sub">Leia em voz alta e escreva tudo o que está no quadro. Repita 5 vezes seguidas.</p>
     <p class="yours" id="drill-yours"></p>
     <p class="drill-right" id="drill-right" hidden></p>
     <div class="drill-sentence" id="drill-sentence"></div>
@@ -184,8 +188,13 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
     <div class="row">
       <button class="btn ghost" id="drill-listen" type="button">Ouvir a pronúncia</button>
       <button class="btn" id="drill-mic" type="button" hidden>Falar agora</button>
-      <button class="btn" id="drill-said" type="button">Falei! <span class="big-count" id="drill-count">(1/5)</span></button>
+      <button class="btn" id="drill-said" type="button" hidden>Pronto! Continuar</button>
     </div>
+    <form class="type-row" id="drill-type" autocomplete="off">
+      <label for="drill-input" class="type-lbl">Ou escreva o que está no quadro:</label>
+      <input id="drill-input" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done">
+      <button class="btn" id="drill-check" type="submit">Conferir</button>
+    </form>
     <p class="mic-status" id="drill-status" aria-live="polite"></p>
   </div>
 </div>
@@ -597,17 +606,17 @@ function listen(){
     updateDrill();
   };
   rec.onerror=e=>{
-    if(e.error==="not-allowed"||e.error==="service-not-allowed"){ micBlocked=true; setStatus("O microfone está bloqueado. Use o botão Falei!.","bad"); }
+    if(e.error==="not-allowed"||e.error==="service-not-allowed"){ micBlocked=true; setStatus("O microfone está bloqueado. Escreva a frase no campo abaixo.","bad"); }
     else if(e.error==="no-speech"){ drillFails++; setStatus("Não ouvi nada. Toque em Falar agora e fale mais alto.","bad"); }
-    else if(e.error==="network"){ micBlocked=true; setStatus("O microfone precisa de internet. Use o botão Falei!.","bad"); }
+    else if(e.error==="network"){ micBlocked=true; setStatus("O microfone precisa de internet. Escreva a frase no campo abaixo.","bad"); }
     else { drillFails++; setStatus("Não deu pra ouvir. Tenta de novo.","bad"); }
   };
   rec.onend=()=>{ listening=false; mic.classList.remove("listening"); updateDrill(); };
   try{ rec.start(); }catch(e){ listening=false; micBlocked=true; updateDrill(); }
 }
 function openDrill(text, said, then, chain){
-  drillDone=then; drillCount=0; drillFails=0;
-  setStatus(micUsable()?"Toque em Falar agora e leia o quadro em voz alta.":"","");
+  drillDone=then; drillCount=0; drillFails=0; document.getElementById("drill-input").value="";
+  setStatus(micUsable()?"Toque em Falar agora ou escreva o quadro no campo abaixo.":"","");
   const box = document.getElementById("drill-sentence"), right = document.getElementById("drill-right");
   if(chain){
     drillText = chain.join(", "); drillTarget = chain.join(" ");
@@ -629,20 +638,32 @@ function openDrill(text, said, then, chain){
 }
 function updateDrill(){
   document.querySelectorAll("#drill-dots span").forEach((d,i)=>d.classList.toggle("on",i<drillCount));
-  const said = document.getElementById("drill-said"), mic = document.getElementById("drill-mic");
-  if(drillCount>=5){ said.innerHTML = "Pronto! Continuar"; said.hidden=false; mic.hidden=true; return; }
+  const said = document.getElementById("drill-said"), mic = document.getElementById("drill-mic"), type = document.getElementById("drill-type");
+  if(drillCount>=5){ said.hidden=false; mic.hidden=true; type.hidden=true; return; }
+  said.hidden = true; type.hidden = false;
+  document.getElementById("drill-check").textContent = `Conferir (${drillCount+1}/5)`;
   mic.hidden = !micUsable();
   if(!listening) mic.innerHTML = `Falar agora <span class="big-count">(${drillCount+1}/5)</span>`;
-  said.hidden = micUsable() && drillFails<2;
-  said.classList.toggle("ghost", micUsable());
-  said.innerHTML = micUsable() ? `Falei, mas não entendeu (${drillCount+1}/5)` : `Falei! <span class="big-count">(${drillCount+1}/5)</span>`;
 }
 document.getElementById("drill-listen").onclick=()=>speak(drillText);
 document.getElementById("drill-mic").onclick=listen;
 document.getElementById("drill-said").onclick=()=>{
-  if(drillCount>=5){ drill.hidden=true; const f=drillDone; drillDone=null; f&&f(); return; }
-  drillCount++; drillFails=0; setStatus("",""); updateDrill();
+  if(drillCount>=5){ drill.hidden=true; const f=drillDone; drillDone=null; f&&f(); }
 };
+function norm(t){ return t.toLowerCase().replace(/[’`´]/g,"'").replace(/\.\.\./g," ").replace(/[^a-z0-9'à-ú ]+/g," ").replace(/\s+/g," ").trim(); }
+document.getElementById("drill-type").addEventListener("submit",e=>{
+  e.preventDefault();
+  if(drillCount>=5) return;
+  const inp=document.getElementById("drill-input"), typed=inp.value;
+  if(!typed.trim()){ setStatus("Escreva o que está no quadro e toque em Conferir.","bad"); return; }
+  if(norm(typed)===norm(drillTarget)){
+    drillCount++; inp.value="";
+    setStatus(drillCount>=5?"Perfeito! 5 de 5.":"Certinho! "+drillCount+" de 5. Agora de novo.","ok");
+    updateDrill(); if(drillCount<5) inp.focus();
+  } else {
+    setStatus("Ainda não está igual ao quadro. Confira letra por letra.","bad");
+  }
+});
 
 /* ---------- fim da aula ---------- */
 function renderEnd(){
