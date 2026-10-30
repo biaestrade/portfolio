@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
+</head>
+<body>
+<title>Escola de Magia da Lelê</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Nunito:wght@400;600;800&display=swap">
+<style>
+/* Layout: uma noite no castelo — mapa de salas (aulas) que abre em cartões de pergaminho escuro; um feitiço de treino em tela cheia quando ela erra */
+:root{
+  --bg:#121629; --sky:#1b2140; --card:#232a4d; --card2:#2c3560;
+  --ink:#f1ecdf; --muted:#b4b2c9; --gold:#e8b44a; --gold-soft:#f3d48e;
+  --ok:#6fd3a0; --bad:#ff8a7a; --line:#3a4373;
+  --display:"IM Fell English SC", Georgia, "Times New Roman", serif;
+  --body:"Nunito", "Segoe UI", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;max-width:680px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:20px 8px;flex-wrap:wrap}
+.points{display:flex;align-items:center;gap:8px;background:var(--sky);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:800;font-variant-numeric:tabular-nums}
+.points b{color:var(--gold)}
+.brand{font-family:var(--display);font-size:1.15rem;color:var(--gold-soft)}
+
+.hero{padding-block:18px 22px}
+.hero h1{font-size:clamp(2.1rem,7vw,3.2rem);line-height:1.05;color:var(--gold)}
+.hero p{color:var(--muted);max-width:52ch;margin:10px 0 0}
+
+.rooms{display:grid;gap:12px}
+.room{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;transition:transform .15s,border-color .15s}
+.room:hover{transform:translateY(-2px);border-color:var(--gold)}
+.room .num{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:1.4rem;background:var(--sky);border:2px solid var(--line);color:var(--gold-soft)}
+.room.done .num{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.room h3{font-size:1.25rem}
+.room small{color:var(--muted);display:block;font-size:.9rem}
+.room .tag{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.room.done .tag{color:var(--gold)}
+.room.exam{background:linear-gradient(135deg,var(--card2),var(--card));border-color:var(--gold)}
+.room > div{min-width:0}
+
+.medals{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.medals .lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:100%}
+.medal{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--line);color:var(--line);font-family:var(--display);font-size:1.1rem}
+.medal.on{border:2px solid var(--gold);background:radial-gradient(circle at 35% 30%,var(--gold-soft),var(--gold));color:var(--bg)}
+
+.back{background:none;border:none;color:var(--muted);padding:6px 0;font-weight:600}
+.back:hover{color:var(--gold)}
+.lesson-head{padding-block:6px 14px}
+.eyebrow{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.lesson-head h2{font-size:clamp(1.8rem,6vw,2.5rem);color:var(--ink)}
+.explain{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:12px}
+.explain p{margin:0}
+.cola{width:100%;border-collapse:collapse;font-size:.98rem}
+.cola td{padding:6px 8px;border-top:1px solid var(--line)}
+.cola td:first-child{font-weight:800;color:var(--gold-soft);white-space:nowrap}
+.cola-wrap{overflow-x:auto}
+.cola-title{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.progress{display:flex;gap:4px;margin:18px 0 10px}
+.progress span{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.progress span.ok{background:var(--ok)}
+.progress span.bad{background:var(--bad)}
+.progress span.now{background:var(--gold)}
+
+.ex{background:var(--sky);border:1px solid var(--line);border-radius:16px;padding:20px 18px;display:grid;gap:16px}
+.ex .kind{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ex .q{font-size:1.45rem;font-weight:800;line-height:1.3}
+.ex .q .blank{display:inline-block;min-width:3ch;border-bottom:3px solid var(--gold);color:var(--gold)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.opt{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px;font-weight:800;font-size:1.1rem}
+.opt:hover:not(:disabled){border-color:var(--gold)}
+.opt.right{border-color:var(--ok);background:var(--card);background:color-mix(in srgb,var(--ok) 18%,var(--card))}
+.opt.wrong{border-color:var(--bad);background:var(--card);background:color-mix(in srgb,var(--bad) 18%,var(--card))}
+.opt:disabled{cursor:default}
+
+.line{min-height:58px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.line.empty::before{content:"Toque nas palavras na ordem certa";color:var(--muted);font-size:.95rem;padding-left:4px}
+.bank{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:8px 14px;font-weight:800}
+.chip:hover{border-color:var(--gold)}
+.chip.used{visibility:hidden}
+
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{background:var(--gold);color:var(--bg);border:none;border-radius:12px;padding:12px 20px;font-weight:800;font-size:1.05rem}
+.btn:hover{background:var(--gold-soft)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn.ghost:hover{border-color:var(--gold)}
+.btn:disabled{opacity:.45;cursor:default}
+.feedback{font-weight:800}
+.feedback.ok{color:var(--ok)}
+.feedback.bad{color:var(--bad)}
+
+.talk{margin-top:6px;background:var(--card);border:1px solid var(--gold);border-radius:16px;padding:18px;display:grid;gap:12px}
+.talk h3{font-size:1.5rem;color:var(--gold)}
+.talk p{margin:0;color:var(--muted)}
+.qa{display:grid;gap:10px}
+.qa-item{background:var(--sky);border-radius:12px;padding:12px 14px;display:grid;gap:6px}
+.qa-item .ask{font-weight:800;font-size:1.15rem}
+.qa-item .ans{color:var(--ok);font-weight:600}
+.qa-item .mini{display:flex;gap:8px;flex-wrap:wrap}
+.small{font-size:.9rem;padding:6px 12px;border-radius:10px}
+
+.done-card{text-align:center;padding:26px 18px;background:var(--card);border:1px solid var(--gold);border-radius:16px;display:grid;gap:10px;justify-items:center}
+.done-card .big{width:84px;height:84px;font-size:2rem}
+.done-card h3{font-size:1.8rem;color:var(--gold)}
+
+/* Feitiço de treino */
+.drill{position:fixed;inset:0;z-index:20;background:var(--bg);background:color-mix(in srgb,var(--bg) 92%,transparent);display:grid;place-items:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.drill-box{width:100%;max-width:560px;background:var(--card);border:2px solid var(--gold);border-radius:20px;padding:22px 18px;display:grid;gap:16px;text-align:center}
+.drill-box h3{font-size:1.7rem;color:var(--gold)}
+.drill-box .sub{color:var(--muted);margin:0}
+.drill-right{margin:0;color:var(--ok);font-weight:800}
+.drill-sentence.chain{display:grid;gap:4px;font-size:clamp(1.4rem,6vw,2rem);padding:14px 12px}
+.drill-sentence{font-size:clamp(1.6rem,7vw,2.4rem);font-weight:800;line-height:1.2;background:var(--sky);border-radius:14px;padding:18px 12px;overflow-wrap:anywhere}
+.dots{display:flex;justify-content:center;gap:10px}
+.dots span{width:26px;height:26px;border-radius:50%;border:2px solid var(--line)}
+.dots span.on{background:var(--gold);border-color:var(--gold)}
+.drill-box .row{justify-content:center}
+.mic-status{margin:0;min-height:1.5em;font-weight:600;color:var(--muted)}
+.mic-status.ok{color:var(--ok)}
+.mic-status.bad{color:var(--bad)}
+#drill-mic.listening{background:var(--ok)}
+.big-count{font-variant-numeric:tabular-nums}
+.yours{color:var(--bad);font-size:.95rem;margin:0}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+<main id="app"><p style="padding-top:40px;color:var(--muted)">Abrindo a Escola de Magia...</p></main>
+
+<div class="drill" id="drill" hidden role="dialog" aria-modal="true" aria-labelledby="drill-title">
+  <div class="drill-box">
+    <h3 id="drill-title">Feitiço de Treino</h3>
+    <p class="sub">Leia em voz alta tudo o que está no quadro e repita 5 vezes seguidas.</p>
+    <p class="yours" id="drill-yours"></p>
+    <p class="drill-right" id="drill-right" hidden></p>
+    <div class="drill-sentence" id="drill-sentence"></div>
+    <div class="dots" id="drill-dots"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="row">
+      <button class="btn ghost" id="drill-listen" type="button">Ouvir a pronúncia</button>
+      <button class="btn" id="drill-mic" type="button" hidden>Falar agora</button>
+      <button class="btn" id="drill-said" type="button">Falei! <span class="big-count" id="drill-count">(1/5)</span></button>
+    </div>
+    <p class="mic-status" id="drill-status" aria-live="polite"></p>
+  </div>
+</div>
+
+<script>
+window.addEventListener("error",function(e){var a=document.getElementById("app");if(a&&!a.querySelector(".room,.ex,.done-card")){a.innerHTML='<p style="padding-top:40px">Ops, a página travou neste aparelho. Mande um print desta mensagem: '+String(e.message||e.error||"erro")+'</p>';}});
+</script>
+<script>
+const LESSONS = [
+ {id:"pron", title:"Os Nomes Secretos", sub:"Pronomes: I, you, he, she, it, we, they",
+  explain:["Pronome é a palavra que entra no lugar do nome.","Harry vira <b>he</b>. Hermione vira <b>she</b>. Harry e Ron viram <b>they</b>."],
+  cola:[["I","eu"],["you","você / vocês"],["he","ele"],["she","ela"],["it","ele/ela para coisa ou animal"],["we","nós"],["they","eles / elas"]],
+  ex:[
+   {q:"Hermione → ___",o:["she","he","it"],a:"she"},
+   {q:"Harry and Ron → ___",o:["we","they","he"],a:"they"},
+   {q:"The owl (a coruja) → ___",o:["she","it","they"],a:"it"},
+   {q:"Eu e a Lelê → ___",o:["they","you","we"],a:"we"},
+   {q:"Hagrid → ___",o:["he","she","it"],a:"he"},
+   {q:"Eu → ___",o:["me","I","my"],a:"I"}
+  ],
+  talk:[["Who are you?","I am Lelê."],["Who is Hermione?","She is a student."],["Who are Harry and Ron?","They are friends."]]},
+
+ {id:"tobe", title:"Feitiço do To Be", sub:"am, is, are: ser e estar",
+  explain:["<b>To be</b> quer dizer ser ou estar.","I usa <b>am</b>. He, she e it usam <b>is</b>. You, we e they usam <b>are</b>.","Para negar, coloque <b>not</b>: isn't, aren't. Para perguntar, o verbo vai para a frente: <b>Are</b> you...?"],
+  cola:[["I am","eu sou / estou"],["you are","você é / está"],["he / she / it is","ele, ela é / está"],["we are","nós somos / estamos"],["they are","eles são / estão"],["isn't / aren't","não é / não são"],["Is she...? Are you...?","pergunta"]],
+  ex:[
+   {q:"Harry ___ brave.",o:["am","is","are"],a:"is"},
+   {q:"I ___ a student at Hogwarts.",o:["am","is","are"],a:"am"},
+   {q:"Ron and Hermione ___ friends.",o:["is","am","are"],a:"are"},
+   {q:"The owl ___ white.",o:["are","is","am"],a:"is"},
+   {q:"We ___ in the castle.",o:["are","is","am"],a:"are"},
+   {q:"Ron ___ a teacher. (não é)",o:["aren't","isn't","am not"],a:"isn't"},
+   {q:"___ you a wizard?",o:["Is","Am","Are"],a:"Are"},
+   {w:["Hermione","is","very","smart."]},
+   {w:["Are","you","ready?"]}
+  ],
+  talk:[["Are you brave?","Yes, I am."],["Is Hermione smart?","Yes, she is."],["Are you a wizard?","No, I'm not. I am a student."]]},
+
+ {id:"do", title:"Feitiço do Do", sub:"Presente: do, does e o S do he/she/it",
+  explain:["No presente a gente fala da rotina e do que gosta.","Com he, she e it o verbo ganha <b>S</b>: she like<b>s</b>, he play<b>s</b>. Have vira <b>has</b>.","Para negar e perguntar use <b>do</b> ou <b>does</b>. Com does o verbo perde o S: she doesn't like."],
+  cola:[["I / you / we / they like","eu gosto, você gosta..."],["he / she / it likes","ele, ela gosta (com S!)"],["he / she has","ele, ela tem"],["I don't like","eu não gosto"],["she doesn't like","ela não gosta"],["Do you like...?","você gosta...?"],["Does she like...?","ela gosta...?"]],
+  ex:[
+   {q:"Hermione ___ books.",o:["like","likes"],a:"likes"},
+   {q:"I ___ chess.",o:["play","plays"],a:"play"},
+   {q:"Harry ___ a wand.",o:["have","has"],a:"has"},
+   {q:"Ron ___ like spiders.",o:["don't","doesn't"],a:"doesn't"},
+   {q:"We ___ like homework.",o:["don't","doesn't"],a:"don't"},
+   {q:"___ you like magic?",o:["Do","Does","Are"],a:"Do"},
+   {q:"___ Hagrid love animals?",o:["Do","Does","Is"],a:"Does"},
+   {q:"She doesn't ___ cats.",o:["like","likes"],a:"like"},
+   {w:["Hermione","doesn't","like","rules."]},
+   {w:["Do","you","have","an","owl?"]}
+  ],
+  talk:[["Do you like magic?","Yes, I do."],["What do you like?","I like books and music."],["Does your friend like English?","Yes, she does. / No, he doesn't."]]},
+
+ {id:"past", title:"A Penseira do Passado", sub:"was e were: o to be no passado",
+  explain:["<b>Was</b> e <b>were</b> são o to be no passado: era, estava, foi.","I, he, she e it usam <b>was</b>. You, we e they usam <b>were</b>.","Negativo: wasn't, weren't. Pergunta: <b>Were</b> you...?"],
+  cola:[["I was","eu era / estava"],["he / she / it was","ele, ela era / estava"],["you were","você era / estava"],["we / they were","nós, eles éramos / estavam"],["wasn't / weren't","não era / não estavam"]],
+  ex:[
+   {q:"Yesterday, Harry ___ tired.",o:["was","were"],a:"was"},
+   {q:"We ___ at the castle.",o:["was","were"],a:"were"},
+   {q:"The spell ___ easy.",o:["was","were"],a:"was"},
+   {q:"Ron and Harry ___ late.",o:["was","were"],a:"were"},
+   {q:"___ you at school yesterday?",o:["Was","Were"],a:"Were"},
+   {q:"It ___ cold. (não estava)",o:["wasn't","weren't"],a:"wasn't"},
+   {w:["I","was","happy","yesterday."]}
+  ],
+  talk:[["Were you at school yesterday?","Yes, I was."],["Was it fun?","Yes, it was. / No, it wasn't."],["Where were you on Sunday?","I was at home."]]},
+
+ {id:"wh", title:"As Perguntas Mágicas", sub:"what, where, who, which, how, when, why",
+  explain:["Essas palavras abrem perguntas e sempre vão no começo.","Depois delas vem o verbo: <b>What is</b>..., <b>Where do you</b>..."],
+  cola:[["what","o que / qual"],["where","onde"],["who","quem"],["which","qual (entre opções)"],["how","como"],["when","quando"],["why","por quê"]],
+  ex:[
+   {q:"___ is your name?",o:["What","Where","Who"],a:"What"},
+   {q:"___ is the castle? (onde)",o:["When","Where","Why"],a:"Where"},
+   {q:"___ is your favorite teacher?",o:["Who","How","Which"],a:"Who"},
+   {q:"___ are you? I'm fine!",o:["What","Who","How"],a:"How"},
+   {q:"___ is your birthday?",o:["When","Where","Who"],a:"When"},
+   {q:"___ wand do you want: this or that?",o:["Which","Who","Why"],a:"Which"},
+   {q:"___ are you sad?",o:["How","Why","What"],a:"Why"},
+   {w:["Where","do","you","live?"]}
+  ],
+  talk:[["What is your name?","My name is Helena."],["How are you?","I'm fine, thank you."],["What is your favorite book?","My favorite book is..."]]},
+
+ {id:"can", title:"O Feitiço do Can", sub:"can e can't: conseguir e poder",
+  explain:["<b>Can</b> = consegue, pode. <b>Can't</b> = não consegue, não pode.","O verbo depois de can fica igualzinho, nunca ganha S: she can <b>fly</b>."],
+  cola:[["I can fly","eu consigo voar"],["she can fly","ela consegue voar (sem S!)"],["I can't swim","eu não consigo nadar"],["Can you...?","você consegue...?"],["Yes, I can. / No, I can't.","respostas"]],
+  ex:[
+   {q:"Hermione can ___ hard spells.",o:["do","does","doing"],a:"do"},
+   {q:"Owls ___ fly.",o:["can","can't"],a:"can"},
+   {q:"I ___ fly without a broom.",o:["can","can't"],a:"can't"},
+   {q:"___ you swim?",o:["Do","Can","Are"],a:"Can"},
+   {q:"He can ___ a broom.",o:["ride","rides"],a:"ride"},
+   {w:["Can","you","help","me?"]}
+  ],
+  talk:[["Can you swim?","Yes, I can. / No, I can't."],["Can you speak English?","Yes, I can. A little!"],["What can you do?","I can dance and draw."]]},
+
+ {id:"vocab", title:"O Livro de Palavras", sub:"Vocabulário e montar frases",
+  explain:["Em inglês a frase quase sempre segue a ordem: <b>quem + verbo + o resto</b>.","Exemplo: <b>My friend</b> + <b>has</b> + an owl."],
+  cola:[["wand","varinha"],["owl","coruja"],["broom","vassoura"],["castle","castelo"],["spell","feitiço"],["friend","amigo, amiga"],["teacher","professor"],["homework","lição de casa"],["brave","corajoso"],["smart","inteligente"],["tired","cansado"],["happy","feliz"]],
+  ex:[
+   {q:"Varinha em inglês: ___",o:["broom","wand","spell"],a:"wand"},
+   {q:"Owl quer dizer: ___",o:["coruja","gato","vassoura"],a:"coruja",pt:true},
+   {q:"Brave quer dizer: ___",o:["cansado","corajoso","feliz"],a:"corajoso",pt:true},
+   {w:["My","friend","has","an","owl."]},
+   {w:["The","castle","is","very","big."]},
+   {w:["She","doesn't","have","homework."]},
+   {w:["Where","is","my","wand?"]}
+  ],
+  talk:[["Do you have a pet?","Yes, I have a cat. / No, I don't."],["Who is your best friend?","My best friend is..."],["Are you tired today?","No, I'm not. I'm happy!"]]}
+];
+
+/* ---------- correntes do feitiço de treino ---------- */
+const BE_SG=["I am","you are","he is","she is","it is"], BE_PL=["we are","you are","they are"];
+const WAS_SG=["I was","you were","he was","she was","it was"], WAS_PL=["we were","you were","they were"];
+const LIKE_SG=["I like","you like","he likes","she likes","it likes"];
+const PLAY_SG=["I play","you play","he plays","she plays","it plays"];
+const HAVE_SG=["I have","you have","he has","she has","it has"];
+const DONT_SG=["I don't","you don't","he doesn't","she doesn't","it doesn't"], DONT_PL=["we don't","you don't","they don't"];
+const DO_Q=["Do I...?","Do you...?","Does he...?","Does she...?","Does it...?"];
+const CHAINS={
+ "Harry ___ brave.":BE_SG,"I ___ a student at Hogwarts.":BE_SG,"Ron and Hermione ___ friends.":BE_PL,
+ "The owl ___ white.":BE_SG,"We ___ in the castle.":BE_PL,"Ron ___ a teacher. (não é)":BE_SG,
+ "___ you a wizard?":BE_SG,"Hermione is very smart.":BE_SG,"Are you ready?":BE_SG,
+ "Hermione ___ books.":LIKE_SG,"I ___ chess.":PLAY_SG,"Harry ___ a wand.":HAVE_SG,
+ "Ron ___ like spiders.":DONT_SG,"We ___ like homework.":DONT_PL,"___ you like magic?":DO_Q,
+ "___ Hagrid love animals?":DO_Q,"She doesn't ___ cats.":DONT_SG,"Hermione doesn't like rules.":DONT_SG,
+ "Do you have an owl?":DO_Q,
+ "Yesterday, Harry ___ tired.":WAS_SG,"We ___ at the castle.":WAS_PL,"The spell ___ easy.":WAS_SG,
+ "Ron and Harry ___ late.":WAS_PL,"___ you at school yesterday?":WAS_SG,"It ___ cold. (não estava)":WAS_SG,
+ "I was happy yesterday.":WAS_SG,
+ "My friend has an owl.":HAVE_SG,"The castle is very big.":BE_SG,"She doesn't have homework.":DONT_SG,"Where is my wand?":BE_SG
+};
+const CAN_SG=["I can","you can","he can","she can","it can"], CAN_PL=["we can","you can","they can"];
+Object.assign(CHAINS,{
+ "Hermione → ___":BE_SG,"Harry and Ron → ___":BE_PL,"The owl (a coruja) → ___":BE_SG,
+ "Eu e a Lelê → ___":BE_PL,"Hagrid → ___":BE_SG,"Eu → ___":BE_SG,
+ "Hermione can ___ hard spells.":CAN_SG,"Owls ___ fly.":CAN_PL,"I ___ fly without a broom.":CAN_SG,
+ "___ you swim?":CAN_SG,"He can ___ a broom.":CAN_SG,"Can you help me?":CAN_SG
+});
+const chainFor = ex => CHAINS[ex.w ? ex.w.join(" ") : ex.q] || null;
+
+/* ---------- estado salvo neste aparelho ---------- */
+let state = {points:0, done:{}};
+try{ const s = JSON.parse(localStorage.getItem("lele-magia")||"null"); if(s) state = Object.assign(state,s); }catch(e){}
+function save(){ try{ localStorage.setItem("lele-magia",JSON.stringify(state)); }catch(e){} }
+
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- voz ---------- */
+let hasVoice=false; try{ hasVoice = !!(window.speechSynthesis && window.SpeechSynthesisUtterance); }catch(e){}
+function speak(text){
+  if(!hasVoice) return;
+  let speechSynthesis; try{ speechSynthesis = window.speechSynthesis; }catch(e){ return; }
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/→/g,","));
+    u.lang = "en-US"; u.rate = .85;
+    const v = speechSynthesis.getVoices().find(v=>/^en(-|_)US/i.test(v.lang)) || speechSynthesis.getVoices().find(v=>/^en/i.test(v.lang));
+    if(v) u.voice = v;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---------- topo ---------- */
+function topBar(){
+  return `<header class="top"><span class="brand">Escola de Magia da Lelê</span>
+  <span class="points" aria-label="Pontos de magia">✦ <b>${state.points}</b> pontos</span></header>`;
+}
+
+/* ---------- mapa ---------- */
+function home(){
+  const doneCount = LESSONS.filter(l=>state.done[l.id]).length;
+  app.innerHTML = topBar() + `
+  <section class="hero">
+    <h1>Bem-vinda, Lelê!</h1>
+    <p>Cada sala é uma aula de inglês. Acerte os feitiços para ganhar pontos e medalhas. Errou? Tudo bem: você faz o Feitiço de Treino e segue em frente.</p>
+  </section>
+  <nav class="rooms">
+    ${LESSONS.map((l,i)=>`
+      <button class="room ${state.done[l.id]?"done":""}" data-go="${l.id}" type="button">
+        <span class="num">${["I","II","III","IV","V","VI","VII"][i]}</span>
+        <div><h3>${esc(l.title)}</h3><small>${esc(l.sub)}</small></div>
+        <span class="tag">${state.done[l.id]?"Medalha":"Sala "+(i+1)}</span>
+      </button>`).join("")}
+    <button class="room exam ${state.done.exam?"done":""}" data-go="exam" type="button">
+      <span class="num">★</span>
+      <div><h3>O Grande Exame</h3><small>10 feitiços misturados de todas as salas</small></div>
+      <span class="tag">${state.done.exam?"Aprovada":"Final"}</span>
+    </button>
+  </nav>
+  <div class="medals"><span class="lbl">Suas medalhas: ${doneCount} de ${LESSONS.length}</span>
+    ${LESSONS.map((l,i)=>`<span class="medal ${state.done[l.id]?"on":""}" title="${esc(l.title)}">${["I","II","III","IV","V","VI","VII"][i]}</span>`).join("")}
+  </div>`;
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{
+    const id=b.dataset.go; id==="exam"?startExam():startLesson(id);
+  });
+  scrollTo(0,0);
+}
+
+/* ---------- aula ---------- */
+let run = null; // {lesson, items, i, results, exam}
+
+function startLesson(id){
+  const lesson = LESSONS.find(l=>l.id===id);
+  run = {lesson, items:lesson.ex.slice(), i:0, results:[], exam:false, intro:true};
+  renderRun();
+}
+function startExam(){
+  const all = LESSONS.flatMap(l=>l.ex.map(e=>e));
+  const pick = shuffle(all).slice(0,10);
+  run = {lesson:{id:"exam",title:"O Grande Exame"}, items:pick, i:0, results:[], exam:true, intro:false};
+  renderRun();
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function fullSentence(ex){
+  if(ex.w) return ex.w.join(" ");
+  if(ex.pt){ return ex.q.split(":")[0].replace(" quer dizer","") + " = " + ex.a; }
+  return ex.q.replace(/\s*\((.*?)\)\s*/g," ").replace("___",ex.a).trim();
+}
+
+function renderRun(){
+  const L = run.lesson;
+  let html = topBar() + `<button class="back" id="back" type="button">← Voltar ao mapa</button>`;
+  if(!run.exam){
+    html += `<div class="lesson-head"><span class="eyebrow">Aula</span><h2>${esc(L.title)}</h2></div>
+    <div class="explain">${L.explain.map(p=>`<p>${p}</p>`).join("")}
+      <span class="cola-title">Cola mágica</span>
+      <div class="cola-wrap"><table class="cola">${L.cola.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>
+    </div>`;
+  } else {
+    html += `<div class="lesson-head"><span class="eyebrow">Final</span><h2>O Grande Exame</h2></div>`;
+  }
+  html += `<div class="progress">${run.items.map((_,k)=>`<span class="${k<run.results.length?(run.results[k]?"ok":"bad"):(k===run.i?"now":"")}"></span>`).join("")}</div>`;
+  html += `<div id="slot"></div>`;
+  app.innerHTML = html;
+  document.getElementById("back").onclick = home;
+  if(run.i < run.items.length) renderExercise(); else renderEnd();
+}
+
+function renderExercise(){
+  const ex = run.items[run.i];
+  const slot = document.getElementById("slot");
+  const n = `Feitiço ${run.i+1} de ${run.items.length}`;
+  if(ex.w){
+    const bank = shuffle(ex.w.map((t,k)=>({t,k})));
+    slot.innerHTML = `<div class="ex"><span class="kind">${n} · Monte a frase</span>
+      <div class="line empty" id="line"></div>
+      <div class="bank" id="bank">${bank.map(b=>`<button class="chip" data-k="${b.k}" type="button">${esc(b.t)}</button>`).join("")}</div>
+      <div class="row"><button class="btn" id="check" type="button" disabled>Conferir</button><button class="btn ghost" id="clear" type="button">Limpar</button></div>
+      <div class="feedback" id="fb" aria-live="polite"></div></div>`;
+    const line = document.getElementById("line"), chosen=[];
+    const checkBtn = document.getElementById("check");
+    const sync=()=>{ line.classList.toggle("empty",!chosen.length); checkBtn.disabled = chosen.length!==ex.w.length; };
+    slot.querySelectorAll("#bank .chip").forEach(c=>c.onclick=()=>{
+      if(c.classList.contains("used")) return;
+      c.classList.add("used"); chosen.push(c);
+      const t=document.createElement("button"); t.type="button"; t.className="chip"; t.textContent=c.textContent;
+      t.onclick=()=>{ const i=chosen.indexOf(c); chosen.splice(i,1); c.classList.remove("used"); t.remove(); sync(); };
+      line.appendChild(t); sync();
+    });
+    document.getElementById("clear").onclick=()=>{ chosen.length=0; line.innerHTML=""; slot.querySelectorAll("#bank .chip").forEach(c=>c.classList.remove("used")); sync(); };
+    checkBtn.onclick=()=>{
+      const said = chosen.map(c=>c.textContent).join(" ");
+      const right = said===ex.w.join(" ");
+      slot.querySelectorAll("button").forEach(b=>b.disabled=true);
+      answer(right, said);
+    };
+  } else {
+    const q = esc(ex.q).replace("___",'<span class="blank">?</span>');
+    slot.innerHTML = `<div class="ex"><span class="kind">${n} · Escolha a resposta</span>
+      <div class="q">${q}</div>
+      <div class="opts">${shuffle(ex.o).map(o=>`<button class="opt" type="button" data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div>
+      <div class="feedback" id="fb" aria-live="polite"></div></div>`;
+    slot.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      const right = b.dataset.o===ex.a;
+      slot.querySelectorAll(".opt").forEach(x=>{ x.disabled=true; if(x.dataset.o===ex.a) x.classList.add("right"); });
+      if(!right) b.classList.add("wrong");
+      const blank = slot.querySelector(".blank"); if(blank) blank.textContent = ex.a;
+      answer(right, ex.q.replace("___",b.dataset.o));
+    });
+  }
+}
+
+const PRAISE = ["Excelente!","Feitiço perfeito!","Isso aí, Lelê!","Mandou bem!","Brilhante!"];
+function answer(right, said){
+  const ex = run.items[run.i];
+  const fb = document.getElementById("fb");
+  run.results.push(right);
+  if(right){
+    state.points += 10; save();
+    fb.className="feedback ok"; fb.textContent = PRAISE[Math.floor(Math.random()*PRAISE.length)]+" +10 pontos";
+    speak(fullSentence(ex));
+    nextButton();
+  } else {
+    fb.className="feedback bad"; fb.textContent = "Quase! Hora do Feitiço de Treino.";
+    setTimeout(()=>openDrill(fullSentence(ex), said, nextButton, chainFor(ex)), 700);
+  }
+  document.querySelector(".points b").textContent = state.points;
+}
+function nextButton(){
+  const ex = document.querySelector(".ex");
+  const row = document.createElement("div"); row.className="row";
+  row.innerHTML = `<button class="btn" type="button">${run.i+1<run.items.length?"Próximo feitiço →":"Terminar"}</button>`;
+  ex.appendChild(row);
+  const b=row.querySelector("button"); b.focus();
+  b.onclick=()=>{ run.i++; renderRun(); };
+}
+
+/* ---------- feitiço de treino: 5 repetições seguidas ---------- */
+const drill = document.getElementById("drill");
+let drillDone=null, drillCount=0, drillText="", drillTarget="", drillFails=0, micBlocked=false, listening=false;
+let SR=null; try{ SR = window.SpeechRecognition || window.webkitSpeechRecognition || null; }catch(e){}
+
+function words(t){
+  return t.toLowerCase().replace(/[’`]/g,"'").replace(/\.\.\./g," ").replace(/[^a-z' ]+/g," ").split(/\s+/).filter(Boolean);
+}
+/* nomes próprios (Hermione, Hagrid...) costumam ser mal entendidos: não contam */
+function targetWords(t){
+  if(t.includes(" = ")) return words(t.split(" = ")[0]);
+  return t.replace(/→/g," ").split(/[\s,]+/).filter(w=>w && !(/^[A-Z][a-z]/.test(w) && w!=="I" && !/^(Do|Does|Are|Is|Was|Were|Can|Where|What|Who|How|When|Why|Which|My|The|She|He|It|We|They|You|Yesterday)$/.test(w.replace(/[^A-Za-z]/g,"")))).flatMap(words);
+}
+function matches(heard, target){
+  const need = targetWords(target); if(!need.length) return true;
+  const pool = words(heard); let hit=0;
+  for(const w of need){ const i=pool.indexOf(w); if(i>=0){ hit++; pool.splice(i,1); } }
+  return hit >= Math.max(1, Math.ceil(need.length*0.75));
+}
+function setStatus(msg, cls){ const el=document.getElementById("drill-status"); el.textContent=msg; el.className="mic-status"+(cls?" "+cls:""); }
+function micUsable(){ return !!SR && !micBlocked; }
+
+function listen(){
+  if(!micUsable() || listening || drillCount>=5) return;
+  let rec; try{ rec = new SR(); }catch(e){ micBlocked=true; updateDrill(); return; }
+  rec.lang="en-US"; rec.interimResults=false; rec.maxAlternatives=4; rec.continuous=false;
+  listening=true; const mic=document.getElementById("drill-mic"); mic.classList.add("listening"); mic.textContent="Ouvindo...";
+  setStatus("Pode falar!","");
+  let got=false;
+  rec.onresult=e=>{
+    got=true;
+    const alts=[...e.results[0]].map(a=>a.transcript);
+    if(alts.some(a=>matches(a,drillTarget))){
+      drillCount++; drillFails=0;
+      setStatus(drillCount>=5?"Perfeito! 5 de 5.":"Isso! Ouvi direitinho. "+drillCount+" de 5.","ok");
+    } else {
+      drillFails++;
+      setStatus("Entendi: \""+alts[0]+"\". Tenta de novo, devagar.","bad");
+    }
+    updateDrill();
+  };
+  rec.onerror=e=>{
+    if(e.error==="not-allowed"||e.error==="service-not-allowed"){ micBlocked=true; setStatus("O microfone está bloqueado. Use o botão Falei!.","bad"); }
+    else if(e.error==="no-speech"){ drillFails++; setStatus("Não ouvi nada. Toque em Falar agora e fale mais alto.","bad"); }
+    else if(e.error==="network"){ micBlocked=true; setStatus("O microfone precisa de internet. Use o botão Falei!.","bad"); }
+    else { drillFails++; setStatus("Não deu pra ouvir. Tenta de novo.","bad"); }
+  };
+  rec.onend=()=>{ listening=false; mic.classList.remove("listening"); updateDrill(); };
+  try{ rec.start(); }catch(e){ listening=false; micBlocked=true; updateDrill(); }
+}
+function openDrill(text, said, then, chain){
+  drillDone=then; drillCount=0; drillFails=0;
+  setStatus(micUsable()?"Toque em Falar agora e leia o quadro em voz alta.":"","");
+  const box = document.getElementById("drill-sentence"), right = document.getElementById("drill-right");
+  if(chain){
+    drillText = chain.join(", "); drillTarget = chain.join(" ");
+    box.classList.add("chain");
+    box.innerHTML = chain.map(c=>`<span>${esc(c)}</span>`).join("");
+    right.textContent = "Resposta certa: " + text; right.hidden = false;
+  } else {
+    drillText = text; drillTarget = text;
+    box.classList.remove("chain");
+    box.textContent = text;
+    right.hidden = true;
+  }
+  document.getElementById("drill-yours").textContent = said ? "Você respondeu: " + said : "";
+  updateDrill();
+  document.getElementById("drill-listen").hidden = !hasVoice;
+  drill.hidden=false;
+  document.getElementById("drill-listen").focus();
+  speak(drillText);
+}
+function updateDrill(){
+  document.querySelectorAll("#drill-dots span").forEach((d,i)=>d.classList.toggle("on",i<drillCount));
+  const said = document.getElementById("drill-said"), mic = document.getElementById("drill-mic");
+  if(drillCount>=5){ said.innerHTML = "Pronto! Continuar"; said.hidden=false; mic.hidden=true; return; }
+  mic.hidden = !micUsable();
+  if(!listening) mic.innerHTML = `Falar agora <span class="big-count">(${drillCount+1}/5)</span>`;
+  said.hidden = micUsable() && drillFails<2;
+  said.classList.toggle("ghost", micUsable());
+  said.innerHTML = micUsable() ? `Falei, mas não entendeu (${drillCount+1}/5)` : `Falei! <span class="big-count">(${drillCount+1}/5)</span>`;
+}
+document.getElementById("drill-listen").onclick=()=>speak(drillText);
+document.getElementById("drill-mic").onclick=listen;
+document.getElementById("drill-said").onclick=()=>{
+  if(drillCount>=5){ drill.hidden=true; const f=drillDone; drillDone=null; f&&f(); return; }
+  drillCount++; drillFails=0; setStatus("",""); updateDrill();
+};
+
+/* ---------- fim da aula ---------- */
+function renderEnd(){
+  const slot = document.getElementById("slot");
+  const hits = run.results.filter(Boolean).length;
+  const L = run.lesson;
+  if(run.exam){
+    const pass = hits>=7;
+    if(pass){ state.done.exam=true; state.points+=50; save(); }
+    slot.innerHTML = `<div class="done-card"><span class="medal big ${pass?"on":""}">★</span>
+      <h3>${pass?"Aprovada no Grande Exame!":"Quase lá!"}</h3>
+      <p>Você acertou ${hits} de ${run.items.length}.${pass?" Ganhou mais 50 pontos!":" Faça de novo: com 7 acertos você passa."}</p>
+      <div class="row"><button class="btn" id="again" type="button">Fazer outro exame</button><button class="btn ghost" id="map" type="button">Voltar ao mapa</button></div></div>`;
+    document.getElementById("again").onclick=startExam;
+    document.getElementById("map").onclick=home;
+    return;
+  }
+  const first = !state.done[L.id];
+  if(first){ state.done[L.id]=true; state.points+=30; save(); }
+  const idx = LESSONS.indexOf(L);
+  slot.innerHTML = `<div class="done-card"><span class="medal big on">${["I","II","III","IV","V","VI","VII"][idx]}</span>
+      <h3>Medalha conquistada!</h3>
+      <p>Você acertou ${hits} de ${run.items.length}.${first?" Ganhou mais 30 pontos!":""}</p></div>
+    <div class="talk">
+      <h3>Hora de conversar</h3>
+      <p>Leia a pergunta em voz alta e responda falando, sem olhar. Depois toque em "Ver resposta" para conferir. Se quiser, pratique também com o Claude no modo de voz.</p>
+      <div class="qa">${L.talk.map((t,k)=>`
+        <div class="qa-item"><span class="ask">${esc(t[0])}</span>
+          <span class="ans" id="ans${k}" hidden>${esc(t[1])}</span>
+          <div class="mini">${hasVoice?`<button class="btn ghost small" data-say="${esc(t[0])}" type="button">Ouvir</button>`:""}
+          <button class="btn ghost small" data-show="${k}" type="button">Ver resposta</button></div></div>`).join("")}
+      </div>
+      <div class="row"><button class="btn" id="map" type="button">Voltar ao mapa</button><button class="btn ghost" id="redo" type="button">Refazer esta aula</button></div>
+    </div>`;
+  slot.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+  slot.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>{ document.getElementById("ans"+b.dataset.show).hidden=false; b.hidden=true; });
+  document.getElementById("map").onclick=home;
+  document.getElementById("redo").onclick=()=>startLesson(L.id);
+  document.querySelector(".points b").textContent = state.points;
+}
+
+/* ---------- estrelas ---------- */
+try{(function(){
+  const c=document.getElementById("stars"), x=c.getContext("2d"); if(!x) return;
+  let reduce=false; try{ reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+  let st=[];
+  function size(){ c.width=innerWidth*devicePixelRatio; c.height=innerHeight*devicePixelRatio;
+    st=Array.from({length:Math.round(innerWidth*innerHeight/9000)},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:(Math.random()*1.3+.3)*devicePixelRatio,p:Math.random()*6.28})); }
+  function draw(t){ x.clearRect(0,0,c.width,c.height);
+    for(const s of st){ const a=reduce?.6:.35+.45*Math.sin(t/900+s.p); x.fillStyle=`rgba(243,212,142,${a})`; x.beginPath(); x.arc(s.x,s.y,s.r,0,6.28); x.fill(); }
+    if(!reduce) requestAnimationFrame(draw); }
+  size(); addEventListener("resize",()=>{size(); if(reduce) draw(0);}); requestAnimationFrame(draw);
+})();}catch(e){}
+
+if(hasVoice){ try{ window.speechSynthesis.getVoices(); }catch(e){} }
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",home); else home();
+</script>
+
+</body>
+</html>
