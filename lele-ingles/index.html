@@ -6,6 +6,32 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
 <body>
+<div id="gate" style="position:fixed;inset:0;z-index:50;background:#121629;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));font-family:Nunito,'Segoe UI',system-ui,sans-serif;color:#f1ecdf">
+  <form id="gate-form" style="width:100%;max-width:360px;background:#232a4d;border:2px solid #e8b44a;border-radius:20px;padding:24px 20px;display:grid;gap:14px">
+    <h1 style="margin:0;font-family:'IM Fell English SC',Georgia,serif;font-weight:400;color:#e8b44a;font-size:2rem;text-align:center">Portão do Castelo</h1>
+    <p style="margin:0;color:#b4b2c9;text-align:center">Diga a senha para entrar na Escola de Magia.</p>
+    <label for="gate-user" style="font-weight:800">Login</label>
+    <input id="gate-user" autocomplete="username" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
+    <label for="gate-pass" style="font-weight:800">Senha</label>
+    <input id="gate-pass" type="password" autocomplete="current-password" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
+    <button type="submit" style="font:inherit;font-weight:800;font-size:1.1rem;padding:12px;border:none;border-radius:12px;background:#e8b44a;color:#121629;cursor:pointer">Entrar</button>
+    <p id="gate-msg" aria-live="polite" style="margin:0;min-height:1.4em;color:#ff8a7a;font-weight:700;text-align:center"></p>
+  </form>
+</div>
+<script>
+(function(){
+  var H="bb5ffa5cd72eddeb816b771f74db2447dc6fea8b997d1bd359f8c5a92756d9b6", gate=document.getElementById("gate");
+  try{ if(localStorage.getItem("lele-gate")===H){ gate.remove(); return; } }catch(e){}
+  async function hash(t){ var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)); return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join(""); }
+  document.getElementById("gate-form").addEventListener("submit",async function(e){
+    e.preventDefault();
+    var u=document.getElementById("gate-user").value.trim().toLowerCase(), p=document.getElementById("gate-pass").value.trim().toLowerCase();
+    var ok=false; try{ ok=(await hash(u+":"+p))===H; }catch(err){}
+    if(ok){ try{ localStorage.setItem("lele-gate",H); }catch(e){} gate.remove(); }
+    else { document.getElementById("gate-msg").textContent="Login ou senha errados. Tente de novo."; }
+  });
+})();
+</script>
 <title>Escola de Magia da Lelê</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="robots" content="noindex, nofollow">
