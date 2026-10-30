@@ -20,14 +20,15 @@
 </div>
 <script>
 (function(){
-  var H="bb5ffa5cd72eddeb816b771f74db2447dc6fea8b997d1bd359f8c5a92756d9b6", gate=document.getElementById("gate");
-  try{ if(localStorage.getItem("lele-gate")===H){ gate.remove(); return; } }catch(e){}
+  var USERS={"bb5ffa5cd72eddeb816b771f74db2447dc6fea8b997d1bd359f8c5a92756d9b6":"lele","ec023674eae9c3bf4b8e61ebdeced39c44cdb8934fcf23f1d4c52cb658d815d5":"admin"}, gate=document.getElementById("gate");
+  window.MAGIA_USER=null;
+  try{ var saved=localStorage.getItem("lele-gate"); if(saved && USERS[saved]){ window.MAGIA_USER=USERS[saved]; gate.remove(); return; } }catch(e){}
   async function hash(t){ var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)); return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join(""); }
   document.getElementById("gate-form").addEventListener("submit",async function(e){
     e.preventDefault();
     var u=document.getElementById("gate-user").value.trim().toLowerCase(), p=document.getElementById("gate-pass").value.trim().toLowerCase();
-    var ok=false; try{ ok=(await hash(u+":"+p))===H; }catch(err){}
-    if(ok){ try{ localStorage.setItem("lele-gate",H); }catch(e){} gate.remove(); }
+    var h=""; try{ h=await hash(u+":"+p); }catch(err){}
+    if(USERS[h]){ try{ localStorage.setItem("lele-gate",h); }catch(e){} location.reload(); }
     else { document.getElementById("gate-msg").textContent="Login ou senha errados. Tente de novo."; }
   });
 })();
@@ -326,8 +327,10 @@ const chainFor = ex => CHAINS[ex.w ? ex.w.join(" ") : ex.q] || null;
 
 /* ---------- estado salvo neste aparelho ---------- */
 let state = {points:0, done:{}};
-try{ const s = JSON.parse(localStorage.getItem("lele-magia")||"null"); if(s) state = Object.assign(state,s); }catch(e){}
-function save(){ try{ localStorage.setItem("lele-magia",JSON.stringify(state)); }catch(e){} }
+const STORE_KEY = window.MAGIA_USER==="admin" ? "lele-magia-admin" : "lele-magia";
+const PLAYER = window.MAGIA_USER==="admin" ? "Bia" : "Lelê";
+try{ const s = JSON.parse(localStorage.getItem(STORE_KEY)||"null"); if(s) state = Object.assign(state,s); }catch(e){}
+function save(){ try{ localStorage.setItem(STORE_KEY,JSON.stringify(state)); }catch(e){} }
 
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -350,7 +353,7 @@ function speak(text){
 /* ---------- topo ---------- */
 function topBar(){
   return `<header class="top"><span class="brand">Escola de Magia da Lelê</span>
-  <span class="points" aria-label="Pontos de magia">✦ <b>${state.points}</b> pontos</span></header>`;
+  <span style="display:flex;gap:8px;align-items:center"><span class="points" aria-label="Pontos de magia">✦ <b>${state.points}</b> pontos</span>${window.MAGIA_USER?`<button class="btn ghost small" type="button" onclick="try{localStorage.removeItem('lele-gate')}catch(e){};location.reload()">Sair</button>`:""}</span></header>`;
 }
 
 /* ---------- mapa ---------- */
@@ -358,7 +361,7 @@ function home(){
   const doneCount = LESSONS.filter(l=>state.done[l.id]).length;
   app.innerHTML = topBar() + `
   <section class="hero">
-    <h1>Bem-vinda, Lelê!</h1>
+    <h1>Bem-vinda, ${PLAYER}!</h1>
     <p>Cada sala é uma aula de inglês. Acerte os feitiços para ganhar pontos e medalhas. Errou? Tudo bem: você faz o Feitiço de Treino e segue em frente.</p>
   </section>
   <nav class="rooms">
@@ -468,7 +471,7 @@ function renderExercise(){
   }
 }
 
-const PRAISE = ["Excelente!","Feitiço perfeito!","Isso aí, Lelê!","Mandou bem!","Brilhante!"];
+const PRAISE = ["Excelente!","Feitiço perfeito!","Isso aí, "+PLAYER+"!","Mandou bem!","Brilhante!"];
 function answer(right, said){
   const ex = run.items[run.i];
   const fb = document.getElementById("fb");
