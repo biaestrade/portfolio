@@ -382,8 +382,10 @@ const STORE_KEY = window.MAGIA_USER==="admin" ? "lele-magia-admin" : IS_GUEST ? 
 const PLAYER = window.MAGIA_USER==="admin" ? "Bia" : IS_GUEST ? "visitante" : "Lelê";
 /* visitante sempre começa do zero e não guarda nada */
 if(IS_GUEST){ try{ localStorage.removeItem("lele-magia-visitante"); }catch(e){} }
-try{ const s = JSON.parse(localStorage.getItem(STORE_KEY)||"null"); if(s) state = Object.assign(state,s); }catch(e){}
-function save(){ if(IS_GUEST) return; try{ localStorage.setItem(STORE_KEY,JSON.stringify(state)); }catch(e){} }
+const STORE = IS_GUEST ? (function(){ try{ return sessionStorage; }catch(e){ return null; } })() : (function(){ try{ return localStorage; }catch(e){ return null; } })();
+try{ const s = JSON.parse(STORE.getItem(STORE_KEY)||"null"); if(s) state = Object.assign(state,s); }catch(e){}
+/* visitante: guarda só durante a sessão (sessionStorage); ao Sair, apaga */
+function save(){ try{ STORE.setItem(STORE_KEY,JSON.stringify(state)); }catch(e){} }
 
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -406,7 +408,7 @@ function speak(text){
 /* ---------- topo ---------- */
 function topBar(){
   return `<header class="top"><span class="brand">Escola de Magia da Lelê</span>
-  <span style="display:flex;gap:8px;align-items:center"><span class="points" aria-label="Pontos de magia">✦ <b>${state.points}</b> pontos</span>${window.MAGIA_USER?`<button class="btn ghost small" type="button" onclick="try{localStorage.removeItem('lele-gate')}catch(e){};location.reload()">Sair</button>`:""}</span></header>`;
+  <span style="display:flex;gap:8px;align-items:center"><span class="points" aria-label="Pontos de magia">✦ <b>${state.points}</b> pontos</span>${window.MAGIA_USER?`<button class="btn ghost small" type="button" onclick="try{localStorage.removeItem('lele-gate');sessionStorage.removeItem('lele-magia-visitante')}catch(e){};location.reload()">Sair</button>`:""}</span></header>`;
 }
 
 /* ---------- mapa ---------- */
