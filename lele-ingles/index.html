@@ -354,6 +354,9 @@ const chainFor = ex => CHAINS[ex.w ? ex.w.join(" ") : ex.q] || null;
 
 /* ---------- estado salvo neste aparelho ---------- */
 let state = {points:0, done:{}};
+/* reset remoto da jornada da Lelê: trocar RESET_LELE apaga o progresso dela no próximo acesso */
+const RESET_LELE = "2026-10-30-1";
+if(window.MAGIA_USER!=="admin"){ try{ if(localStorage.getItem("lele-reset")!==RESET_LELE){ localStorage.removeItem("lele-magia"); localStorage.removeItem("lele-fila"); localStorage.setItem("lele-reset",RESET_LELE); } }catch(e){} }
 const STORE_KEY = window.MAGIA_USER==="admin" ? "lele-magia-admin" : "lele-magia";
 const PLAYER = window.MAGIA_USER==="admin" ? "Bia" : "Lelê";
 try{ const s = JSON.parse(localStorage.getItem(STORE_KEY)||"null"); if(s) state = Object.assign(state,s); }catch(e){}
