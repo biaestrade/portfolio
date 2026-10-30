@@ -224,9 +224,11 @@ const LESSONS = [
    {q:"Ron ___ a teacher. (não é)",o:["aren't","isn't","am not"],a:"isn't"},
    {q:"___ you a wizard?",o:["Is","Am","Are"],a:"Are"},
    {w:["Hermione","is","very","smart."]},
-   {w:["Are","you","ready?"]}
+   {w:["Are","you","ready?"]},
+   {q:"Bia ___ the best cousin in the world.",o:["am","is","are"],a:"is"},
+   {w:["Bia","is","the","coolest","cousin."]}
   ],
-  talk:[["Are you brave?","Yes, I am."],["Is Hermione smart?","Yes, she is."],["Are you a wizard?","No, I'm not. I am a student."]]},
+  talk:[["Are you brave?","Yes, I am."],["Is Hermione smart?","Yes, she is."],["Are you a wizard?","No, I'm not. I am a student."],["Who is the best cousin in the world?","Bia is the best cousin in the world!"]]},
 
  {id:"do", title:"Feitiço do Do", sub:"Presente: do, does e o S do he/she/it",
   explain:["No presente a gente fala da rotina e do que gosta.","Com he, she e it o verbo ganha <b>S</b>: she like<b>s</b>, he play<b>s</b>. Have vira <b>has</b>.","Para negar e perguntar use <b>do</b> ou <b>does</b>. Com does o verbo perde o S: she doesn't like."],
@@ -241,7 +243,8 @@ const LESSONS = [
    {q:"___ Hagrid love animals?",o:["Do","Does","Is"],a:"Does"},
    {q:"She doesn't ___ cats.",o:["like","likes"],a:"like"},
    {w:["Hermione","doesn't","like","rules."]},
-   {w:["Do","you","have","an","owl?"]}
+   {w:["Do","you","have","an","owl?"]},
+   {q:"Bia ___ me with English.",o:["help","helps"],a:"helps"}
   ],
   talk:[["Do you like magic?","Yes, I do."],["What do you like?","I like books and music."],["Does your friend like English?","Yes, she does. / No, he doesn't."]]},
 
@@ -270,7 +273,8 @@ const LESSONS = [
    {q:"___ is your birthday?",o:["When","Where","Who"],a:"When"},
    {q:"___ wand do you want: this or that?",o:["Which","Who","Why"],a:"Which"},
    {q:"___ are you sad?",o:["How","Why","What"],a:"Why"},
-   {w:["Where","do","you","live?"]}
+   {w:["Where","do","you","live?"]},
+   {q:"___ is the smartest cousin? Bia!",o:["Who","Where","When"],a:"Who"}
   ],
   talk:[["What is your name?","My name is Helena."],["How are you?","I'm fine, thank you."],["What is your favorite book?","My favorite book is..."]]},
 
@@ -283,13 +287,14 @@ const LESSONS = [
    {q:"I ___ fly without a broom.",o:["can","can't"],a:"can't"},
    {q:"___ you swim?",o:["Do","Can","Are"],a:"Can"},
    {q:"He can ___ a broom.",o:["ride","rides"],a:"ride"},
-   {w:["Can","you","help","me?"]}
+   {w:["Can","you","help","me?"]},
+   {q:"Bia ___ do everything!",o:["can","can't"],a:"can"}
   ],
   talk:[["Can you swim?","Yes, I can. / No, I can't."],["Can you speak English?","Yes, I can. A little!"],["What can you do?","I can dance and draw."]]},
 
  {id:"vocab", title:"O Livro de Palavras", sub:"Vocabulário e montar frases",
   explain:["Em inglês a frase quase sempre segue a ordem: <b>quem + verbo + o resto</b>.","Exemplo: <b>My friend</b> + <b>has</b> + an owl."],
-  cola:[["wand","varinha"],["owl","coruja"],["broom","vassoura"],["castle","castelo"],["spell","feitiço"],["friend","amigo, amiga"],["teacher","professor"],["homework","lição de casa"],["brave","corajoso"],["smart","inteligente"],["tired","cansado"],["happy","feliz"]],
+  cola:[["wand","varinha"],["owl","coruja"],["broom","vassoura"],["castle","castelo"],["spell","feitiço"],["friend","amigo, amiga"],["teacher","professor"],["homework","lição de casa"],["brave","corajoso"],["smart","inteligente"],["tired","cansado"],["happy","feliz"],["cousin","primo, prima"],["the best","o melhor, a melhor"],["the smartest","o mais inteligente"],["the coolest","o mais legal"]],
   ex:[
    {q:"Varinha em inglês: ___",o:["broom","wand","spell"],a:"wand"},
    {q:"Owl quer dizer: ___",o:["coruja","gato","vassoura"],a:"coruja",pt:true},
@@ -297,7 +302,10 @@ const LESSONS = [
    {w:["My","friend","has","an","owl."]},
    {w:["The","castle","is","very","big."]},
    {w:["She","doesn't","have","homework."]},
-   {w:["Where","is","my","wand?"]}
+   {w:["Where","is","my","wand?"]},
+   {q:"Cousin quer dizer: ___",o:["tia","prima","irmã"],a:"prima",pt:true},
+   {q:"The smartest quer dizer: ___",o:["a mais legal","a mais inteligente","a melhor"],a:"a mais inteligente",pt:true},
+   {w:["Bia","is","the","smartest","cousin."]}
   ],
   talk:[["Do you have a pet?","Yes, I have a cat. / No, I don't."],["Who is your best friend?","My best friend is..."],["Are you tired today?","No, I'm not. I'm happy!"]]}
 ];
@@ -349,6 +357,11 @@ Object.assign(CHAINS,{
  "Eu e a Lelê → ___":BE_PL,"Hagrid → ___":BE_SG,"Eu → ___":BE_SG,
  "Hermione can ___ hard spells.":CAN_SG,"Owls ___ fly.":CAN_PL,"I ___ fly without a broom.":CAN_SG,
  "___ you swim?":CAN_SG,"He can ___ a broom.":CAN_SG,"Can you help me?":CAN_SG
+});
+const HELP_SG=["I help","you help","he helps","she helps","it helps"];
+Object.assign(CHAINS,{
+ "Bia ___ the best cousin in the world.":BE_SG,"Bia is the coolest cousin.":BE_SG,"Bia is the smartest cousin.":BE_SG,
+ "Bia ___ me with English.":HELP_SG,"Bia ___ do everything!":CAN_SG
 });
 const chainFor = ex => CHAINS[ex.w ? ex.w.join(" ") : ex.q] || null;
 
