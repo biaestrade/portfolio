@@ -20,7 +20,7 @@
 </div>
 <script>
 (function(){
-  var USERS={"bb5ffa5cd72eddeb816b771f74db2447dc6fea8b997d1bd359f8c5a92756d9b6":"lele","ec023674eae9c3bf4b8e61ebdeced39c44cdb8934fcf23f1d4c52cb658d815d5":"admin"}, gate=document.getElementById("gate");
+  var USERS={"bb5ffa5cd72eddeb816b771f74db2447dc6fea8b997d1bd359f8c5a92756d9b6":"lele","ec023674eae9c3bf4b8e61ebdeced39c44cdb8934fcf23f1d4c52cb658d815d5":"admin","039e8936199a9965ca48850b6075bd5690ad0c10096ca5d4cb03468521477207":"visitante"}, gate=document.getElementById("gate");
   window.MAGIA_USER=null;
   try{ var saved=localStorage.getItem("lele-gate"); if(saved && USERS[saved]){ window.MAGIA_USER=USERS[saved]; gate.remove(); return; } }catch(e){}
   async function hash(t){ var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)); return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join(""); }
@@ -313,7 +313,7 @@ const LESSONS = [
 /* ---------- jornada enviada para a planilha da Bia ---------- */
 const LOG_URL = "https://script.google.com/macros/s/AKfycbxCIbN-lxke6PPEQLG7S_jt34aL6GjMExFCQZZL8UxPq0ADF9jc1wEX3yWGIC71wu_tmA/exec";
 function logEvent(ev){
-  if(!LOG_URL || !window.MAGIA_USER) return;
+  if(!LOG_URL || !window.MAGIA_USER || IS_GUEST) return;
   let q=[]; try{ q=JSON.parse(localStorage.getItem("lele-fila")||"[]"); }catch(e){}
   q.push(Object.assign({user:window.MAGIA_USER, pontos:state.points}, ev));
   try{ localStorage.setItem("lele-fila",JSON.stringify(q.slice(-50))); }catch(e){}
@@ -369,11 +369,14 @@ const chainFor = ex => CHAINS[ex.w ? ex.w.join(" ") : ex.q] || null;
 let state = {points:0, done:{}};
 /* reset remoto da jornada da Lelê: trocar RESET_LELE apaga o progresso dela no próximo acesso */
 const RESET_LELE = "2026-10-30-1";
-if(window.MAGIA_USER!=="admin"){ try{ if(localStorage.getItem("lele-reset")!==RESET_LELE){ localStorage.removeItem("lele-magia"); localStorage.removeItem("lele-fila"); localStorage.setItem("lele-reset",RESET_LELE); } }catch(e){} }
-const STORE_KEY = window.MAGIA_USER==="admin" ? "lele-magia-admin" : "lele-magia";
-const PLAYER = window.MAGIA_USER==="admin" ? "Bia" : "Lelê";
+if(window.MAGIA_USER!=="admin" && window.MAGIA_USER!=="visitante"){ try{ if(localStorage.getItem("lele-reset")!==RESET_LELE){ localStorage.removeItem("lele-magia"); localStorage.removeItem("lele-fila"); localStorage.setItem("lele-reset",RESET_LELE); } }catch(e){} }
+const IS_GUEST = window.MAGIA_USER==="visitante";
+const STORE_KEY = window.MAGIA_USER==="admin" ? "lele-magia-admin" : IS_GUEST ? "lele-magia-visitante" : "lele-magia";
+const PLAYER = window.MAGIA_USER==="admin" ? "Bia" : IS_GUEST ? "visitante" : "Lelê";
+/* visitante sempre começa do zero e não guarda nada */
+if(IS_GUEST){ try{ localStorage.removeItem("lele-magia-visitante"); }catch(e){} }
 try{ const s = JSON.parse(localStorage.getItem(STORE_KEY)||"null"); if(s) state = Object.assign(state,s); }catch(e){}
-function save(){ try{ localStorage.setItem(STORE_KEY,JSON.stringify(state)); }catch(e){} }
+function save(){ if(IS_GUEST) return; try{ localStorage.setItem(STORE_KEY,JSON.stringify(state)); }catch(e){} }
 
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -404,7 +407,7 @@ function home(){
   const doneCount = LESSONS.filter(l=>state.done[l.id]).length;
   app.innerHTML = topBar() + `
   <section class="hero">
-    <h1>Bem-vinda, ${PLAYER}!</h1>
+    <h1>${IS_GUEST?"Bem-vindo(a) à Escola de Magia!":"Bem-vinda, "+PLAYER+"!"}</h1>
     <p>Cada sala é uma aula de inglês. Acerte os feitiços para ganhar pontos e medalhas. Errou? Tudo bem: você faz o Feitiço de Treino e segue em frente.</p>
   </section>
   <nav class="rooms">
@@ -549,7 +552,7 @@ function renderExercise(){
   }
 }
 
-const PRAISE = ["Excelente!","Feitiço perfeito!","Isso aí, "+PLAYER+"!","Mandou bem!","Brilhante!"];
+const PRAISE = ["Excelente!","Feitiço perfeito!","Isso aí"+(IS_GUEST?"":", "+PLAYER)+"!","Mandou bem!","Brilhante!"];
 function answer(right, said){
   const ex = run.items[run.i];
   const fb = document.getElementById("fb");
