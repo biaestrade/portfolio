@@ -88,6 +88,13 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
 .room.exam{background:linear-gradient(135deg,var(--card2),var(--card));border-color:var(--gold)}
 .room > div{min-width:0}
 
+.houses{display:grid;gap:10px;margin-bottom:18px}
+.houses .lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.house-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.house{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-weight:800;text-align:left}
+.house:hover{border-color:var(--gold)}
+.house.on{border-color:var(--gold);background:var(--card2)}
+.house .sw{width:22px;height:22px;border-radius:50%;flex:none;border:2px solid rgba(255,255,255,.35)}
 .medals{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .medals .lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:100%}
 .medal{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--line);color:var(--line);font-family:var(--display);font-size:1.1rem}
@@ -405,6 +412,27 @@ function speak(text){
   }catch(e){}
 }
 
+/* ---------- casas ---------- */
+const HOUSES = {
+  grifinoria:{nome:"Grifinória", sw:"linear-gradient(135deg,#9c1c27 50%,#e8b44a 50%)",
+    t:{"--bg":"#1c0e11","--sky":"#2a1418","--card":"#3a1a1f","--card2":"#4b2128","--line":"#6a2c35","--gold":"#e8b44a","--gold-soft":"#f3d48e"}},
+  sonserina:{nome:"Sonserina", sw:"linear-gradient(135deg,#1f6b45 50%,#c9d3cf 50%)",
+    t:{"--bg":"#0c1712","--sky":"#11221a","--card":"#173126","--card2":"#1e3d30","--line":"#2c5443","--gold":"#c9d3cf","--gold-soft":"#eef3f1"}},
+  corvinal:{nome:"Corvinal", sw:"linear-gradient(135deg,#1d3a8a 50%,#c98a4b 50%)",
+    t:{"--bg":"#0d1430","--sky":"#131d42","--card":"#1a2754","--card2":"#223266","--line":"#334586","--gold":"#d39556","--gold-soft":"#ecc196"}},
+  lufalufa:{nome:"Lufa-Lufa", sw:"linear-gradient(135deg,#f2c230 50%,#2b2618 50%)",
+    t:{"--bg":"#15130b","--sky":"#201d10","--card":"#2c2815","--card2":"#38321a","--line":"#4f4624","--gold":"#f2c230","--gold-soft":"#f8de7e"}}
+};
+function applyHouse(){
+  const h = HOUSES[state.house], r = document.documentElement;
+  ["--bg","--sky","--card","--card2","--line","--gold","--gold-soft"].forEach(k=>r.style.removeProperty(k));
+  if(h) Object.entries(h.t).forEach(([k,v])=>r.style.setProperty(k,v));
+}
+function houseHTML(){
+  return `<section class="houses"><span class="lbl">${state.house?"Sua casa: "+HOUSES[state.house].nome+" · toque para trocar":"Escolha a sua casa"}</span>
+    <div class="house-list">${Object.entries(HOUSES).map(([id,h])=>`<button class="house ${state.house===id?"on":""}" data-house="${id}" type="button" aria-pressed="${state.house===id}"><span class="sw" style="background:${h.sw}"></span>${h.nome}</button>`).join("")}</div></section>`;
+}
+
 /* ---------- topo ---------- */
 function topBar(){
   return `<header class="top"><span class="brand">Escola de Magia da Lelê</span>
@@ -413,12 +441,14 @@ function topBar(){
 
 /* ---------- mapa ---------- */
 function home(){
+  applyHouse();
   const doneCount = LESSONS.filter(l=>state.done[l.id]).length;
   app.innerHTML = topBar() + `
   <section class="hero">
     <h1>${IS_GUEST?"Bem-vindo(a) à Escola de Magia!":"Bem-vinda, "+PLAYER+"!"}</h1>
     <p>Cada sala é uma aula de inglês. Acerte os feitiços para ganhar pontos e medalhas. Errou? Tudo bem: você faz o Feitiço de Treino e segue em frente.</p>
   </section>
+  ${houseHTML()}
   <nav class="rooms">
     ${LESSONS.map((l,i)=>`
       <button class="room ${state.done[l.id]?"done":""}" data-go="${l.id}" type="button">
@@ -442,6 +472,9 @@ function home(){
       <div id="painel-out" style="display:grid;gap:10px"></div></section>`);
     document.getElementById("painel").onclick=loadPanel;
   }
+  app.querySelectorAll("[data-house]").forEach(b=>b.onclick=()=>{
+    state.house = b.dataset.house; save(); applyHouse(); home();
+  });
   app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{
     const id=b.dataset.go; id==="exam"?startExam():startLesson(id);
   });
