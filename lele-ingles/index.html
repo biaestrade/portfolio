@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#121629">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-title" content="Escola de Magia">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
 <body>
@@ -11,9 +17,9 @@
     <h1 style="margin:0;font-family:'IM Fell English SC',Georgia,serif;font-weight:400;color:#e8b44a;font-size:2rem;text-align:center">Portão do Castelo</h1>
     <p style="margin:0;color:#b4b2c9;text-align:center">Diga a senha para entrar na Escola de Magia.</p>
     <label for="gate-user" style="font-weight:800">Login</label>
-    <input id="gate-user" autocomplete="username" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
+    <input id="gate-user" name="username" autocomplete="username" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
     <label for="gate-pass" style="font-weight:800">Senha</label>
-    <input id="gate-pass" type="password" autocomplete="current-password" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
+    <input id="gate-pass" name="password" type="password" autocomplete="current-password" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
     <button type="submit" style="font:inherit;font-weight:800;font-size:1.1rem;padding:12px;border:none;border-radius:12px;background:#e8b44a;color:#121629;cursor:pointer">Entrar</button>
     <p id="gate-msg" aria-live="polite" style="margin:0;min-height:1.4em;color:#ff8a7a;font-weight:700;text-align:center"></p>
     <button type="button" id="gate-guest" style="font:inherit;font-weight:800;font-size:1rem;padding:12px;border:2px solid #3a4373;border-radius:12px;background:transparent;color:#f1ecdf;cursor:pointer">Entrar como visitante</button>
@@ -95,6 +101,12 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
 .house:hover{border-color:var(--gold)}
 .house.on{border-color:var(--gold);background:var(--card2)}
 .house .sw{width:22px;height:22px;border-radius:50%;flex:none;border:2px solid rgba(255,255,255,.35)}
+.install{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:start;margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.install img{border-radius:14px}
+.install h3{font-size:1.35rem;color:var(--gold)}
+.install p{margin:4px 0 10px;color:var(--muted)}
+.install .how{color:var(--ink);margin:0}
+.install > div{min-width:0}
 .medals{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .medals .lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:100%}
 .medal{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--line);color:var(--line);font-family:var(--display);font-size:1.1rem}
@@ -412,6 +424,29 @@ function speak(text){
   }catch(e){}
 }
 
+/* ---------- instalar como app ---------- */
+let installEvt = null;
+const isStandalone = () => { try{ return matchMedia("(display-mode: standalone)").matches || navigator.standalone===true; }catch(e){ return false; } };
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; const b=document.getElementById("install-btn"); if(b) b.hidden=false; });
+addEventListener("appinstalled", () => { installEvt=null; const s=document.getElementById("install"); if(s) s.hidden=true; });
+if("serviceWorker" in navigator){ addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(()=>{}); }); }
+function installHTML(){
+  if(isStandalone()) return "";
+  const how = isIOS
+    ? "No Safari, toque no botão de compartilhar (o quadrado com a seta) e depois em <b>Adicionar à Tela de Início</b>."
+    : "No Chrome, toque nos três pontinhos (⋮) e depois em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.";
+  return `<section class="install" id="install">
+    <img src="icon-192.png" alt="" width="64" height="64">
+    <div><h3>Instale a Escola de Magia</h3><p>Fica com ícone na tela do celular e abre como um app.</p>
+      <button class="btn" id="install-btn" type="button" ${installEvt?"":"hidden"}>Instalar app</button>
+      <p class="how" id="install-how" ${installEvt?"hidden":""}>${how}</p></div></section>`;
+}
+function bindInstall(){
+  const b=document.getElementById("install-btn"); if(!b) return;
+  b.onclick=async()=>{ if(!installEvt) return; installEvt.prompt(); try{ await installEvt.userChoice; }catch(e){} installEvt=null; b.hidden=true; };
+}
+
 /* ---------- casas ---------- */
 const HOUSES = {
   grifinoria:{nome:"Grifinória", sw:"linear-gradient(135deg,#9c1c27 50%,#e8b44a 50%)",
@@ -472,6 +507,7 @@ function home(){
       <div id="painel-out" style="display:grid;gap:10px"></div></section>`);
     document.getElementById("painel").onclick=loadPanel;
   }
+  app.insertAdjacentHTML("beforeend", installHTML()); bindInstall();
   app.querySelectorAll("[data-house]").forEach(b=>b.onclick=()=>{
     state.house = b.dataset.house; save(); applyHouse(); home();
   });
