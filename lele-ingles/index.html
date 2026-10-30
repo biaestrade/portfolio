@@ -16,6 +16,8 @@
     <input id="gate-pass" type="password" autocomplete="current-password" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
     <button type="submit" style="font:inherit;font-weight:800;font-size:1.1rem;padding:12px;border:none;border-radius:12px;background:#e8b44a;color:#121629;cursor:pointer">Entrar</button>
     <p id="gate-msg" aria-live="polite" style="margin:0;min-height:1.4em;color:#ff8a7a;font-weight:700;text-align:center"></p>
+    <button type="button" id="gate-guest" style="font:inherit;font-weight:800;font-size:1rem;padding:12px;border:2px solid #3a4373;border-radius:12px;background:transparent;color:#f1ecdf;cursor:pointer">Entrar como visitante</button>
+    <p style="margin:0;color:#b4b2c9;font-size:.9rem;text-align:center">O visitante pode experimentar tudo, mas nada fica salvo.</p>
   </form>
 </div>
 <script>
@@ -24,6 +26,11 @@
   window.MAGIA_USER=null;
   try{ var saved=localStorage.getItem("lele-gate"); if(saved && USERS[saved]){ window.MAGIA_USER=USERS[saved]; gate.remove(); return; } }catch(e){}
   async function hash(t){ var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)); return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join(""); }
+  document.getElementById("gate-guest").addEventListener("click",function(){
+    var g=Object.keys(USERS).find(function(k){return USERS[k]==="visitante"});
+    try{ localStorage.setItem("lele-gate",g); }catch(e){}
+    window.MAGIA_USER="visitante"; location.reload();
+  });
   document.getElementById("gate-form").addEventListener("submit",async function(e){
     e.preventDefault();
     var u=document.getElementById("gate-user").value.trim().toLowerCase(), p=document.getElementById("gate-pass").value.trim().toLowerCase();
