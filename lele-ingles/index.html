@@ -608,7 +608,7 @@ function listen(){
   rec.onerror=e=>{
     if(e.error==="not-allowed"||e.error==="service-not-allowed"){ micBlocked=true; setStatus("O microfone está bloqueado. Escreva a frase no campo abaixo.","bad"); }
     else if(e.error==="no-speech"){ drillFails++; setStatus("Não ouvi nada. Toque em Falar agora e fale mais alto.","bad"); }
-    else if(e.error==="network"){ micBlocked=true; setStatus("O microfone precisa de internet. Escreva a frase no campo abaixo.","bad"); }
+    else if(e.error==="network"){ micBlocked=true; setStatus("A voz não funciona neste navegador. Abra o link no Google Chrome, ou escreva a frase no campo abaixo.","bad"); }
     else { drillFails++; setStatus("Não deu pra ouvir. Tenta de novo.","bad"); }
   };
   rec.onend=()=>{ listening=false; mic.classList.remove("listening"); updateDrill(); };
