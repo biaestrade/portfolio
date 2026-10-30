@@ -28,7 +28,10 @@
     e.preventDefault();
     var u=document.getElementById("gate-user").value.trim().toLowerCase(), p=document.getElementById("gate-pass").value.trim().toLowerCase();
     var h=""; try{ h=await hash(u+":"+p); }catch(err){}
-    if(USERS[h]){ try{ localStorage.setItem("lele-gate",h); }catch(e){} location.reload(); }
+    if(USERS[h]){
+      try{ localStorage.setItem("lele-gate",h); if(USERS[h]==="admin"){ localStorage.setItem("lele-painel", await hash("painel:"+p)); } }catch(e){}
+      location.reload();
+    }
     else { document.getElementById("gate-msg").textContent="Login ou senha errados. Tente de novo."; }
   });
 })();
@@ -295,6 +298,26 @@ const LESSONS = [
   talk:[["Do you have a pet?","Yes, I have a cat. / No, I don't."],["Who is your best friend?","My best friend is..."],["Are you tired today?","No, I'm not. I'm happy!"]]}
 ];
 
+/* ---------- jornada enviada para a planilha da Bia ---------- */
+const LOG_URL = "";
+function logEvent(ev){
+  if(!LOG_URL || !window.MAGIA_USER) return;
+  let q=[]; try{ q=JSON.parse(localStorage.getItem("lele-fila")||"[]"); }catch(e){}
+  q.push(Object.assign({user:window.MAGIA_USER, pontos:state.points}, ev));
+  try{ localStorage.setItem("lele-fila",JSON.stringify(q.slice(-50))); }catch(e){}
+  flushLog();
+}
+async function flushLog(){
+  if(!LOG_URL || !navigator.onLine) return;
+  let q=[]; try{ q=JSON.parse(localStorage.getItem("lele-fila")||"[]"); }catch(e){}
+  while(q.length){
+    try{ await fetch(LOG_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(q[0])}); }
+    catch(e){ break; }
+    q.shift(); try{ localStorage.setItem("lele-fila",JSON.stringify(q)); }catch(e){}
+  }
+}
+addEventListener("online",flushLog);
+
 /* ---------- correntes do feitiço de treino ---------- */
 const BE_SG=["I am","you are","he is","she is","it is"], BE_PL=["we are","you are","they are"];
 const WAS_SG=["I was","you were","he was","she was","it was"], WAS_PL=["we were","you were","they were"];
@@ -380,10 +403,45 @@ function home(){
   <div class="medals"><span class="lbl">Suas medalhas: ${doneCount} de ${LESSONS.length}</span>
     ${LESSONS.map((l,i)=>`<span class="medal ${state.done[l.id]?"on":""}" title="${esc(l.title)}">${["I","II","III","IV","V","VI","VII"][i]}</span>`).join("")}
   </div>`;
+  if(window.MAGIA_USER==="admin"){
+    app.insertAdjacentHTML("beforeend",`<section class="talk" style="margin-top:26px"><h3>Jornada da Lelê</h3>
+      <p>Veja as aulas que ela fez, quantos acertos teve e o que errou.</p>
+      <div class="row"><button class="btn" id="painel" type="button">Ver jornada da Lelê</button></div>
+      <div id="painel-out" style="display:grid;gap:10px"></div></section>`);
+    document.getElementById("painel").onclick=loadPanel;
+  }
   app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{
     const id=b.dataset.go; id==="exam"?startExam():startLesson(id);
   });
   scrollTo(0,0);
+}
+
+/* ---------- painel da Bia ---------- */
+async function loadPanel(){
+  const out=document.getElementById("painel-out");
+  let key=null; try{ key=localStorage.getItem("lele-painel"); }catch(e){}
+  if(!LOG_URL){ out.innerHTML="<p>O painel ainda não está ligado à planilha.</p>"; return; }
+  if(!key){ out.innerHTML="<p>Toque em Sair e entre de novo como admin para liberar o painel.</p>"; return; }
+  out.innerHTML="<p>Buscando a jornada...</p>";
+  let data;
+  try{ const r=await fetch(LOG_URL+"?key="+encodeURIComponent(key)); data=await r.json(); }
+  catch(e){ out.innerHTML="<p>Não consegui buscar agora. Confira a internet e tente de novo.</p>"; return; }
+  if(data.erro){ out.innerHTML="<p>A planilha recusou o acesso. Toque em Sair e entre de novo como admin.</p>"; return; }
+  const rows=data.rows||[];
+  if(!rows.length){ out.innerHTML="<p>A Lelê ainda não terminou nenhuma aula.</p>"; return; }
+  const last=rows[rows.length-1];
+  const salas=new Set(rows.filter(r=>r.tipo==="aula").map(r=>r.sala));
+  const exams=rows.filter(r=>r.tipo==="exame");
+  const errs={};
+  rows.forEach(r=>String(r.detalhe||"").split(" | ").filter(Boolean).forEach(t=>{ const k=t.replace(/ \(respondeu:.*\)$/,""); errs[k]=(errs[k]||0)+1; }));
+  const top=Object.entries(errs).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const fmt=d=>{ try{ return new Date(d).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){ return d; } };
+  out.innerHTML=`
+    <div class="qa-item"><span class="ask">${last.pontos} pontos · ${salas.size} de ${LESSONS.length} salas · ${exams.length} exame(s)</span>
+      <span>Última atividade: ${esc(fmt(last.quando))}</span></div>
+    ${top.length?`<div class="qa-item"><span class="ask">O que ela mais erra</span>${top.map(([t,n])=>`<span>${esc(t)} <b style="color:var(--bad)">${n}x</b></span>`).join("")}</div>`:""}
+    <div class="qa-item"><span class="ask">Últimas atividades</span>
+      ${rows.slice(-10).reverse().map(r=>`<span>${esc(fmt(r.quando))} · ${esc(r.sala)}: <b>${r.acertos} de ${r.total}</b></span>`).join("")}</div>`;
 }
 
 /* ---------- aula ---------- */
@@ -391,13 +449,13 @@ let run = null; // {lesson, items, i, results, exam}
 
 function startLesson(id){
   const lesson = LESSONS.find(l=>l.id===id);
-  run = {lesson, items:lesson.ex.slice(), i:0, results:[], exam:false, intro:true};
+  run = {lesson, items:lesson.ex.slice(), i:0, results:[], wrong:[], exam:false, intro:true};
   renderRun();
 }
 function startExam(){
   const all = LESSONS.flatMap(l=>l.ex.map(e=>e));
   const pick = shuffle(all).slice(0,10);
-  run = {lesson:{id:"exam",title:"O Grande Exame"}, items:pick, i:0, results:[], exam:true, intro:false};
+  run = {lesson:{id:"exam",title:"O Grande Exame"}, items:pick, i:0, results:[], wrong:[], exam:true, intro:false};
   renderRun();
 }
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
@@ -483,6 +541,7 @@ function answer(right, said){
     nextButton();
   } else {
     fb.className="feedback bad"; fb.textContent = "Quase! Hora do Feitiço de Treino.";
+    run.wrong.push(fullSentence(ex)+" (respondeu: "+said+")");
     setTimeout(()=>openDrill(fullSentence(ex), said, nextButton, chainFor(ex)), 700);
   }
   document.querySelector(".points b").textContent = state.points;
@@ -593,6 +652,7 @@ function renderEnd(){
   if(run.exam){
     const pass = hits>=7;
     if(pass){ state.done.exam=true; state.points+=50; save(); }
+    logEvent({tipo:"exame",sala:"O Grande Exame",acertos:hits,total:run.items.length,detalhe:run.wrong.join(" | ")});
     slot.innerHTML = `<div class="done-card"><span class="medal big ${pass?"on":""}">★</span>
       <h3>${pass?"Aprovada no Grande Exame!":"Quase lá!"}</h3>
       <p>Você acertou ${hits} de ${run.items.length}.${pass?" Ganhou mais 50 pontos!":" Faça de novo: com 7 acertos você passa."}</p>
@@ -603,6 +663,7 @@ function renderEnd(){
   }
   const first = !state.done[L.id];
   if(first){ state.done[L.id]=true; state.points+=30; save(); }
+  logEvent({tipo:"aula",sala:L.title,acertos:hits,total:run.items.length,detalhe:run.wrong.join(" | ")});
   const idx = LESSONS.indexOf(L);
   slot.innerHTML = `<div class="done-card"><span class="medal big on">${["I","II","III","IV","V","VI","VII"][idx]}</span>
       <h3>Medalha conquistada!</h3>
@@ -640,6 +701,7 @@ try{(function(){
 
 if(hasVoice){ try{ window.speechSynthesis.getVoices(); }catch(e){} }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",home); else home();
+flushLog();
 </script>
 
 </body>
