@@ -299,7 +299,7 @@ const LESSONS = [
 ];
 
 /* ---------- jornada enviada para a planilha da Bia ---------- */
-const LOG_URL = "";
+const LOG_URL = "https://script.google.com/macros/s/AKfycbxCIbN-lxke6PPEQLG7S_jt34aL6GjMExFCQZZL8UxPq0ADF9jc1wEX3yWGIC71wu_tmA/exec";
 function logEvent(ev){
   if(!LOG_URL || !window.MAGIA_USER) return;
   let q=[]; try{ q=JSON.parse(localStorage.getItem("lele-fila")||"[]"); }catch(e){}
