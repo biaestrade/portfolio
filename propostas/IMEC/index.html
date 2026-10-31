@@ -592,8 +592,8 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       <h2 class="rv d1">Duas <em>etapas</em></h2>
     </div>
     <div class="switch rv" role="group" aria-label="Opção de coordenação">
-      <button type="button" aria-pressed="false" data-ads="0">Sem Google Ads</button>
-      <button type="button" aria-pressed="true" data-ads="1">Com Google Ads</button>
+      <button type="button" aria-pressed="true" data-ads="0">Sem Google Ads</button>
+      <button type="button" aria-pressed="false" data-ads="1">Com Google Ads</button>
     </div>
     <div class="split">
       <div class="card rv">
@@ -606,14 +606,14 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       <div class="card rv d1">
         <span class="label">Etapa 2 · mensal, desde o 1º mês</span>
         <h3 style="margin-top:10px">Coordenação contínua</h3>
-        <p style="color:var(--muted);margin-top:8px" id="coord-desc">Direção da equipe, Google Ads, reuniões, relatório de resultados e ajustes no plano.</p>
-        <div class="price"><span id="coord-price">R$ 6.500</span> <small>por mês</small></div>
+        <p style="color:var(--muted);margin-top:8px" id="coord-desc">Direção da equipe, reuniões, relatório de resultados e ajustes no plano.</p>
+        <div class="price"><span id="coord-price">R$ 5.000</span> <small>por mês</small></div>
         <p style="color:var(--muted);font-size:15px">fechada mediante contrato</p>
       </div>
     </div>
     <div class="timeline rv">
-      <div class="tl hl"><span class="label">Do 1º ao 3º mês</span><div class="v" id="m1">R$ 8.500</div></div>
-      <div class="tl"><span class="label">A partir do 4º mês</span><div class="v" id="m3">R$ 6.500</div></div>
+      <div class="tl hl"><span class="label">Do 1º ao 3º mês</span><div class="v" id="m1">R$ 7.000</div></div>
+      <div class="tl"><span class="label">A partir do 4º mês</span><div class="v" id="m3">R$ 5.000</div></div>
     </div>
     <div class="cond rv">
       <div><span class="label">Validade</span>Proposta válida por 30 dias para fechamento</div>
@@ -850,7 +850,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     document.getElementById("coord-desc").textContent = on ? "Direção da equipe, Google Ads (criação, artes e monitoramento), reuniões, relatório de resultados e ajustes no plano." : "Direção da equipe, reuniões, relatório de resultados e ajustes no plano.";
   }
   sbtn.forEach(function(b){ b.addEventListener("click", function(){ setAds(b.dataset.ads==="1"); }); });
-  setAds(true);
+  setAds(false);
 })();
 </script>
 </body>
