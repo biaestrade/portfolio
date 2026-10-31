@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="color-scheme" content="light">
+<title>Proposta IMEC · Beatriz Estradé</title>
+<meta name="description" content="Proposta de marketing para a Clínica IMEC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Instrument+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F2ED; --surface:#FFFFFF; --ink:#16182E; --muted:#5E6278; --line:#E2DACD;
+  --rule:#DC9A7D; --accent:#C2410C; --accent-soft:#FCE8DA; --wa:#1FAF5A; --ink-soft:#C9CBD8;
+  --display:"Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sans:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 16px}}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.label.acc{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1.02;letter-spacing:-.03em}
+h2{font-size:clamp(32px,5vw,52px);margin-top:10px}
+h3{font-size:clamp(20px,2.4vw,24px);letter-spacing:-.02em;line-height:1.15}
+em{font-style:normal;color:var(--accent)}
+.lede{font-size:clamp(17px,2vw,19px);color:var(--muted);max-width:640px}
+section.block{padding:96px 0}
+@media (max-width:640px){section.block{padding:64px 0}}
+.head{margin-bottom:40px}
+.head .lede{margin-top:16px}
+
+/* logo */
+.mark{width:40px;height:40px;border-radius:11px;background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;color:#fff;font-size:20px;letter-spacing:-.02em;flex:none}
+.mark i{font-style:normal;color:var(--accent)}
+.mark.big{width:132px;height:132px;border-radius:34px;font-size:66px}
+
+/* buttons & chips */
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:13px 22px;font-weight:700;font-size:15px;text-decoration:none;transition:transform .2s, box-shadow .2s, background .2s, color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 6px 18px -6px rgba(31,175,90,.55)}
+.btn-ink{background:var(--ink);color:var(--bg)}
+.btn-ghost{border:1.5px solid var(--ink);color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--bg)}
+.chip{display:inline-block;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:15px;font-weight:500}
+.chip.soft{background:var(--accent-soft);border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.wa-ico{width:18px;height:18px;flex:none}
+
+/* gate */
+#gate{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px 16px;transition:opacity .5s, visibility .5s}
+#gate.hide{opacity:0;visibility:hidden}
+.gate-card{width:100%;max-width:420px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px}
+.gate-ring{width:184px;height:184px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;animation:float 6s ease-in-out infinite}
+.gate-ring>div{width:160px;height:160px;border-radius:50%;background:var(--surface);border:5px solid var(--rule);display:grid;place-items:center}
+.gate-card h1{font-size:34px;margin-top:6px}
+.gate-form{display:flex;gap:8px;width:100%;margin-top:6px}
+.gate-form input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:14px 20px;font:inherit;font-size:16px;text-transform:uppercase;letter-spacing:.06em;outline:none;transition:border-color .2s, box-shadow .2s}
+.gate-form input:focus{border-color:var(--ink);box-shadow:0 0 0 3px var(--accent-soft)}
+.gate-err{color:var(--accent);font-size:14px;min-height:20px}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+@keyframes float{50%{transform:translateY(-8px)}}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:rgba(245,242,237,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s}
+header.top.scrolled{border-bottom-color:var(--line)}
+.top-in{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em;white-space:nowrap}
+.brand i{font-style:normal;color:var(--accent)}
+nav.links{display:flex;gap:4px}
+nav.links a{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:999px;transition:background .2s,color .2s}
+nav.links a:hover,nav.links a.on{background:var(--surface);color:var(--ink)}
+.top .btn{padding:10px 18px;font-size:14px}
+@media (max-width:900px){nav.links{display:none}}
+@media (max-width:420px){.top .btn span{display:none}.top .btn{padding:10px}}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;background:var(--accent);width:0}
+
+/* hero */
+.hero{padding:72px 0 96px}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.hero h1{font-size:clamp(46px,8vw,92px);line-height:.94;letter-spacing:-.04em;margin:18px 0 22px}
+.hero .chips{margin-top:28px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.ring{position:relative;width:340px;height:340px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.ring>.in{width:296px;height:296px;border-radius:50%;background:var(--surface);border:6px solid var(--rule);display:grid;place-items:center}
+.ring .orbit{position:absolute;inset:-14px;border-radius:50%;border:1px dashed var(--rule);opacity:.5;animation:spin 40s linear infinite}
+.ring .dot{position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--accent)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}.ring{width:220px;height:220px;justify-self:start;order:-1}.ring>.in{width:190px;height:190px}.mark.big{width:88px;height:88px;font-size:44px;border-radius:24px}}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+@media (max-width:900px){.g3,.g5{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.g2,.g3,.g5{grid-template-columns:1fr}}
+
+/* dark band */
+.dark{background:var(--ink);color:var(--bg)}
+.dark .label{color:var(--rule)}
+.dark .lede{color:var(--ink-soft)}
+.dark em{color:var(--rule)}
+.orange{background:var(--accent);color:#fff}
+.orange em{color:#fff;text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:8px}
+
+/* accordion */
+.acc-list{border-top:1px solid var(--line)}
+.acc-item{border-bottom:1px solid var(--line)}
+.acc-btn{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:22px 4px;text-align:left}
+.acc-btn .n{font-family:var(--mono);font-size:13px;color:var(--accent)}
+.acc-btn .h3{display:block;font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:1.15;font-size:clamp(20px,3vw,28px)}
+.acc-btn .sum{color:var(--muted);font-size:16px;margin-top:2px;display:block;font-family:var(--sans)}
+.plus{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:transform .3s, background .3s, color .3s, border-color .3s;flex:none}
+.acc-item.open .plus{transform:rotate(45deg);background:var(--accent);border-color:var(--accent);color:#fff}
+.acc-btn:hover .plus{border-color:var(--ink)}
+.acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.acc-item.open .acc-panel{grid-template-rows:1fr}
+.acc-panel>div{overflow:hidden}
+.acc-panel ul{padding:0 4px 24px 56px;display:grid;gap:8px;list-style:none}
+.acc-panel li{position:relative;padding-left:20px}
+.acc-panel li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--rule)}
+@media (max-width:640px){.acc-panel ul{padding-left:4px}.acc-btn{gap:14px}}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.tab{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);transition:background .2s,color .2s,border-color .2s}
+.tab:hover{border-color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dark .tab{background:transparent;border-color:#3A3D5C;color:var(--ink-soft)}
+.dark .tab[aria-selected="true"]{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+.panel[hidden]{display:none}
+.panel{animation:fadein .35s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}}
+
+/* stats */
+.stat .num{font-family:var(--display);font-weight:800;font-size:clamp(40px,5vw,56px);line-height:1;letter-spacing:-.03em;margin:14px 0 8px}
+.stat p{color:var(--muted);font-size:15px}
+.stat{transition:transform .25s, box-shadow .25s}
+.stat:hover{transform:translateY(-4px);box-shadow:0 14px 30px -18px rgba(22,24,46,.35)}
+
+/* bars */
+.bars{display:grid;gap:14px}
+.bar-row{display:grid;grid-template-columns:200px 1fr 90px;gap:16px;align-items:center}
+.bar-row .nm{font-weight:500}
+.bar-row .nm small{display:block;color:var(--muted);font-size:13px;font-weight:400}
+.track{height:14px;background:var(--bg);border-radius:999px;overflow:hidden}
+.fill{height:100%;width:0;border-radius:999px;background:var(--line);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.bar-row.me .fill{background:var(--accent)}
+.bar-row.me .nm{color:var(--accent);font-weight:700}
+.bar-row .v{font-family:var(--mono);font-size:14px;text-align:right}
+@media (max-width:640px){.bar-row{grid-template-columns:1fr 70px}.bar-row .track{grid-column:1/-1;grid-row:2}}
+
+table.simple{width:100%;border-collapse:collapse;font-size:16px}
+table.simple th{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:400;padding:0 0 10px}
+table.simple td{padding:14px 0;border-top:1px solid var(--line);vertical-align:top}
+table.simple td:last-child,table.simple th:last-child{text-align:right}
+.tag{display:inline-block;font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:999px;background:var(--accent-soft)}
+.tag.ok{background:#E3F4EA}
+
+/* swot */
+.swot li{list-style:none;padding:12px 0;border-top:1px solid var(--line);display:flex;gap:12px}
+.swot li:first-child{border-top:0}
+.swot li b{color:var(--accent);font-family:var(--mono);font-size:13px;padding-top:3px}
+.dark-card{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dark-card li{border-color:#2D3050}
+.dark-card li b{color:var(--rule)}
+
+/* journey */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.step{text-align:left;padding:18px 16px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);transition:background .2s,color .2s,transform .2s}
+.step:hover{transform:translateY(-2px)}
+.step .label{display:block;margin-bottom:6px}
+.step b{font-family:var(--display);font-size:20px;letter-spacing:-.02em}
+.step[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.step[aria-selected="true"] .label{color:#fff}
+.step-detail{margin-top:12px}
+@media (max-width:800px){.steps{grid-template-columns:repeat(2,1fr)}.steps .step:last-child{grid-column:1/-1}}
+
+/* big % */
+.pct{font-family:var(--display);font-weight:800;font-size:clamp(56px,8vw,88px);line-height:1;letter-spacing:-.04em;color:var(--accent);margin:14px 0 10px}
+.ads-band{margin-top:12px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.ads-band .pct{color:var(--bg);margin:0;font-size:clamp(44px,6vw,64px);white-space:nowrap}
+@media (max-width:640px){.ads-band{grid-template-columns:1fr;gap:10px}}
+
+/* check list */
+.check{display:flex;gap:14px;align-items:flex-start;text-align:left;width:100%}
+.check .box{width:28px;height:28px;border-radius:8px;border:2px solid var(--line);flex:none;display:grid;place-items:center;transition:background .2s,border-color .2s}
+.check .box svg{opacity:0;transform:scale(.4);transition:all .25s}
+.check.done .box{background:var(--accent);border-color:var(--accent)}
+.check.done .box svg{opacity:1;transform:none}
+.check:hover .box{border-color:var(--ink)}
+.done-count{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:16px}
+
+/* pricing */
+.switch{display:inline-flex;padding:4px;border-radius:999px;background:var(--surface);border:1px solid var(--line);margin-bottom:24px}
+.switch button{padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;transition:background .25s,color .25s}
+.switch button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.price{font-family:var(--display);font-weight:800;font-size:clamp(40px,5vw,52px);letter-spacing:-.03em;color:var(--accent);line-height:1;margin:18px 0 6px}
+.price small{font-family:var(--sans);font-size:16px;color:var(--muted);font-weight:500;letter-spacing:0}
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.tl{border-radius:14px;padding:18px;background:var(--surface);border:1px solid var(--line)}
+.tl .v{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.02em;margin-top:6px;transition:color .3s}
+.tl.hl{background:var(--accent-soft);border-color:transparent}
+@media (max-width:640px){.timeline{grid-template-columns:1fr}}
+.cond{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.cond div{background:var(--ink);color:var(--bg);border-radius:14px;padding:18px;font-size:15px}
+.cond .label{color:var(--rule);display:block;margin-bottom:6px}
+@media (max-width:640px){.cond{grid-template-columns:1fr}}
+ul.clean{list-style:none;display:grid;gap:10px}
+ul.clean li{padding-left:22px;position:relative}
+ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--rule)}
+.opt{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--accent-soft);padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:2px}
+
+/* footer */
+footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+.note{font-size:14px;color:var(--muted);margin-top:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- Código de acesso -->
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-card">
+    <div class="gate-ring"><div><div class="mark big" style="width:88px;height:88px;font-size:44px;border-radius:24px">B<i>.</i></div></div></div>
+    <span class="label acc">Proposta exclusiva</span>
+    <h1 id="gate-title">Clínica IMEC<em>.</em></h1>
+    <p class="lede" style="font-size:16px">Digite o código de acesso que você recebeu.</p>
+    <form class="gate-form" id="gate-form" autocomplete="off">
+      <input id="gate-input" type="text" inputmode="text" aria-label="Código de acesso" placeholder="Código" autocapitalize="characters" spellcheck="false">
+      <button class="btn btn-ink" type="submit">Entrar</button>
+    </form>
+    <p class="gate-err" id="gate-err" role="alert"></p>
+  </div>
+</div>
+
+<header class="top" id="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#inicio"><span class="mark">B<i>.</i></span><span>Beatriz Estradé<i>.</i></span></a>
+    <nav class="links" aria-label="Seções">
+      <a href="#exemplo">Exemplo</a>
+      <a href="#diagnostico">Diagnóstico</a>
+      <a href="#mercado">Mercado</a>
+      <a href="#metas">Metas</a>
+      <a href="#escopo">Escopo</a>
+      <a href="#investimento">Investimento</a>
+    </nav>
+    <a class="btn btn-wa" href="https://wa.me/5511981614521?text=Ol%C3%A1%2C%20Bia!%20Vi%20a%20proposta%20da%20IMEC." target="_blank" rel="noopener">
+      <svg class="wa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+      <span>Falar comigo</span>
+    </a>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="label rv">Proposta de marketing · Clínica IMEC · Ipiranga</span>
+      <h1 class="rv d1">Marketing com <em>direção</em> para a IMEC.</h1>
+      <p class="lede rv d2">Planejamento estratégico e coordenação da equipe de marketing, para o trabalho de hoje virar mais pacientes agendados.</p>
+      <div class="chips rv d3">
+        <span class="chip">Diagnóstico</span><span class="chip">Planejamento</span><span class="chip">Coordenação mensal</span><span class="chip soft">Anúncios e resultados</span>
+      </div>
+      <div class="hero-cta rv d4">
+        <a class="btn btn-ink" href="#exemplo">Ver a proposta ↓</a>
+        <a class="btn btn-ghost" href="#investimento">Ir para o investimento</a>
+      </div>
+    </div>
+    <div class="ring rv d2" aria-hidden="true"><div class="orbit"><span class="dot"></span></div><div class="in"><div class="mark big">B<i>.</i></div></div></div>
+  </div>
+</section>
+
+<!-- EXEMPLO -->
+<section class="block dark" id="exemplo">
+  <div class="wrap">
+    <div class="head">
+      <span class="label rv">Um exemplo antes da proposta</span>
+      <h2 class="rv d1">A fisioterapia volta à IMEC com o <em>Mat</em>.</h2>
+      <p class="lede rv d2">Fisioterapia geral e pélvica, acupuntura, auriculoterapia e moxabustão: uma especialidade nova na casa. Começo mostrando o que vou fazer por ele. Toque em cada frente.</p>
+    </div>
+    <div class="acc-list rv" id="frentes" style="border-color:#2D3050"></div>
+  </div>
+</section>
+
+<!-- PONTE -->
+<section class="block orange">
+  <div class="wrap">
+    <span class="label rv" style="color:#fff">Da fisioterapia para a clínica inteira</span>
+    <h2 class="rv d1" style="font-size:clamp(36px,6vw,68px);max-width:900px">O mesmo método vale para <em>todas</em> as especialidades da IMEC.</h2>
+    <p class="lede rv d2" style="color:#fff;margin-top:18px">Direção clara, equipe trabalhando no que traz paciente e resultado medido todo mês.</p>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICO -->
+<section class="block" id="diagnostico">
+  <div class="wrap">
+    <div class="head">
+      <span class="label acc rv">Diagnóstico · levantamento de 31/10/2026</span>
+      <h2 class="rv d1">Onde a IMEC está <em>hoje</em></h2>
+    </div>
+    <div class="grid g5">
+      <div class="card stat rv"><span class="label">Google</span><div class="num" data-count="4.6" data-dec="1">0</div><p>de nota, com 130 avaliações</p></div>
+      <div class="card stat rv d1"><span class="label">Doctoralia</span><div class="num" data-count="65">0</div><p>opiniões e 28 convênios listados</p></div>
+      <div class="card stat rv d2"><span class="label">Instagram</span><div class="num" data-count="1146">0</div><p>seguidores e 527 posts</p></div>
+      <div class="card stat rv d3"><span class="label">Site</span><div class="num" data-count="0">0</div><p>ferramentas para medir visitas</p></div>
+      <div class="card stat rv d4"><span class="label">WhatsApp</span><div class="num" data-count="2">0</div><p>números diferentes no site</p></div>
+    </div>
+
+    <div class="card rv" style="margin-top:12px">
+      <span class="label">O que eu observei · escolha um canal</span>
+      <div class="tabs" role="tablist" style="margin-top:14px" data-tabs="obs">
+        <button class="tab" role="tab" aria-selected="true" data-t="g">Google</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="d">Doctoralia</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="i">Instagram</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="s">Site</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="w">WhatsApp</button>
+      </div>
+      <div data-panels="obs">
+        <div class="panel" data-p="g"><div class="split"><div><span class="tag ok">Ponto forte</span><p style="margin-top:10px">Nota alta e avaliações respondidas pela clínica.</p></div><div><span class="tag">Oportunidade</span><p style="margin-top:10px">Ganhar volume de avaliações e organizar os perfis da IMEC no Google em um só.</p></div></div></div>
+        <div class="panel" data-p="d" hidden><div class="split"><div><span class="tag ok">Ponto forte</span><p style="margin-top:10px">Perfil ativo, com 65 opiniões e fisioterapia já listada.</p></div><div><span class="tag">Oportunidade</span><p style="margin-top:10px">Atualizar categoria, texto e link do perfil, e trazer opiniões das outras especialidades.</p></div></div></div>
+        <div class="panel" data-p="i" hidden><div class="split"><div><span class="tag ok">Ponto forte</span><p style="margin-top:10px">Posts educativos, bem produzidos, cerca de um por semana.</p></div><div><span class="tag">Oportunidade</span><p style="margin-top:10px">Levar o conteúdo a mais gente, com Reels, chamadas para ação e destaques atualizados.</p></div></div></div>
+        <div class="panel" data-p="s" hidden><div class="split"><div><span class="tag ok">Ponto forte</span><p style="margin-top:10px">Visual limpo e corpo clínico em destaque.</p></div><div><span class="tag">Oportunidade</span><p style="margin-top:10px">Medir visitas e agendamentos, revisar os links das redes e apresentar as especialidades novas.</p></div></div></div>
+        <div class="panel" data-p="w" hidden><div class="split"><div><span class="tag ok">Ponto forte</span><p style="margin-top:10px">Agendamento direto e simples, do jeito que o paciente prefere.</p></div><div><span class="tag">Oportunidade</span><p style="margin-top:10px">Concentrar tudo em um número e garantir que o botão abra o aplicativo no celular.</p></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MERCADO -->
+<section class="block" id="mercado" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="label acc rv">Diagnóstico · Google Maps e busca</span>
+      <h2 class="rv d1">A IMEC perto das clínicas <em>do bairro</em></h2>
+      <p class="lede rv d2">Nota de primeira, com espaço para crescer em volume de avaliações.</p>
+    </div>
+    <div class="split">
+      <div class="card rv">
+        <span class="label">Avaliações no Google Maps</span>
+        <div class="bars" style="margin-top:18px" id="bars">
+          <div class="bar-row"><span class="nm">MedSelect<small>nota 4,8 · 1.826 no Instagram</small></span><div class="track"><div class="fill" data-w="550"></div></div><span class="v">550</span></div>
+          <div class="bar-row"><span class="nm">dr.consulta<small>nota 3,5 · rede nacional</small></span><div class="track"><div class="fill" data-w="524"></div></div><span class="v">524</span></div>
+          <div class="bar-row"><span class="nm">Cardio-Lógica<small>nota 4,3 · 1.042 no Instagram</small></span><div class="track"><div class="fill" data-w="259"></div></div><span class="v">259</span></div>
+          <div class="bar-row me"><span class="nm">Clínica IMEC<small>nota 4,6 · 1.146 no Instagram</small></span><div class="track"><div class="fill" data-w="130"></div></div><span class="v">130</span></div>
+        </div>
+      </div>
+      <div class="card rv d1">
+        <span class="label">Quem procura no Google encontra a IMEC?</span>
+        <table class="simple" style="margin-top:18px">
+          <tr><th>Busca</th><th>Anúncios de outros</th></tr>
+          <tr><td>gastroenterologista ipiranga<br><span class="tag">IMEC em 6º</span></td><td>3</td></tr>
+          <tr><td>colonoscopia ipiranga<br><span class="tag">IMEC fora da 1ª página</span></td><td>4</td></tr>
+          <tr><td>check-up ipiranga<br><span class="tag">IMEC fora da 1ª página</span></td><td>3</td></tr>
+        </table>
+        <p class="note">Buscas de 31/10/2026; a ordem muda conforme a pessoa e o lugar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SWOT + PARCERIAS -->
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="label acc rv">SWOT de fatores externos</span>
+      <h2 class="rv d1">O que está <em>fora</em> da clínica</h2>
+    </div>
+    <div class="split swot">
+      <div class="card rv" style="border-top:5px solid var(--accent)">
+        <h3>Oportunidades</h3>
+        <ul style="margin-top:12px">
+          <li><b>01</b>Concorrentes do bairro com notas mais baixas.</li>
+          <li><b>02</b>Gente buscando no Google as especialidades da casa.</li>
+          <li><b>03</b>Google Maps e Doctoralia como vitrine gratuita.</li>
+          <li><b>04</b>Público mais velho e familiar, que procura o que a IMEC oferece.</li>
+          <li><b>05</b>Parcerias com academias, Pilates, residenciais e comércios de saúde.</li>
+        </ul>
+      </div>
+      <div class="card dark-card rv d1">
+        <h3>Ameaças</h3>
+        <ul style="margin-top:12px">
+          <li><b>01</b>Concorrentes já anunciam nas buscas das especialidades da IMEC.</li>
+          <li><b>02</b>Redes populares com preço baixo e marketing forte.</li>
+          <li><b>03</b>Custo dos anúncios em saúde alto e em alta.</li>
+          <li><b>04</b>Regras do CFM limitam a publicidade médica.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card rv" style="margin-top:12px">
+      <span class="label">Parcerias no bairro · vizinhos que falam com o mesmo público</span>
+      <div class="tabs" role="tablist" style="margin-top:14px" data-tabs="parc">
+        <button class="tab" role="tab" aria-selected="true" data-t="a">Academias</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="p">Pilates</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="r">Residenciais</button>
+        <button class="tab" role="tab" aria-selected="false" data-t="b">Saúde e bem-estar</button>
+      </div>
+      <div data-panels="parc">
+        <div class="panel" data-p="a"><div class="chips"><span class="chip">Skyfit Ipiranga</span><span class="chip">Attitude Fitness</span><span class="chip">Red Fitness Ricardo Jafet</span></div><p class="note"><b>Ideia:</b> check-up com condição especial para alunos e palestras sobre coração e digestão.</p></div>
+        <div class="panel" data-p="p" hidden><div class="chips"><span class="chip">Pilates Ipiranga</span><span class="chip">Voll Pilates Museu do Ipiranga</span><span class="chip">ArTe Pilates</span><span class="chip">Raiz Studio</span><span class="chip">Bloom Pilates</span><span class="chip">Alcancy Pilates</span><span class="chip">Pure Pilates</span><span class="chip">Oficina do Movimento</span></div><p class="note"><b>Ideia:</b> troca de encaminhamentos com a fisioterapia e check-up para alunos.</p></div>
+        <div class="panel" data-p="r" hidden><div class="chips"><span class="chip">Recanto da Terceira Idade</span><span class="chip">Novos Amigos</span><span class="chip">Residencial Aurora</span></div><p class="note"><b>Ideia:</b> encaminhamento facilitado para geriatria, exames e consultas.</p></div>
+        <div class="panel" data-p="b" hidden><div class="chips"><span class="chip">Atual Phyto</span><span class="chip">Drogaria Tabor</span><span class="chip">Família Granel</span></div><p class="note"><b>Ideia:</b> material da IMEC no balcão com QR code para agendar e ações nas datas de saúde.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PÚBLICO -->
+<section class="block dark">
+  <div class="wrap">
+    <div class="head">
+      <span class="label rv">Para quem a IMEC fala</span>
+      <h2 class="rv d1">Público, persona e <em>jornada</em></h2>
+    </div>
+    <div class="split">
+      <div class="card rv" style="background:#1F2240;border-color:#2D3050;color:var(--bg)">
+        <span class="label">Público-alvo</span>
+        <ul class="clean" style="margin-top:14px">
+          <li>Moradores do Ipiranga e arredores, 40 anos ou mais</li>
+          <li>Mulheres no climatério e famílias que cuidam de idosos</li>
+          <li>Pacientes de gastro, colonoscopia, check-up e bariátrica</li>
+          <li>Particular ou convênio com reembolso</li>
+        </ul>
+      </div>
+      <div class="card rv d1" style="background:#1F2240;border-color:#2D3050;color:var(--bg)">
+        <span class="label">Persona</span>
+        <h3 style="margin-top:12px">Sandra, 56 anos, Ipiranga</h3>
+        <p style="color:var(--ink-soft);margin-top:10px">Cuida da própria saúde e da mãe de 80 anos. Tem plano com reembolso, mas paga particular quando confia. Pesquisa no Google, lê as avaliações, pergunta às amigas e agenda pelo WhatsApp.</p>
+      </div>
+    </div>
+    <div style="margin-top:28px" class="rv">
+      <span class="label">Jornada do paciente · toque em cada etapa</span>
+      <div class="steps" role="tablist" style="margin-top:14px" id="steps"></div>
+      <div class="card step-detail" id="step-detail" style="background:#1F2240;border-color:#2D3050;color:var(--bg)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- METAS -->
+<section class="block" id="metas">
+  <div class="wrap">
+    <div class="head">
+      <span class="label acc rv">Onde dá para crescer · meta em 6 meses</span>
+      <h2 class="rv d1">Quanto a IMEC pode <em>crescer</em></h2>
+    </div>
+    <div class="grid g3">
+      <div class="card rv"><span class="label">Redes sociais</span><div class="pct" data-count="733" data-prefix="+" data-suffix="%">0</div><p class="lede" style="font-size:16px">de engajamento no Instagram, de 3 para 25 curtidas por post</p></div>
+      <div class="card rv d1"><span class="label">Online</span><div class="pct" data-count="79" data-prefix="+" data-suffix="%">0</div><p class="lede" style="font-size:16px">de avaliações no Google e no Doctoralia</p></div>
+      <div class="card rv d2"><span class="label">Offline</span><div class="pct" style="font-size:clamp(40px,5vw,56px)">a definir</div><p class="lede" style="font-size:16px">de agendamentos, calculado com os números da clínica</p></div>
+    </div>
+    <div class="card dark-card ads-band rv">
+      <div><span class="label" style="color:var(--rule)">Google Ads com R$ 1.000/mês</span><div class="pct" style="margin-top:8px">10 a 50 leads</div></div>
+      <p style="color:var(--ink-soft)">por mês: pessoas que chamam no WhatsApp ou ligam depois de ver o anúncio. Estimativa ajustada no primeiro mês de campanha.</p>
+    </div>
+    <p class="note">Metas e estimativas sugeridas, ajustadas depois do diagnóstico completo e da verba definida.</p>
+  </div>
+</section>
+
+<!-- QUEM SOU -->
+<section class="block dark">
+  <div class="wrap">
+    <div class="head">
+      <span class="label rv">Quem vai conduzir</span>
+      <h2 class="rv d1">Beatriz Estradé<em>.</em></h2>
+      <p class="lede rv d2">Gerente de marketing. Planejamento, campanhas, geração de leads e gestão de equipe, com IA aplicada ao trabalho.</p>
+    </div>
+    <div class="grid g3">
+      <div class="rv" style="border-top:2px solid var(--rule);padding-top:18px"><div class="stat"><div class="num" data-count="18" style="color:var(--bg)">0</div><p style="color:var(--ink-soft)">anos de carreira em 11 empresas</p></div></div>
+      <div class="rv d1" style="border-top:2px solid var(--rule);padding-top:18px"><div class="stat"><div class="num" data-count="154" data-prefix="+" data-suffix="%" style="color:var(--bg)">0</div><p style="color:var(--ink-soft)">de interações no Instagram em um trimestre (ATO Produtos)</p></div></div>
+      <div class="rv d2" style="border-top:2px solid var(--rule);padding-top:18px"><div class="stat"><div class="num" style="color:var(--bg)">2/dia</div><p style="color:var(--ink-soft)">leads no Google Ads com verba de R$ 800 (Decorart)</p></div></div>
+    </div>
+    <div class="split rv" style="margin-top:28px">
+      <p><b>Saúde:</b> <span style="color:var(--ink-soft)">Biovida Saúde e marketing digital para a Dra. Elizabeth Zamerul.</span></p>
+      <p><b>No bairro:</b> <span style="color:var(--ink-soft)">já atendi a Alcancy Pilates e a Academia Atitude Fit.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ESCOPO -->
+<section class="block" id="escopo">
+  <div class="wrap">
+    <div class="head">
+      <span class="label acc rv">Escopo</span>
+      <h2 class="rv d1">O que eu <em>faço</em></h2>
+    </div>
+    <div class="tabs rv" role="tablist" data-tabs="esc">
+      <button class="tab" role="tab" aria-selected="true" data-t="1">Etapa 1 · 60 dias</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="2">Etapa 2 · mensal</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="f">O que fica fora</button>
+    </div>
+    <div data-panels="esc" class="rv">
+      <div class="panel card" data-p="1">
+        <h3>Diagnóstico e planejamento</h3>
+        <ul class="clean" style="margin-top:16px">
+          <li><b>Diagnóstico</b> do marketing atual: redes, Google, Doctoralia, site e WhatsApp</li>
+          <li><b>Planejamento estratégico:</b> posicionamento, público, metas e prioridades</li>
+          <li><b>Jornada do paciente</b>, do primeiro contato ao retorno</li>
+          <li><b>Comunicação visual unificada:</b> manual de marca e peças institucionais, como capas de Instagram e LinkedIn</li>
+          <li><b>Remodelagem do site</b></li>
+          <li><b>Ganhos rápidos</b> dos primeiros 30 dias</li>
+        </ul>
+      </div>
+      <div class="panel card" data-p="2" hidden>
+        <h3>Coordenação contínua, desde o 1º mês</h3>
+        <ul class="clean" style="margin-top:16px">
+          <li><b>Direção da equipe</b> de mídia social, com linha editorial e calendário</li>
+          <li><b>Google Ads</b><span class="opt">opcional</span>: criação, artes e monitoramento dos anúncios</li>
+          <li><b>Indicadores</b> e relatório mensal de resultados</li>
+          <li><b>Reuniões</b> periódicas com a direção e com a equipe</li>
+          <li><b>Suporte do site</b> para alterações eventuais</li>
+        </ul>
+      </div>
+      <div class="panel card" data-p="f" hidden>
+        <h3>O que fica fora do meu trabalho</h3>
+        <ul class="clean g2 grid" style="margin-top:16px;gap:10px 32px">
+          <li>Posts do dia a dia: artes dos posts, gravação e edição de vídeos</li>
+          <li>Garantia de número de pacientes</li>
+          <li>Respostas a comentários e mensagens nas redes</li>
+          <li>Marketing da One by Imec, como possibilidade futura</li>
+          <li>Atendimento de pacientes pela recepção ou WhatsApp</li>
+          <li>Aprovação ética do conteúdo médico (regras do CFM)</li>
+          <li>Hospedagem e domínio do site</li>
+          <li>Verba de anúncios e ferramentas pagas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card rv" style="margin-top:12px">
+      <span class="label acc">Ganhos rápidos · nos primeiros 30 dias</span>
+      <p class="note" style="margin-top:6px">Toque para marcar o que a clínica quer resolver primeiro.</p>
+      <div class="grid g3" style="margin-top:18px" id="checks"></div>
+      <p class="done-count" id="done-count">0 de 6 marcados</p>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section class="block" id="investimento" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="label acc rv">Investimento</span>
+      <h2 class="rv d1">Duas <em>etapas</em></h2>
+    </div>
+    <div class="switch rv" role="group" aria-label="Opção de coordenação">
+      <button type="button" aria-pressed="false" data-ads="0">Sem Google Ads</button>
+      <button type="button" aria-pressed="true" data-ads="1">Com Google Ads</button>
+    </div>
+    <div class="split">
+      <div class="card rv">
+        <span class="label">Etapa 1 · 60 dias</span>
+        <h3 style="margin-top:10px">Diagnóstico e planejamento</h3>
+        <p style="color:var(--muted);margin-top:8px">Entendo como o marketing funciona hoje e entrego o plano, a comunicação visual unificada e o site remodelado.</p>
+        <div class="price">R$ 5.000</div>
+        <p style="color:var(--muted);font-size:15px">em 2x de R$ 2.500, somadas aos 2 primeiros meses de coordenação</p>
+      </div>
+      <div class="card rv d1">
+        <span class="label">Etapa 2 · mensal, desde o 1º mês</span>
+        <h3 style="margin-top:10px">Coordenação contínua</h3>
+        <p style="color:var(--muted);margin-top:8px" id="coord-desc">Direção da equipe, Google Ads, reuniões, relatório de resultados e ajustes no plano.</p>
+        <div class="price"><span id="coord-price">R$ 5.000</span> <small>por mês</small></div>
+        <p style="color:var(--muted);font-size:15px">fechada mediante contrato</p>
+      </div>
+    </div>
+    <div class="timeline rv">
+      <div class="tl hl"><span class="label">1º mês</span><div class="v" id="m1">R$ 7.500</div></div>
+      <div class="tl hl"><span class="label">2º mês</span><div class="v" id="m2">R$ 7.500</div></div>
+      <div class="tl"><span class="label">A partir do 3º mês</span><div class="v" id="m3">R$ 5.000</div></div>
+    </div>
+    <div class="cond rv">
+      <div><span class="label">Validade</span>Proposta válida por 30 dias para fechamento</div>
+      <div><span class="label">Início</span>Início do trabalho até janeiro de 2027</div>
+      <div><span class="label">Pagamento</span>Todos os pagamentos e parcelas via Pix</div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMOS -->
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="label acc rv">Termos do trabalho</span>
+      <h2 class="rv d1">Como a gente <em>trabalha</em></h2>
+    </div>
+    <div class="acc-list rv" id="termos"></div>
+  </div>
+</section>
+
+<!-- PRÓXIMOS -->
+<section class="block dark">
+  <div class="wrap">
+    <div class="head">
+      <span class="label rv">Próximos passos</span>
+      <h2 class="rv d1">Como a gente <em>começa</em></h2>
+    </div>
+    <div class="grid g3">
+      <div class="rv" style="border-top:2px solid var(--rule);padding-top:18px"><div class="num" style="font-family:var(--display);font-weight:800;font-size:40px;color:var(--rule)">1</div><p style="margin-top:6px">Validar o escopo e o investimento com a direção</p></div>
+      <div class="rv d1" style="border-top:2px solid var(--rule);padding-top:18px"><div class="num" style="font-family:var(--display);font-weight:800;font-size:40px;color:var(--rule)">2</div><p style="margin-top:6px">Conversa de diagnóstico com a equipe de marketing</p></div>
+      <div class="rv d2" style="border-top:2px solid var(--rule);padding-top:18px"><div class="num" style="font-family:var(--display);font-weight:800;font-size:40px;color:var(--rule)">3</div><p style="margin-top:6px">Entrega do plano e início da coordenação mensal</p></div>
+    </div>
+    <div class="rv" style="margin-top:48px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <a class="btn btn-wa" href="https://wa.me/5511981614521?text=Ol%C3%A1%2C%20Bia!%20Vi%20a%20proposta%20da%20IMEC%20e%20quero%20conversar." target="_blank" rel="noopener">
+        <svg class="wa-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+        Quero começar · (11) 98161-4521
+      </a>
+      <a class="btn" style="border:1.5px solid var(--bg);color:var(--bg)" href="mailto:beatrizestrade.be@gmail.com?subject=Proposta%20IMEC">beatrizestrade.be@gmail.com</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="https://beatrizestrade.com.br" style="font-size:17px"><span class="mark">B<i>.</i></span><span>Beatriz Estradé<i>.</i></span></a>
+    <span>Proposta exclusiva para a Clínica IMEC · outubro de 2026</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var CODE = "IMEC2026";
+  var KEY = "imec-proposta-ok";
+  var gate = document.getElementById("gate");
+  var form = document.getElementById("gate-form");
+  var input = document.getElementById("gate-input");
+  var err = document.getElementById("gate-err");
+  function unlock(){ gate.classList.add("hide"); document.body.style.overflow=""; startReveal(); }
+  var ok = false;
+  try { ok = sessionStorage.getItem(KEY) === "1"; } catch(e) {}
+  if (ok) { gate.classList.add("hide"); } else { document.body.style.overflow="hidden"; setTimeout(function(){ input.focus(); }, 200); }
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (input.value.trim().toUpperCase().replace(/\s+/g,"") === CODE) {
+      try { sessionStorage.setItem(KEY,"1"); } catch(e) {}
+      err.textContent = ""; unlock();
+    } else {
+      err.textContent = "Código incorreto. Confira a mensagem que você recebeu.";
+      form.classList.remove("shake"); void form.offsetWidth; form.classList.add("shake");
+    }
+  });
+
+  /* header + progress + nav highlight */
+  var top = document.getElementById("top"), bar = document.getElementById("progress");
+  var navLinks = [].slice.call(document.querySelectorAll("nav.links a"));
+  function onScroll(){
+    var h = document.documentElement;
+    top.classList.toggle("scrolled", h.scrollTop > 10);
+    var p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+    bar.style.width = (p*100) + "%";
+    var cur = "";
+    navLinks.forEach(function(a){ var s = document.querySelector(a.getAttribute("href")); if (s && s.getBoundingClientRect().top < 140) cur = a.getAttribute("href"); });
+    navLinks.forEach(function(a){ a.classList.toggle("on", a.getAttribute("href") === cur); });
+  }
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  /* count-up */
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function fmt(n, dec){ return n.toLocaleString("pt-BR",{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+  function countUp(el){
+    if (el.dataset.done) return; el.dataset.done = "1";
+    var to = parseFloat(el.dataset.count), dec = parseInt(el.dataset.dec||"0",10);
+    var pre = el.dataset.prefix||"", suf = el.dataset.suffix||"";
+    if (reduce || to === 0) { el.textContent = pre + fmt(to,dec) + suf; return; }
+    var t0 = null, dur = 1400;
+    function step(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/dur); var e=1-Math.pow(1-k,3); el.textContent = pre + fmt(to*e,dec) + suf; if(k<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+
+  /* reveal */
+  var started = false;
+  function startReveal(){
+    if (started) return; started = true;
+    var els = [].slice.call(document.querySelectorAll(".rv"));
+    if (!("IntersectionObserver" in window)) { els.forEach(function(e){ e.classList.add("in"); }); document.querySelectorAll("[data-count]").forEach(countUp); growBars(); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        en.target.classList.add("in");
+        en.target.querySelectorAll("[data-count]").forEach(countUp);
+        if (en.target.matches("[data-count]")) countUp(en.target);
+        if (en.target.querySelector("#bars")) growBars();
+        io.unobserve(en.target);
+      });
+    }, {threshold:.15, rootMargin:"0px 0px -40px 0px"});
+    els.forEach(function(e){ io.observe(e); });
+  }
+  if (ok) startReveal();
+  function growBars(){
+    var fills = document.querySelectorAll("#bars .fill"), max = 550;
+    fills.forEach(function(f){ f.style.width = (parseFloat(f.dataset.w)/max*100) + "%"; });
+  }
+
+  /* tabs */
+  document.querySelectorAll("[data-tabs]").forEach(function(list){
+    var name = list.getAttribute("data-tabs");
+    var panels = document.querySelector('[data-panels="'+name+'"]');
+    var btns = [].slice.call(list.querySelectorAll(".tab"));
+    btns.forEach(function(b){
+      b.addEventListener("click", function(){
+        btns.forEach(function(x){ x.setAttribute("aria-selected", x===b ? "true":"false"); });
+        [].slice.call(panels.children).forEach(function(p){ p.hidden = p.getAttribute("data-p") !== b.getAttribute("data-t"); });
+      });
+    });
+  });
+
+  /* accordion builder */
+  var plus = '<span class="plus" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>';
+  function buildAcc(root, items, dark){
+    root.innerHTML = items.map(function(it,i){
+      return '<div class="acc-item'+(i===0?' open':'')+'"'+(dark?' style="border-color:#2D3050"':'')+'>'+
+        '<button class="acc-btn" aria-expanded="'+(i===0)+'"><span class="n">'+String(i+1).padStart(2,"0")+'</span>'+
+        '<span><span class="h3">'+it.t+'</span><span class="sum"'+(dark?' style="color:var(--ink-soft)"':'')+'>'+it.s+'</span></span>'+plus+'</button>'+
+        '<div class="acc-panel"><div><ul>'+it.d.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul></div></div></div>';
+    }).join("");
+    root.querySelectorAll(".acc-btn").forEach(function(b){
+      b.addEventListener("click", function(){
+        var item = b.parentElement, open = !item.classList.contains("open");
+        item.classList.toggle("open", open); b.setAttribute("aria-expanded", open);
+      });
+    });
+  }
+  buildAcc(document.getElementById("frentes"), [
+    {t:"Site", s:"A casa dele na internet, com agendamento direto pelo WhatsApp.", d:["Páginas de início, tratamentos, sobre e contato","Cada especialidade explicada de forma simples","Textos dentro das regras de publicidade do COFFITO"]},
+    {t:"Instagram", s:"Posicionamento, linha editorial e calendário de posts.", d:["Quem ele atende e por quê","Temas fixos e calendário mensal","Identidade visual igual à do site"]},
+    {t:"Google e Doctoralia", s:"Ser encontrado por quem já procura fisioterapia no bairro.", d:["Inclusão no perfil da clínica no Doctoralia","Fisioterapia no perfil da IMEC no Google","Pedido de avaliação aos pacientes satisfeitos"]},
+    {t:"Google Ads", s:"Anúncios locais para acelerar os primeiros agendamentos.", d:["Busca local por fisio pélvica e acupuntura no Ipiranga","Anúncio levando direto para o site e o WhatsApp","Ajustes mensais pelo custo de cada agendamento"]},
+    {t:"Integração com a IMEC", s:"A fisio dentro do calendário, da recepção e dos médicos da casa.", d:["Temas que a clínica já trabalha: climatério, Outubro Rosa, quedas e pós-operatório","Recepção e médicos sabendo quando indicar","O que acompanhamos: agendamentos, origem, custo por paciente e retorno"]}
+  ], true);
+  buildAcc(document.getElementById("termos"), [
+    {t:"Sobre o trabalho", s:"Estratégia, escopo, aprovação e contas.", d:["Sem garantia de resultado: sem promessa de número de pacientes ou de faturamento","Escopo fechado: o que estiver fora da proposta é orçado à parte","Conteúdo aprovado por escrito pela clínica, que responde pelas regras do CFM","Contas e verba de anúncios no nome da IMEC"]},
+    {t:"Sobre o pagamento", s:"Atraso, desistência e mensalidade.", d:["Atraso: multa de 2% e juros de 1% ao mês; trabalho pausado após 15 dias de atraso","Desistência na etapa 1: as parcelas do que já foi entregue continuam devidas","Mensalidade: mínimo de 3 meses, aviso prévio de 30 dias e reajuste anual pelo IPCA"]},
+    {t:"Sobre a relação", s:"Vínculo, sigilo e portfólio.", d:["Sem vínculo empregatício: serviço entre empresas, sem horário fixo nem subordinação","Sigilo e LGPD: sem acesso a dados de pacientes e com sigilo sobre a clínica","Material da clínica após o pagamento, com o case liberado para o portfólio, sem dados de pacientes"]}
+  ], false);
+
+  /* journey */
+  var steps = [
+    ["Descobre","Google, Instagram ou indicação","É onde entram o Google, o Instagram e as parcerias do bairro."],
+    ["Avalia","Avaliações no Google e Doctoralia, site","Mais avaliações e um site claro fazem a Sandra confiar."],
+    ["Agenda","WhatsApp, com resposta rápida","Um só número e resposta rápida para não perder o paciente."],
+    ["É atendida","Recepção, consulta e exames","A experiência na clínica é o que vira avaliação e indicação."],
+    ["Volta e indica","Avaliação, retorno e check-up anual","Pedir avaliação e chamar de volta para o check-up anual."]
+  ];
+  var sw = document.getElementById("steps"), sd = document.getElementById("step-detail");
+  sw.innerHTML = steps.map(function(s,i){ return '<button class="step" role="tab" aria-selected="'+(i===0)+'"><span class="label">0'+(i+1)+'</span><b>'+s[0]+'</b></button>'; }).join("");
+  function showStep(i){ sd.innerHTML = '<span class="label" style="color:var(--rule)">Etapa '+(i+1)+' · '+steps[i][1]+'</span><p style="margin-top:8px;font-size:18px">'+steps[i][2]+'</p>'; }
+  [].slice.call(sw.children).forEach(function(b,i){ b.addEventListener("click", function(){ [].slice.call(sw.children).forEach(function(x,j){ x.setAttribute("aria-selected", j===i); }); showStep(i); }); });
+  showStep(0);
+
+  /* checklist */
+  var quick = ["Um só WhatsApp para agendar","Link do Instagram corrigido no site","Doctoralia em ordem: categoria e link","Google Analytics e origem dos agendamentos","Pedido de avaliação depois da consulta","Primeiros Reels e calendário do mês"];
+  var ch = document.getElementById("checks"), dc = document.getElementById("done-count");
+  var svg = '<svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7.5l3 3 7-7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  ch.innerHTML = quick.map(function(q){ return '<button class="check card" style="padding:20px" aria-pressed="false"><span class="box">'+svg+'</span><span>'+q+'</span></button>'; }).join("");
+  function upd(){ var n = ch.querySelectorAll(".check.done").length; dc.textContent = n + " de 6 marcados" + (n===6 ? " · tudo resolvido em 30 dias" : ""); }
+  [].slice.call(ch.children).forEach(function(b){ b.addEventListener("click", function(){ var d = !b.classList.contains("done"); b.classList.toggle("done", d); b.setAttribute("aria-pressed", d); upd(); }); });
+
+  /* pricing switch */
+  var sbtn = [].slice.call(document.querySelectorAll(".switch button"));
+  function setAds(on){
+    sbtn.forEach(function(b){ b.setAttribute("aria-pressed", (b.dataset.ads==="1")===on); });
+    var m = on ? 5000 : 4000;
+    var f = function(v){ return "R$ " + v.toLocaleString("pt-BR"); };
+    document.getElementById("coord-price").textContent = f(m);
+    document.getElementById("m1").textContent = f(m+2500);
+    document.getElementById("m2").textContent = f(m+2500);
+    document.getElementById("m3").textContent = f(m);
+    document.getElementById("coord-desc").textContent = on ? "Direção da equipe, Google Ads (criação, artes e monitoramento), reuniões, relatório de resultados e ajustes no plano." : "Direção da equipe, reuniões, relatório de resultados e ajustes no plano.";
+  }
+  sbtn.forEach(function(b){ b.addEventListener("click", function(){ setAds(b.dataset.ads==="1"); }); });
+  setAds(true);
+})();
+</script>
+</body>
+</html>
