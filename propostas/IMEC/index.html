@@ -133,6 +133,19 @@ nav.links a:hover,nav.links a.on{background:var(--surface);color:var(--ink)}
 .acc-panel li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--rule)}
 @media (max-width:640px){.acc-panel ul{padding-left:4px}.acc-btn{gap:14px}}
 
+/* parceiros */
+.plist{display:grid;margin-top:4px}
+.prow{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.prow:first-child{border-top:0}
+.prow b{display:block;font-weight:700}
+.prow>div span{display:block;color:var(--muted);font-size:14px}
+.ig{text-align:right;text-decoration:none;font-size:13px;color:var(--muted);transition:color .2s}
+.ig span{display:block;font-family:var(--mono);font-size:12px;color:var(--accent)}
+.ig b{font-family:var(--display);font-size:20px;color:var(--ink);letter-spacing:-.02em;margin-right:4px}
+a.ig:hover b{color:var(--accent)}
+.ig.none{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:520px){.prow{grid-template-columns:1fr;gap:4px}.ig{text-align:left}.ig span{display:inline;margin-right:8px}.ig b{font-size:15px;font-family:var(--sans)}.ig.none br{display:none}}
+
 /* frentes do Mat */
 .fr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .fr{background:#1F2240;border:1px solid #2D3050;border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;transition:transform .25s, border-color .25s, background .25s}
@@ -433,10 +446,10 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <button class="tab" role="tab" aria-selected="false" data-t="b">Saúde e bem-estar</button>
       </div>
       <div data-panels="parc">
-        <div class="panel" data-p="a"><div class="chips"><span class="chip">Skyfit Ipiranga</span><span class="chip">Attitude Fitness</span><span class="chip">Red Fitness Ricardo Jafet</span></div><p class="note"><b>Ideia:</b> check-up com condição especial para alunos e palestras sobre coração e digestão.</p></div>
-        <div class="panel" data-p="p" hidden><div class="chips"><span class="chip">Pilates Ipiranga</span><span class="chip">Voll Pilates Museu do Ipiranga</span><span class="chip">ArTe Pilates</span><span class="chip">Raiz Studio</span><span class="chip">Bloom Pilates</span><span class="chip">Alcancy Pilates</span><span class="chip">Pure Pilates</span><span class="chip">Oficina do Movimento</span></div><p class="note"><b>Ideia:</b> troca de encaminhamentos com a fisioterapia e check-up para alunos.</p></div>
-        <div class="panel" data-p="r" hidden><div class="chips"><span class="chip">Recanto da Terceira Idade</span><span class="chip">Novos Amigos</span><span class="chip">Residencial Aurora</span></div><p class="note"><b>Ideia:</b> encaminhamento facilitado para geriatria, exames e consultas.</p></div>
-        <div class="panel" data-p="b" hidden><div class="chips"><span class="chip">Atual Phyto</span><span class="chip">Drogaria Tabor</span><span class="chip">Família Granel</span></div><p class="note"><b>Ideia:</b> material da IMEC no balcão com QR code para agendar e ações nas datas de saúde.</p></div>
+        <div class="panel" data-p="a"><div class="plist" data-list="a"></div><p class="note"><b>Ideia:</b> check-up com condição especial para alunos e palestras sobre coração e digestão.</p></div>
+        <div class="panel" data-p="p" hidden><div class="plist" data-list="p"></div><p class="note"><b>Ideia:</b> troca de encaminhamentos com a fisioterapia e check-up para alunos.</p></div>
+        <div class="panel" data-p="r" hidden><div class="plist" data-list="r"></div><p class="note"><b>Ideia:</b> encaminhamento facilitado para geriatria, exames e consultas.</p></div>
+        <div class="panel" data-p="b" hidden><div class="plist" data-list="b"></div><p class="note"><b>Ideia:</b> material da IMEC no balcão com QR code para agendar e ações nas datas de saúde.</p></div>
       </div>
     </div>
   </div>
@@ -594,14 +607,14 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <span class="label">Etapa 2 · mensal, desde o 1º mês</span>
         <h3 style="margin-top:10px">Coordenação contínua</h3>
         <p style="color:var(--muted);margin-top:8px" id="coord-desc">Direção da equipe, Google Ads, reuniões, relatório de resultados e ajustes no plano.</p>
-        <div class="price"><span id="coord-price">R$ 5.000</span> <small>por mês</small></div>
+        <div class="price"><span id="coord-price">R$ 6.500</span> <small>por mês</small></div>
         <p style="color:var(--muted);font-size:15px">fechada mediante contrato</p>
       </div>
     </div>
     <div class="timeline rv">
-      <div class="tl hl"><span class="label">1º mês</span><div class="v" id="m1">R$ 7.500</div></div>
-      <div class="tl hl"><span class="label">2º mês</span><div class="v" id="m2">R$ 7.500</div></div>
-      <div class="tl"><span class="label">A partir do 3º mês</span><div class="v" id="m3">R$ 5.000</div></div>
+      <div class="tl hl"><span class="label">1º mês</span><div class="v" id="m1">R$ 9.000</div></div>
+      <div class="tl hl"><span class="label">2º mês</span><div class="v" id="m2">R$ 9.000</div></div>
+      <div class="tl"><span class="label">A partir do 3º mês</span><div class="v" id="m3">R$ 6.500</div></div>
     </div>
     <div class="cond rv">
       <div><span class="label">Validade</span>Proposta válida por 30 dias para fechamento</div>
@@ -649,6 +662,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   <div class="wrap foot">
     <a class="brand" href="https://beatrizestrade.com.br" style="font-size:17px"><span class="mark">B<i>.</i></span><span>Beatriz Estradé<i>.</i></span></a>
     <span>Proposta exclusiva para a Clínica IMEC · outubro de 2026</span>
+    <p style="flex-basis:100%;font-size:13px">Todas as artes visuais apresentadas são simuladas, para melhor visualização do cliente. Dados de terceiros (Google, Doctoralia e Instagram) levantados em 31/10/2026.</p>
   </div>
 </footer>
 
@@ -773,6 +787,36 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     {t:"Sobre a relação", s:"Vínculo, sigilo e portfólio.", d:["Sem vínculo empregatício: serviço entre empresas, sem horário fixo nem subordinação","Sigilo e LGPD: sem acesso a dados de pacientes e com sigilo sobre a clínica","Material da clínica após o pagamento, com o case liberado para o portfólio, sem dados de pacientes"]}
   ], false);
 
+  /* parceiros */
+  var parc = {
+    a:[["Skyfit Ipiranga","Av. Dom Pedro I, 1193","skyfitipiranga","9.972"],
+       ["Academia Atitude Fitness","R. Gaspar Fernandes, 274","academia_atitudefit","3.554"],
+       ["Red Company Ricardo Jafet","Av. Dr. Ricardo Jafet, 1501","redcompanyjafet","3.456"]],
+    p:[["Oficina do Movimento","R. da Constituinte, 147","oficinamovimento","3.143"],
+       ["Pilates Ipiranga","R. Agostinho Gomes, 671","pilatesipiranga","1.102"],
+       ["Voll Pilates Museu do Ipiranga","R. Paulo Bregaro, 284","vollpilatesmuseudoipiranga","587"],
+       ["Alcancy Pilates","R. Dr. José Maria Azevedo, 179","alcancypilates","431"],
+       ["Pure Pilates Vila Monumento","R. Agostinho Gomes, 1505","purepilates.vilamonumento","339"],
+       ["ArTe Pilates e Terapias","R. Vasconcelos Drumond, 267","arte.pilates_terapias","224"],
+       ["Raiz Studio de Pilates","R. dos Sorocabanos, 641","raizstudiodepilates","211"],
+       ["Bloom Pilates","R. Silva Bueno, 599","bloomstudiopilates","174"],
+       ["Pure Pilates Cambuci","R. Gaspar Fernandes, 495","",""]],
+    r:[["Residencial Aurora","R. Dom Lucas Obes, 427","residenciaisaurora","1.063"],
+       ["Residencial Novos Amigos","R. Mariano Procópio, 111","residencialnovosamigos","167"],
+       ["Residencial Recanto da Terceira Idade","R. Armorial, 85","r.recantodaterceiraidade","161"]],
+    b:[["Família Granel","R. Lino Coutinho, 1024","familia_granel","4.070"],
+       ["Atual Phyto (manipulação)","R. Oliveira Alves, 338","atualphyto","3.764"],
+       ["Drogaria Tabor","R. Tabor, 424","",""]]
+  };
+  Object.keys(parc).forEach(function(k){
+    var el = document.querySelector('[data-list="'+k+'"]'); if(!el) return;
+    el.innerHTML = parc[k].map(function(x){
+      var ig = x[2] ? '<a class="ig" href="https://www.instagram.com/'+x[2]+'/" target="_blank" rel="noopener"><span>@'+x[2]+'</span><b>'+x[3]+'</b> seguidores</a>'
+                    : '<span class="ig none">Instagram<br>não encontrado</span>';
+      return '<div class="prow"><div><b>'+x[0]+'</b><span>'+x[1]+' · Ipiranga</span></div>'+ig+'</div>';
+    }).join("");
+  });
+
   /* journey */
   var steps = [
     ["Descobre","Google, Instagram ou indicação","É onde entram o Google, o Instagram e as parcerias do bairro."],
@@ -799,7 +843,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   var sbtn = [].slice.call(document.querySelectorAll(".switch button"));
   function setAds(on){
     sbtn.forEach(function(b){ b.setAttribute("aria-pressed", (b.dataset.ads==="1")===on); });
-    var m = on ? 5000 : 4000;
+    var m = on ? 6500 : 5500;
     var f = function(v){ return "R$ " + v.toLocaleString("pt-BR"); };
     document.getElementById("coord-price").textContent = f(m);
     document.getElementById("m1").textContent = f(m+2500);
