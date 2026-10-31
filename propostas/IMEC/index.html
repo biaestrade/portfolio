@@ -236,7 +236,7 @@ table.simple td:last-child,table.simple th:last-child{text-align:right}
 .switch button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .price{font-family:var(--display);font-weight:800;font-size:clamp(40px,5vw,52px);letter-spacing:-.03em;color:var(--accent);line-height:1;margin:18px 0 6px}
 .price small{font-family:var(--sans);font-size:16px;color:var(--muted);font-weight:500;letter-spacing:0}
-.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.timeline{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
 .tl{border-radius:14px;padding:18px;background:var(--surface);border:1px solid var(--line)}
 .tl .v{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.02em;margin-top:6px;transition:color .3s}
 .tl.hl{background:var(--accent-soft);border-color:transparent}
@@ -494,7 +494,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       <h2 class="rv d1">Quanto a IMEC pode <em>crescer</em></h2>
     </div>
     <div class="grid g3">
-      <div class="card rv"><span class="label">Redes sociais</span><div class="pct" data-count="733" data-prefix="+" data-suffix="%">0</div><p class="lede" style="font-size:16px">de engajamento no Instagram, de 3 para 25 curtidas por post</p></div>
+      <div class="card rv"><span class="label">Redes sociais</span><div class="pct">3 → 25</div><p class="lede" style="font-size:16px">curtidas por post no Instagram</p></div>
       <div class="card rv d1"><span class="label">Online</span><div class="pct" data-count="79" data-prefix="+" data-suffix="%">0</div><p class="lede" style="font-size:16px">de avaliações no Google e no Doctoralia</p></div>
       <div class="card rv d2"><span class="label">Offline</span><div class="pct" style="font-size:clamp(40px,5vw,56px)">a definir</div><p class="lede" style="font-size:16px">de agendamentos, calculado com os números da clínica</p></div>
     </div>
@@ -601,7 +601,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <h3 style="margin-top:10px">Diagnóstico e planejamento</h3>
         <p style="color:var(--muted);margin-top:8px">Entendo como o marketing funciona hoje e entrego o plano, a comunicação visual unificada e o site remodelado.</p>
         <div class="price">R$ 6.000</div>
-        <p style="color:var(--muted);font-size:15px">em 2x de R$ 3.000, somadas aos 2 primeiros meses de coordenação</p>
+        <p style="color:var(--muted);font-size:15px">em 3x de R$ 2.000, somadas aos 3 primeiros meses de coordenação</p>
       </div>
       <div class="card rv d1">
         <span class="label">Etapa 2 · mensal, desde o 1º mês</span>
@@ -612,9 +612,8 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       </div>
     </div>
     <div class="timeline rv">
-      <div class="tl hl"><span class="label">1º mês</span><div class="v" id="m1">R$ 9.500</div></div>
-      <div class="tl hl"><span class="label">2º mês</span><div class="v" id="m2">R$ 9.500</div></div>
-      <div class="tl"><span class="label">A partir do 3º mês</span><div class="v" id="m3">R$ 6.500</div></div>
+      <div class="tl hl"><span class="label">Do 1º ao 3º mês</span><div class="v" id="m1">R$ 8.500</div></div>
+      <div class="tl"><span class="label">A partir do 4º mês</span><div class="v" id="m3">R$ 6.500</div></div>
     </div>
     <div class="cond rv">
       <div><span class="label">Validade</span>Proposta válida por 30 dias para fechamento</div>
@@ -846,8 +845,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     var m = on ? 6500 : 5000;
     var f = function(v){ return "R$ " + v.toLocaleString("pt-BR"); };
     document.getElementById("coord-price").textContent = f(m);
-    document.getElementById("m1").textContent = f(m+3000);
-    document.getElementById("m2").textContent = f(m+3000);
+    document.getElementById("m1").textContent = f(m+2000);
     document.getElementById("m3").textContent = f(m);
     document.getElementById("coord-desc").textContent = on ? "Direção da equipe, Google Ads (criação, artes e monitoramento), reuniões, relatório de resultados e ajustes no plano." : "Direção da equipe, reuniões, relatório de resultados e ajustes no plano.";
   }
