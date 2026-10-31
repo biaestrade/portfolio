@@ -842,7 +842,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   var sbtn = [].slice.call(document.querySelectorAll(".switch button"));
   function setAds(on){
     sbtn.forEach(function(b){ b.setAttribute("aria-pressed", (b.dataset.ads==="1")===on); });
-    var m = on ? 6500 : 5000;
+    var m = on ? 6000 : 5000;
     var f = function(v){ return "R$ " + v.toLocaleString("pt-BR"); };
     document.getElementById("coord-price").textContent = f(m);
     document.getElementById("m1").textContent = f(m+1500);
