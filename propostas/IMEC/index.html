@@ -133,6 +133,20 @@ nav.links a:hover,nav.links a.on{background:var(--surface);color:var(--ink)}
 .acc-panel li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--rule)}
 @media (max-width:640px){.acc-panel ul{padding-left:4px}.acc-btn{gap:14px}}
 
+/* frentes do Mat */
+.fr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.fr{background:#1F2240;border:1px solid #2D3050;border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;transition:transform .25s, border-color .25s, background .25s}
+.fr:hover{transform:translateY(-4px);border-color:var(--rule);background:#242849}
+.fr .n{font-family:var(--mono);font-size:12px;color:var(--rule)}
+.fr .h3{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.02em;line-height:1.1}
+.fr p{color:var(--ink-soft);font-size:15px;line-height:1.45}
+.fr ul{list-style:none;display:grid;gap:6px;margin-top:4px;padding-top:12px;border-top:1px solid #2D3050}
+.fr li{position:relative;padding-left:14px;font-size:14px;line-height:1.4}
+.fr li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--rule)}
+@media (max-width:1000px){.fr-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:700px){.fr-grid{grid-template-columns:repeat(2,1fr)}.fr:last-child{grid-column:1/-1}}
+@media (max-width:380px){.fr-grid{grid-template-columns:1fr}}
+
 /* tabs */
 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
 .tab{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);transition:background .2s,color .2s,border-color .2s}
@@ -299,9 +313,9 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     <div class="head">
       <span class="label rv">Um exemplo antes da proposta</span>
       <h2 class="rv d1">A fisioterapia volta à IMEC com o <em>Mat</em>.</h2>
-      <p class="lede rv d2">Fisioterapia geral e pélvica, acupuntura, auriculoterapia e moxabustão: uma especialidade nova na casa. Começo mostrando o que vou fazer por ele. Toque em cada frente.</p>
+      <p class="lede rv d2">Fisioterapia geral e pélvica, acupuntura, auriculoterapia e moxabustão: uma especialidade nova na casa. Começo mostrando o que vou fazer por ele.</p>
     </div>
-    <div class="acc-list rv" id="frentes" style="border-color:#2D3050"></div>
+    <div class="fr-grid rv" id="frentes"></div>
   </div>
 </section>
 
@@ -741,13 +755,18 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       });
     });
   }
-  buildAcc(document.getElementById("frentes"), [
+  function buildCards(root, items){
+    root.innerHTML = items.map(function(it,i){
+      return '<div class="fr"><span class="n">'+String(i+1).padStart(2,"0")+'</span><span class="h3">'+it.t+'</span><p>'+it.s+'</p><ul>'+it.d.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul></div>';
+    }).join("");
+  }
+  buildCards(document.getElementById("frentes"), [
     {t:"Site", s:"A casa dele na internet, com agendamento direto pelo WhatsApp.", d:["Páginas de início, tratamentos, sobre e contato","Cada especialidade explicada de forma simples","Textos dentro das regras de publicidade do COFFITO"]},
     {t:"Instagram", s:"Posicionamento, linha editorial e calendário de posts.", d:["Quem ele atende e por quê","Temas fixos e calendário mensal","Identidade visual igual à do site"]},
     {t:"Google e Doctoralia", s:"Ser encontrado por quem já procura fisioterapia no bairro.", d:["Inclusão no perfil da clínica no Doctoralia","Fisioterapia no perfil da IMEC no Google","Pedido de avaliação aos pacientes satisfeitos"]},
     {t:"Google Ads", s:"Anúncios locais para acelerar os primeiros agendamentos.", d:["Busca local por fisio pélvica e acupuntura no Ipiranga","Anúncio levando direto para o site e o WhatsApp","Ajustes mensais pelo custo de cada agendamento"]},
     {t:"Integração com a IMEC", s:"A fisio dentro do calendário, da recepção e dos médicos da casa.", d:["Temas que a clínica já trabalha: climatério, Outubro Rosa, quedas e pós-operatório","Recepção e médicos sabendo quando indicar","O que acompanhamos: agendamentos, origem, custo por paciente e retorno"]}
-  ], true);
+  ]);
   buildAcc(document.getElementById("termos"), [
     {t:"Sobre o trabalho", s:"Estratégia, escopo, aprovação e contas.", d:["Sem garantia de resultado: sem promessa de número de pacientes ou de faturamento","Escopo fechado: o que estiver fora da proposta é orçado à parte","Conteúdo aprovado por escrito pela clínica, que responde pelas regras do CFM","Contas e verba de anúncios no nome da IMEC"]},
     {t:"Sobre o pagamento", s:"Atraso, desistência e mensalidade.", d:["Atraso: multa de 2% e juros de 1% ao mês; trabalho pausado após 15 dias de atraso","Desistência na etapa 1: as parcelas do que já foi entregue continuam devidas","Mensalidade: mínimo de 3 meses, aviso prévio de 30 dias e reajuste anual pelo IPCA"]},
