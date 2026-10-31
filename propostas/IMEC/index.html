@@ -601,7 +601,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <h3 style="margin-top:10px">Diagnóstico e planejamento</h3>
         <p style="color:var(--muted);margin-top:8px">Entendo como o marketing funciona hoje e entrego o plano, a comunicação visual unificada e o site remodelado.</p>
         <div class="price">R$ 6.000</div>
-        <p style="color:var(--muted);font-size:15px">em 3x de R$ 2.000, somadas aos 3 primeiros meses de coordenação</p>
+        <p style="color:var(--muted);font-size:15px">em 4x de R$ 1.500, somadas aos 4 primeiros meses de coordenação</p>
       </div>
       <div class="card rv d1">
         <span class="label">Etapa 2 · mensal, desde o 1º mês</span>
@@ -612,8 +612,8 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       </div>
     </div>
     <div class="timeline rv">
-      <div class="tl hl"><span class="label">Do 1º ao 3º mês</span><div class="v" id="m1">R$ 7.000</div></div>
-      <div class="tl"><span class="label">A partir do 4º mês</span><div class="v" id="m3">R$ 5.000</div></div>
+      <div class="tl hl"><span class="label">Do 1º ao 4º mês</span><div class="v" id="m1">R$ 6.500</div></div>
+      <div class="tl"><span class="label">A partir do 5º mês</span><div class="v" id="m3">R$ 5.000</div></div>
     </div>
     <div class="cond rv">
       <div><span class="label">Validade</span>Proposta válida por 30 dias para fechamento</div>
@@ -845,7 +845,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     var m = on ? 6500 : 5000;
     var f = function(v){ return "R$ " + v.toLocaleString("pt-BR"); };
     document.getElementById("coord-price").textContent = f(m);
-    document.getElementById("m1").textContent = f(m+2000);
+    document.getElementById("m1").textContent = f(m+1500);
     document.getElementById("m3").textContent = f(m);
     document.getElementById("coord-desc").textContent = on ? "Direção da equipe, Google Ads (criação, artes e monitoramento), reuniões, relatório de resultados e ajustes no plano." : "Direção da equipe, reuniões, relatório de resultados e ajustes no plano.";
   }
