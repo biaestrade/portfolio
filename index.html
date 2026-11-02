@@ -2119,7 +2119,7 @@ document.addEventListener('click',function(e){
   }else if(/instagram[.]com|linkedin[.]com|^mailto:/i.test(h)){
     var r=/instagram/i.test(h)?'instagram':/^mailto:/i.test(h)?'email':'linkedin',k=a.className||'';
     var lc=k.indexOf('sico')>=0?'topo':k.indexOf('citem')>=0?'rodape':k.indexOf('rec-link')>=0?'recomendacoes':'outro';
-    gtag('event','clique_rede_social',{rede:r,local:lc,transport_type:'beacon'});
+    gtag('event','clique_'+r,{rede:r,local:lc,transport_type:'beacon'});
   }else if(/curriculo.*[.]pdf/i.test(h)){
     gtag('event','download_curriculo',{transport_type:'beacon'});
   }
