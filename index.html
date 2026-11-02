@@ -2102,9 +2102,16 @@ show('tarefas');
 </script>
 
 <script>
-/* GA4: conta cliques no WhatsApp, redes sociais, e-mail e currículo */
+/* GA4: conta cliques no menu, abas, WhatsApp, redes sociais, e-mail e currículo */
 document.addEventListener('click',function(e){
-  var a=e.target.closest&&e.target.closest('a[href]');if(!a||typeof gtag!=='function')return;
+  if(!e.target.closest||typeof gtag!=='function')return;
+  var nb=e.target.closest('.topnav a,#maintabs [role="tab"],.subtab,.fnav a');
+  if(nb){
+    var lo=nb.closest('.topnav')?'menu_topo':nb.closest('#maintabs')?'abas':nb.classList.contains('subtab')?'subabas':'menu_rodape';
+    var it=(nb.childNodes[0]&&nb.childNodes[0].nodeType===3?nb.childNodes[0].textContent:nb.textContent).trim();
+    gtag('event','clique_navegacao',{item:it,local:lo});return;
+  }
+  var a=e.target.closest('a[href]');if(!a)return;
   var h=a.getAttribute('href')||'';
   if(h.indexOf('wa.me/')>=0){
     var c=a.className||'',local=c.indexOf('wa-fab')>=0?'botao_flutuante':c.indexOf('cta-wa')>=0?'botao_principal':c.indexOf('citem')>=0?'rodape':c.indexOf('sico')>=0?'topo':'outro';
