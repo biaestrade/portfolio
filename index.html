@@ -2101,4 +2101,17 @@ show('tarefas');
 })();
 </script>
 
+<script>
+/* GA4: conta cliques no WhatsApp e no currículo */
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href]');if(!a||typeof gtag!=='function')return;
+  var h=a.getAttribute('href')||'';
+  if(h.indexOf('wa.me/')>=0){
+    var c=a.className||'',local=c.indexOf('wa-fab')>=0?'botao_flutuante':c.indexOf('cta-wa')>=0?'botao_principal':c.indexOf('citem')>=0?'rodape':c.indexOf('sico')>=0?'topo':'outro';
+    gtag('event','clique_whatsapp',{local:local,transport_type:'beacon'});
+  }else if(/curriculo.*[.]pdf/i.test(h)){
+    gtag('event','download_curriculo',{transport_type:'beacon'});
+  }
+},true);
+</script>
 </body></html>
