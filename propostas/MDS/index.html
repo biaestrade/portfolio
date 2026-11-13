@@ -176,6 +176,15 @@ nav.links a:hover,nav.links a.on{background:var(--surface);color:var(--ink)}
 .pk.feat::before{content:"Mais escolhido";position:absolute;top:-13px;left:24px;background:var(--accent);color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
 .extra{margin-top:12px;font-size:15px;color:var(--muted);border-top:1px dashed var(--line);padding-top:12px}
 .extra b{color:var(--ink)}
+.pk .price small{display:block;margin-top:6px;white-space:nowrap}
+.gp{color:var(--accent)}
+.gp b{color:var(--accent)}
+.gift{margin-top:12px;border:2px dashed var(--rule);background:var(--accent-soft);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px 40px;align-items:center}
+.gift-h{display:flex;gap:16px;align-items:flex-start}
+.gift-ic{flex:none;width:52px;height:52px;border-radius:14px;background:var(--accent);color:#fff;display:grid;place-items:center}
+.gift-h p{color:var(--muted);margin-top:6px}
+.gift-l{gap:8px}
+@media (max-width:760px){.gift{grid-template-columns:1fr}}
 .cond{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 .cond div{background:var(--ink);color:var(--bg);border-radius:14px;padding:18px;font-size:15px}
 .cond .label{color:var(--rule);display:block;margin-bottom:6px}
@@ -591,7 +600,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       <div class="panel card" data-p="s">
         <h3>Site novo</h3>
         <ul class="clean" style="margin-top:16px">
-          <li><b>Repaginação da identidade visual</b> e <b>posicionamento de marca</b>, inclusos em todos os pacotes</li>
+          <li><b>Repaginação da identidade visual</b> e <b>posicionamento de marca</b>, um presente meu em todos os pacotes</li>
           <li><b>Uma página por serviço,</b> para aparecer nas buscas de cada um</li>
           <li><b>Portfólio com cases reais:</b> cliente, desafio, peça e fotos</li>
           <li><b>Pedido de orçamento</b> direto no WhatsApp</li>
@@ -665,7 +674,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       <div class="card pk rv">
         <span class="label">Essencial</span>
         <h3 style="margin-top:10px">Site novo</h3>
-        <ul class="clean grow"><li><b>Repaginação da identidade visual</b><span class="opt">incluso</span></li><li><b>Posicionamento de marca</b><span class="opt">incluso</span></li><li>Páginas por serviço</li><li>Portfólio com cases</li><li>Orçamento pelo WhatsApp</li><li>Medição de contatos</li></ul>
+        <ul class="clean grow"><li class="gp"><b>Marca repaginada e posicionamento</b>, de presente</li><li>Páginas por serviço</li><li>Portfólio com cases</li><li>Orçamento pelo WhatsApp</li><li>Medição de contatos</li></ul>
         <div class="price">R$ 1.900</div>
         <p style="color:var(--muted);font-size:15px">pagamento único</p>
         <p class="extra sysx" hidden></p>
@@ -673,7 +682,7 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       <div class="card pk feat rv d1">
         <span class="label">Presença</span>
         <h3 style="margin-top:10px">Site + Instagram</h3>
-        <ul class="clean grow"><li><b>Repaginação da identidade visual</b><span class="opt">incluso</span></li><li><b>Posicionamento de marca</b><span class="opt">incluso</span></li><li>Tudo do Essencial</li><li>2 posts por semana</li><li>Linha editorial e calendário</li><li>Capas dos destaques</li></ul>
+        <ul class="clean grow"><li class="gp"><b>Marca repaginada e posicionamento</b>, de presente</li><li>Tudo do Essencial</li><li>2 posts por semana</li><li>Linha editorial e calendário</li><li>Capas dos destaques</li></ul>
         <div class="price">R$ 1.500 <small>+ R$ 1.600/mês</small></div>
         <p style="color:var(--muted);font-size:15px">o site sai por R$ 1.500 em vez de R$ 1.900 · mínimo de 3 meses</p>
         <p class="extra sysx" hidden></p>
@@ -681,11 +690,20 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--muted);font-s
       <div class="card pk rv d2">
         <span class="label">Completo</span>
         <h3 style="margin-top:10px">Plano + site + Instagram</h3>
-        <ul class="clean grow"><li><b>Repaginação da identidade visual</b><span class="opt">incluso</span></li><li><b>Posicionamento de marca</b><span class="opt">incluso</span></li><li>Diagnóstico e plano</li><li>Site novo</li><li>2 posts por semana</li><li>Relatório e reunião mensal</li></ul>
+        <ul class="clean grow"><li class="gp"><b>Marca repaginada e posicionamento</b>, de presente</li><li>Diagnóstico e plano</li><li>Site novo</li><li>2 posts por semana</li><li>Relatório e reunião mensal</li></ul>
         <div class="price">R$ 4.500 <small>+ R$ 2.200/mês</small></div>
         <p style="color:var(--muted);font-size:15px">R$ 4.500 em 3x de R$ 1.500</p>
         <p class="extra sysx" hidden></p>
       </div>
+    </div>
+    <div class="card rv gift">
+      <div class="gift-h"><span class="gift-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M2 9h20M12 9v12M12 9c-1.5-3-5-4.5-6-2.5S8 9 12 9Zm0 0c1.5-3 5-4.5 6-2.5S16 9 12 9Z"/></svg></span><div><h3>Um presente meu para o MDS</h3><p>Em qualquer pacote, sem custo a mais: a marca do MDS repaginada para acompanhar o site e o Instagram novos.</p></div></div>
+      <ul class="clean gift-l">
+        <li><b>Logo atualizado,</b> refazendo o logo atual com um desenho mais moderno, se for preciso</li>
+        <li><b>Manual de marca</b> com cores, fontes e regras de uso</li>
+        <li><b>Key visual,</b> a cara das peças do MDS, e as principais aplicações</li>
+        <li><b>Posicionamento de marca:</b> o que o MDS é, para quem fala e como fala</li>
+      </ul>
     </div>
     <div class="card rv ads-band">
       <div><span class="label" style="color:var(--rule)">Opcional em qualquer pacote</span><div class="price" style="color:var(--bg);margin:8px 0 0">Google Ads</div></div>
