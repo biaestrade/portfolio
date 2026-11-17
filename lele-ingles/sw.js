@@ -1,6 +1,6 @@
 // Escola de Magia: guarda a página para abrir sem internet. Sempre tenta a versão nova primeiro.
-const CACHE = "escola-magia-v1";
-const FILES = ["./", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
+const CACHE = "escola-magia-v2";
+const FILES = ["./", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./vd-elenco.jpg", "./vd-temporadas.jpg"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))));

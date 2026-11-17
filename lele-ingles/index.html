@@ -12,15 +12,15 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
 </head>
 <body>
-<div id="gate" style="position:fixed;inset:0;z-index:50;background:#121629;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));font-family:Nunito,'Segoe UI',system-ui,sans-serif;color:#f1ecdf">
-  <form id="gate-form" style="width:100%;max-width:360px;background:#232a4d;border:2px solid #e8b44a;border-radius:20px;padding:24px 20px;display:grid;gap:14px">
-    <h1 style="margin:0;font-family:'IM Fell English SC',Georgia,serif;font-weight:400;color:#e8b44a;font-size:2rem;text-align:center">Portão do Castelo</h1>
-    <p style="margin:0;color:#b4b2c9;text-align:center">Diga a senha para entrar na Escola de Magia.</p>
+<div id="gate" style="position:fixed;inset:0;z-index:50;background:linear-gradient(rgba(10,12,11,.82),rgba(10,12,11,.92)),url(vd-temporadas.jpg) center/cover no-repeat #0d110f;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));font-family:Nunito,'Segoe UI',system-ui,sans-serif;color:#f1ecdf">
+  <form id="gate-form" style="width:100%;max-width:360px;background:rgba(28,36,32,.92);border:2px solid #c8323f;border-radius:20px;padding:24px 20px;display:grid;gap:14px">
+    <h1 style="margin:0;font-family:Cinzel,Georgia,serif;font-weight:700;color:#ec8e96;font-size:2rem;text-align:center">Diários da Lelê</h1>
+    <p style="margin:0;color:#b4b2c9;text-align:center">Diga a senha para entrar em Mystic Falls.</p>
     <label for="gate-user" style="font-weight:800">Login</label>
     <input id="gate-user" name="username" autocomplete="username" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
     <label for="gate-pass" style="font-weight:800">Senha</label>
     <input id="gate-pass" name="password" type="password" autocomplete="current-password" autocapitalize="none" style="font:inherit;font-size:1.1rem;padding:12px;border-radius:12px;border:2px solid #3a4373;background:#1b2140;color:#f1ecdf">
-    <button type="submit" style="font:inherit;font-weight:800;font-size:1.1rem;padding:12px;border:none;border-radius:12px;background:#e8b44a;color:#121629;cursor:pointer">Entrar</button>
+    <button type="submit" style="font:inherit;font-weight:800;font-size:1.1rem;padding:12px;border:none;border-radius:12px;background:#c8323f;color:#fff;cursor:pointer">Entrar</button>
     <p id="gate-msg" aria-live="polite" style="margin:0;min-height:1.4em;color:#ff8a7a;font-weight:700;text-align:center"></p>
     <button type="button" id="gate-guest" style="font:inherit;font-weight:800;font-size:1rem;padding:12px;border:2px solid #3a4373;border-radius:12px;background:transparent;color:#f1ecdf;cursor:pointer">Entrar como visitante</button>
     <p style="margin:0;color:#b4b2c9;font-size:.9rem;text-align:center">O visitante pode experimentar tudo. Os pontos zeram ao sair.</p>
@@ -116,6 +116,12 @@ html.vd body{background:
   background-attachment:fixed; background-color:var(--bg)}
 html.vd .hero h1{letter-spacing:.02em}
 html.vd .brand{letter-spacing:.06em}
+.cover{margin:0 0 16px;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line);max-width:100%}
+.cover img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center 20%}
+.cover::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,var(--bg))}
+.seasons{margin:22px auto 0;max-width:340px;display:grid;gap:8px;text-align:center}
+.seasons img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
+.seasons figcaption{color:var(--muted);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
 .worlds{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--sky);border:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
 .world{border:none;background:transparent;border-radius:999px;padding:8px 16px;font-weight:800;color:var(--muted)}
 .world.on{background:var(--gold);color:var(--bg)}
@@ -543,16 +549,16 @@ const WORLDS = {
       drill:"Ritual de Treino", next:"Próximo desafio →", pick:"Escolha o seu lado", picked:"Seu lado",
       display:'"Cinzel", Georgia, "Times New Roman", serif'}
 };
-const W = () => WORLDS[state.world==="vd"?"vd":"hp"];
-const examKey = () => state.world==="vd" ? "vd-exam" : "exam";
+const curWorld = () => state.world==="hp" ? "hp" : "vd";
+const W = () => WORLDS[curWorld()];
+const examKey = () => curWorld()==="vd" ? "vd-exam" : "exam";
 function applyWorld(){
-  LESSONS = state.world==="vd" ? LESSONS_VD : LESSONS_HP;
-  try{ document.documentElement.style.setProperty("--display", W().display); document.documentElement.classList.toggle("vd", state.world==="vd"); }catch(e){}
+  LESSONS = curWorld()==="vd" ? LESSONS_VD : LESSONS_HP;
+  try{ document.documentElement.style.setProperty("--display", W().display); document.documentElement.classList.toggle("vd", curWorld()==="vd"); }catch(e){}
   const t=document.getElementById("drill-title"); if(t) t.textContent=W().drill;
 }
 function worldHTML(){
-  return `<div class="worlds" role="group" aria-label="Escolha o mundo">${Object.entries(WORLDS).map(([id,w])=>
-    `<button class="world ${(state.world||"hp")===id?"on":""}" data-world="${id}" type="button" aria-pressed="${(state.world||"hp")===id}">${w.nome}</button>`).join("")}</div>`;
+  return `<div class="worlds" role="group" aria-label="Escolha o mundo">${["vd","hp"].map(id=>{ const w=WORLDS[id]; return `<button class="world ${curWorld()===id?"on":""}" data-world="${id}" type="button" aria-pressed="${curWorld()===id}">${w.nome}</button>`; }).join("")}</div>`;
 }
 
 const CHN = () => ({BE_SG,BE_PL,WAS_SG,WAS_PL,LIKE_SG,PLAY_SG,HAVE_SG,DONT_SG,DONT_PL,DO_Q,CAN_SG,CAN_PL,HELP_SG});
@@ -625,7 +631,7 @@ const HOUSES = {
   lufalufa:{nome:"Lufa-Lufa", sw:"linear-gradient(135deg,#f2c230 50%,#2b2618 50%)",
     t:{"--bg":"#15130b","--sky":"#201d10","--card":"#2c2815","--card2":"#38321a","--line":"#4f4624","--gold":"#f2c230","--gold-soft":"#f8de7e"}}
 };
-const isVD = () => state.world==="vd";
+const isVD = () => curWorld()==="vd";
 const groups = () => isVD() ? SIDES : HOUSES;
 const groupKey = () => isVD() ? "side" : "house";
 function applyHouse(){
@@ -654,6 +660,7 @@ function home(){
   app.innerHTML = topBar() + `
   <section class="hero">
     ${worldHTML()}
+    ${isVD()?`<figure class="cover"><img src="vd-elenco.jpg" alt="Elenco de The Vampire Diaries na floresta" width="1280" height="720"></figure>`:""}
     <h1>${IS_GUEST?W().guestHello:"Bem-vinda, "+PLAYER+"!"}</h1>
     <p>${W().intro}</p>
   </section>
@@ -674,6 +681,7 @@ function home(){
   <div class="medals"><span class="lbl">Suas medalhas: ${doneCount} de ${LESSONS.length}</span>
     ${LESSONS.map((l,i)=>`<span class="medal ${state.done[l.id]?"on":""}" title="${esc(l.title)}">${["I","II","III","IV","V","VI","VII"][i]}</span>`).join("")}
   </div>`;
+  if(isVD()) app.insertAdjacentHTML("beforeend",`<figure class="seasons"><img src="vd-temporadas.jpg" alt="As 8 temporadas de The Vampire Diaries" width="399" height="501" loading="lazy"><figcaption>As 8 temporadas</figcaption></figure>`);
   if(window.MAGIA_USER==="admin"){
     app.insertAdjacentHTML("beforeend",`<section class="talk" style="margin-top:26px"><h3>Jornada da Lelê</h3>
       <p>Veja as aulas que ela fez, quantos acertos teve e o que errou.</p>
@@ -681,7 +689,9 @@ function home(){
       <div id="painel-out" style="display:grid;gap:10px"></div></section>`);
     document.getElementById("painel").onclick=loadPanel;
   }
+  if(isVD() && !app.querySelector(".seasons")) app.querySelector(".medals").insertAdjacentHTML("afterend",`<figure class="seasons"><img src="vd-temporadas.jpg" alt="As 8 temporadas de The Vampire Diaries" width="399" height="501" loading="lazy"><figcaption>As 8 temporadas</figcaption></figure>`);
   app.insertAdjacentHTML("beforeend", installHTML()); bindInstall();
+  if(isVD() && !app.querySelector(".seasons")) app.querySelector(".medals").insertAdjacentHTML("afterend",`<figure class="seasons"><img src="vd-temporadas.jpg" alt="As 8 temporadas de The Vampire Diaries" width="399" height="501" loading="lazy"><figcaption>As 8 temporadas</figcaption></figure>`);
   app.querySelectorAll("[data-house]").forEach(b=>b.onclick=()=>{
     state[groupKey()] = b.dataset.house; save(); applyHouse(); home();
   });
