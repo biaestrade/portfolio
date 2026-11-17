@@ -125,7 +125,7 @@ html.vd .brand{letter-spacing:.06em}
 .seasons figcaption{color:var(--muted);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
 .room .season-img{grid-column:1/-1;width:100%;height:auto;display:block;border-radius:8px;aspect-ratio:798/100;object-fit:cover}
 .lesson-season{display:block;width:100%;max-width:560px;height:auto;border-radius:10px;border:1px solid var(--line);margin:4px 0 10px;aspect-ratio:798/100;object-fit:cover}
-.vd-logo{display:block;width:min(280px,72%);height:auto;margin:0 0 8px}
+.vd-logo{display:block;width:min(400px,88%);height:auto;margin:6px 0 14px}
 .worlds{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--sky);border:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
 .world{border:none;background:transparent;border-radius:999px;padding:8px 16px;font-weight:800;color:var(--muted)}
 .world.on{background:var(--gold);color:var(--bg)}
@@ -664,7 +664,7 @@ function home(){
   app.innerHTML = topBar() + `
   <section class="hero">
     ${worldHTML()}
-    ${isVD()?`<figure class="cover"><img src="vd-elenco.jpg" alt="Elenco de The Vampire Diaries na floresta" width="1280" height="720"></figure><img class="vd-logo" src="vd-logo.png" alt="The Vampire Diaries" width="812" height="350">`:""}
+    ${isVD()?`<img class="vd-logo" src="vd-logo.png" alt="The Vampire Diaries" width="812" height="350">`:""}
     <h1>${IS_GUEST?W().guestHello:"Bem-vinda, "+PLAYER+"!"}</h1>
     <p>${W().intro}</p>
   </section>
