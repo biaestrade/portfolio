@@ -52,7 +52,7 @@
 <title>Escola de Magia da Lelê</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Nunito:wght@400;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English+SC&family=Nunito:wght@400;600;800&display=swap">
 <style>
 /* Layout: uma noite no castelo — mapa de salas (aulas) que abre em cartões de pergaminho escuro; um feitiço de treino em tela cheia quando ela erra */
 :root{
@@ -107,6 +107,22 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
 .install p{margin:4px 0 10px;color:var(--muted)}
 .install .how{color:var(--ink);margin:0}
 .install > div{min-width:0}
+/* Mystic Falls: névoa de floresta no lugar das estrelas */
+html.vd #stars{display:none}
+html.vd body{background:
+  radial-gradient(120% 60% at 15% 0%, color-mix(in srgb,var(--ink) 9%,transparent), transparent 60%),
+  radial-gradient(90% 50% at 90% 10%, color-mix(in srgb,var(--ink) 6%,transparent), transparent 65%),
+  linear-gradient(180deg, color-mix(in srgb,var(--gold) 7%,var(--bg)) 0%, var(--bg) 45%);
+  background-attachment:fixed; background-color:var(--bg)}
+html.vd .hero h1{letter-spacing:.02em}
+html.vd .brand{letter-spacing:.06em}
+.worlds{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--sky);border:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
+.world{border:none;background:transparent;border-radius:999px;padding:8px 16px;font-weight:800;color:var(--muted)}
+.world.on{background:var(--gold);color:var(--bg)}
+.world:not(.on):hover{color:var(--ink)}
+.ex .tr{margin:0;color:var(--muted);font-size:1rem}
+.qa-item .trq{color:var(--muted);font-size:.92rem}
+.drill-tr{margin:0;color:var(--muted)}
 .medals{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .medals .lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:100%}
 .medal{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--line);color:var(--line);font-family:var(--display);font-size:1.1rem}
@@ -209,6 +225,7 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
     <p class="sub">Leia em voz alta tudo o que está no quadro e repita 5 vezes seguidas. A cada vez, toque em "Falei!".</p>
     <p class="yours" id="drill-yours"></p>
     <p class="drill-right" id="drill-right" hidden></p>
+    <p class="drill-tr" id="drill-tr" hidden></p>
     <div class="drill-sentence" id="drill-sentence"></div>
     <div class="dots" id="drill-dots"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="row">
@@ -224,7 +241,8 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:12p
 window.addEventListener("error",function(e){var a=document.getElementById("app");if(a&&!a.querySelector(".room,.ex,.done-card")){a.innerHTML='<p style="padding-top:40px">Ops, a página travou neste aparelho. Mande um print desta mensagem: '+String(e.message||e.error||"erro")+'</p>';}});
 </script>
 <script>
-const LESSONS = [
+let LESSONS;
+const LESSONS_HP = [
  {id:"pron", title:"Os Nomes Secretos", sub:"Pronomes: I, you, he, she, it, we, they",
   explain:["Pronome é a palavra que entra no lugar do nome.","Harry vira <b>he</b>. Hermione vira <b>she</b>. Harry e Ron viram <b>they</b>."],
   cola:[["I","eu"],["you","você / vocês"],["he","ele"],["she","ela"],["it","ele/ela para coisa ou animal"],["we","nós"],["they","eles / elas"]],
@@ -389,7 +407,156 @@ Object.assign(CHAINS,{
  "Bia ___ the best cousin in the world.":BE_SG,"Bia is the coolest cousin.":BE_SG,"Bia is the smartest cousin.":BE_SG,
  "Bia ___ me with English.":HELP_SG,"Bia ___ do everything!":CAN_SG
 });
-const chainFor = ex => CHAINS[ex.w ? ex.w.join(" ") : ex.q] || null;
+/* ---------- mundo Mystic Falls ---------- */
+const LESSONS_VD = [
+ {id:"vd-pron", title:"Os Nomes de Mystic Falls", sub:"Pronomes: I, you, he, she, it, we, they",
+  explain:["Pronome é a palavra que entra no lugar do nome.","Stefan vira <b>he</b> (ele). Elena vira <b>she</b> (ela). Stefan e Damon viram <b>they</b> (eles)."],
+  cola:[["I","eu"],["you","você / vocês"],["he","ele"],["she","ela"],["it","ele/ela para coisa ou animal"],["we","nós"],["they","eles / elas"]],
+  ex:[
+   {q:"Elena → ___",o:["she","he","it"],a:"she",ch:"BE_SG",tr:"Elena → ela"},
+   {q:"Stefan and Damon → ___",o:["we","they","he"],a:"they",ch:"BE_PL",tr:"Stefan e Damon → eles"},
+   {q:"The wolf (o lobo) → ___",o:["she","it","they"],a:"it",ch:"BE_SG",tr:"O lobo → ele (animal)"},
+   {q:"Eu e a Lelê → ___",o:["they","you","we"],a:"we",ch:"BE_PL",tr:"Eu e a Lelê → nós"},
+   {q:"Alaric → ___",o:["he","she","it"],a:"he",ch:"BE_SG",tr:"Alaric → ele"},
+   {q:"Eu → ___",o:["me","I","my"],a:"I",ch:"BE_SG",tr:"Eu → I"}
+  ],
+  talk:[["Who are you?","I am Lelê.","Quem é você? Eu sou a Lelê."],["Who is Elena?","She is a student.","Quem é a Elena? Ela é uma estudante."],["Who are Stefan and Damon?","They are brothers.","Quem são Stefan e Damon? Eles são irmãos."]]},
+
+ {id:"vd-tobe", title:"O Anel do To Be", sub:"am, is, are: ser e estar",
+  explain:["<b>To be</b> quer dizer ser ou estar.","I usa <b>am</b>. He, she e it usam <b>is</b>. You, we e they usam <b>are</b>.","Para negar, coloque <b>not</b>: isn't, aren't. Para perguntar, o verbo vai para a frente: <b>Are</b> you...?"],
+  cola:[["I am","eu sou / estou"],["you are","você é / está"],["he / she / it is","ele, ela é / está"],["we are","nós somos / estamos"],["they are","eles são / estão"],["isn't / aren't","não é / não são"],["Is she...? Are you...?","pergunta"]],
+  ex:[
+   {q:"Damon ___ dangerous.",o:["am","is","are"],a:"is",ch:"BE_SG",tr:"O Damon é perigoso."},
+   {q:"I ___ a student at Mystic Falls High.",o:["am","is","are"],a:"am",ch:"BE_SG",tr:"Eu sou estudante na escola de Mystic Falls."},
+   {q:"Stefan and Damon ___ brothers.",o:["is","am","are"],a:"are",ch:"BE_PL",tr:"Stefan e Damon são irmãos."},
+   {q:"The night ___ dark.",o:["are","is","am"],a:"is",ch:"BE_SG",tr:"A noite está escura."},
+   {q:"We ___ in the forest.",o:["are","is","am"],a:"are",ch:"BE_PL",tr:"Nós estamos na floresta."},
+   {q:"Caroline ___ sad. (não está)",o:["aren't","isn't","am not"],a:"isn't",ch:"BE_SG",tr:"A Caroline não está triste."},
+   {q:"___ you a vampire?",o:["Is","Am","Are"],a:"Are",ch:"BE_SG",tr:"Você é um vampiro?"},
+   {w:["Bonnie","is","a","witch."],ch:"BE_SG",tr:"A Bonnie é uma bruxa."},
+   {w:["Are","you","scared?"],ch:"BE_SG",tr:"Você está com medo?"},
+   {q:"Bia ___ the best cousin in the world.",o:["am","is","are"],a:"is",ch:"BE_SG",tr:"A Bia é a melhor prima do mundo."},
+   {w:["Bia","is","the","coolest","cousin."],ch:"BE_SG",tr:"A Bia é a prima mais legal."}
+  ],
+  talk:[["Are you brave?","Yes, I am.","Você é corajosa? Sim, eu sou."],["Is Bonnie a witch?","Yes, she is.","A Bonnie é uma bruxa? Sim, ela é."],["Are you a vampire?","No, I'm not. I am a student.","Você é uma vampira? Não, não sou. Eu sou estudante."],["Who is the best cousin in the world?","Bia is the best cousin in the world!","Quem é a melhor prima do mundo? A Bia é a melhor prima do mundo!"]]},
+
+ {id:"vd-do", title:"O Diário do Presente", sub:"Presente: do, does e o S do he/she/it",
+  explain:["No presente a gente fala da rotina e do que gosta.","Com he, she e it o verbo ganha <b>S</b>: she like<b>s</b>. Have vira <b>has</b>.","Para negar e perguntar use <b>do</b> ou <b>does</b>. Com does o verbo perde o S: she doesn't like."],
+  cola:[["I / you / we / they like","eu gosto, você gosta..."],["he / she / it likes","ele, ela gosta (com S!)"],["he / she has","ele, ela tem"],["I don't like","eu não gosto"],["she doesn't like","ela não gosta"],["Do you like...?","você gosta...?"],["Does she like...?","ela gosta...?"]],
+  ex:[
+   {q:"Elena ___ a diary.",o:["have","has"],a:"has",ch:"HAVE_SG",tr:"A Elena tem um diário."},
+   {q:"I ___ the night.",o:["like","likes"],a:"like",ch:"LIKE_SG",tr:"Eu gosto da noite."},
+   {q:"Caroline ___ parties.",o:["like","likes"],a:"likes",ch:"LIKE_SG",tr:"A Caroline gosta de festas."},
+   {q:"Damon ___ like rules.",o:["don't","doesn't"],a:"doesn't",ch:"DONT_SG",tr:"O Damon não gosta de regras."},
+   {q:"We ___ like the full moon.",o:["don't","doesn't"],a:"don't",ch:"DONT_PL",tr:"Nós não gostamos da lua cheia."},
+   {q:"___ you like vampires?",o:["Do","Does","Are"],a:"Do",ch:"DO_Q",tr:"Você gosta de vampiros?"},
+   {q:"___ Bonnie do magic?",o:["Do","Does","Is"],a:"Does",ch:"DO_Q",tr:"A Bonnie faz magia?"},
+   {q:"She doesn't ___ wolves.",o:["like","likes"],a:"like",ch:"DONT_SG",tr:"Ela não gosta de lobos."},
+   {w:["Stefan","doesn't","like","the","sun."],ch:"DONT_SG",tr:"O Stefan não gosta do sol."},
+   {w:["Do","you","have","a","ring?"],ch:"DO_Q",tr:"Você tem um anel?"},
+   {q:"Bia ___ me with English.",o:["help","helps"],a:"helps",ch:"HELP_SG",tr:"A Bia me ajuda com o inglês."}
+  ],
+  talk:[["Do you like vampires?","Yes, I do. / No, I don't.","Você gosta de vampiros? Sim, gosto. / Não, não gosto."],["What do you like?","I like music and dancing.","Do que você gosta? Eu gosto de música e de dançar."],["Does your friend like English?","Yes, she does. / No, he doesn't.","Seu amigo gosta de inglês? Sim, ela gosta. / Não, ele não gosta."]]},
+
+ {id:"vd-past", title:"Memórias do Passado", sub:"was e were: o to be no passado",
+  explain:["<b>Was</b> e <b>were</b> são o to be no passado: era, estava, foi.","I, he, she e it usam <b>was</b>. You, we e they usam <b>were</b>.","Negativo: wasn't, weren't. Pergunta: <b>Were</b> you...?"],
+  cola:[["I was","eu era / estava"],["he / she / it was","ele, ela era / estava"],["you were","você era / estava"],["we / they were","nós, eles éramos / estavam"],["wasn't / weren't","não era / não estavam"]],
+  ex:[
+   {q:"Yesterday, Elena ___ tired.",o:["was","were"],a:"was",ch:"WAS_SG",tr:"Ontem, a Elena estava cansada."},
+   {q:"We ___ at the Mystic Grill.",o:["was","were"],a:"were",ch:"WAS_PL",tr:"Nós estávamos no Mystic Grill."},
+   {q:"The party ___ fun.",o:["was","were"],a:"was",ch:"WAS_SG",tr:"A festa foi divertida."},
+   {q:"Stefan and Damon ___ late.",o:["was","were"],a:"were",ch:"WAS_PL",tr:"Stefan e Damon estavam atrasados."},
+   {q:"___ you at school yesterday?",o:["Was","Were"],a:"Were",ch:"WAS_SG",tr:"Você estava na escola ontem?"},
+   {q:"It ___ cold. (não estava)",o:["wasn't","weren't"],a:"wasn't",ch:"WAS_SG",tr:"Não estava frio."},
+   {w:["I","was","happy","yesterday."],ch:"WAS_SG",tr:"Eu estava feliz ontem."}
+  ],
+  talk:[["Were you at school yesterday?","Yes, I was.","Você estava na escola ontem? Sim, estava."],["Was it fun?","Yes, it was. / No, it wasn't.","Foi divertido? Sim, foi. / Não, não foi."],["Where were you on Sunday?","I was at home.","Onde você estava no domingo? Eu estava em casa."]]},
+
+ {id:"vd-wh", title:"As Perguntas do Grill", sub:"what, where, who, which, how, when, why",
+  explain:["Essas palavras abrem perguntas e sempre vão no começo.","Depois delas vem o verbo: <b>What is</b>..., <b>Where do you</b>..."],
+  cola:[["what","o que / qual"],["where","onde"],["who","quem"],["which","qual (entre opções)"],["how","como"],["when","quando"],["why","por quê"]],
+  ex:[
+   {q:"___ is your name?",o:["What","Where","Who"],a:"What",tr:"Qual é o seu nome?"},
+   {q:"___ is the Mystic Grill? (onde)",o:["When","Where","Why"],a:"Where",tr:"Onde fica o Mystic Grill?"},
+   {q:"___ is your favorite character?",o:["Who","How","Which"],a:"Who",tr:"Quem é o seu personagem favorito?"},
+   {q:"___ are you? I'm fine!",o:["What","Who","How"],a:"How",tr:"Como você está? Estou bem!"},
+   {q:"___ is the Founders' Party?",o:["When","Where","Who"],a:"When",tr:"Quando é a festa dos Fundadores?"},
+   {q:"___ ring do you want: this or that?",o:["Which","Who","Why"],a:"Which",tr:"Qual anel você quer: este ou aquele?"},
+   {q:"___ are you sad?",o:["How","Why","What"],a:"Why",tr:"Por que você está triste?"},
+   {q:"___ is the smartest cousin? Bia!",o:["Who","Where","When"],a:"Who",tr:"Quem é a prima mais inteligente? A Bia!"},
+   {w:["Where","do","you","live?"],tr:"Onde você mora?"}
+  ],
+  talk:[["What is your name?","My name is Helena.","Qual é o seu nome? Meu nome é Helena."],["How are you?","I'm fine, thank you.","Como você está? Estou bem, obrigada."],["Who is your favorite character?","My favorite character is...","Quem é o seu personagem favorito? Meu personagem favorito é..."]]},
+
+ {id:"vd-can", title:"Os Poderes do Can", sub:"can e can't: conseguir e poder",
+  explain:["<b>Can</b> = consegue, pode. <b>Can't</b> = não consegue, não pode.","O verbo depois de can fica igualzinho, nunca ganha S: she can <b>run</b>."],
+  cola:[["I can run","eu consigo correr"],["she can run","ela consegue correr (sem S!)"],["I can't fly","eu não consigo voar"],["Can you...?","você consegue...?"],["Yes, I can. / No, I can't.","respostas"]],
+  ex:[
+   {q:"Bonnie can ___ magic.",o:["do","does","doing"],a:"do",ch:"CAN_SG",tr:"A Bonnie consegue fazer magia."},
+   {q:"Vampires ___ run very fast.",o:["can","can't"],a:"can",ch:"CAN_PL",tr:"Vampiros conseguem correr muito rápido."},
+   {q:"I ___ fly.",o:["can","can't"],a:"can't",ch:"CAN_SG",tr:"Eu não consigo voar."},
+   {q:"___ you keep a secret?",o:["Do","Can","Are"],a:"Can",ch:"CAN_SG",tr:"Você consegue guardar um segredo?"},
+   {q:"He can ___ very fast.",o:["run","runs"],a:"run",ch:"CAN_SG",tr:"Ele consegue correr muito rápido."},
+   {q:"Bia ___ do everything!",o:["can","can't"],a:"can",ch:"CAN_SG",tr:"A Bia consegue fazer tudo!"},
+   {w:["Can","you","help","me?"],ch:"CAN_SG",tr:"Você pode me ajudar?"}
+  ],
+  talk:[["Can you swim?","Yes, I can. / No, I can't.","Você sabe nadar? Sim, sei. / Não, não sei."],["Can you keep a secret?","Yes, I can!","Você consegue guardar um segredo? Sim, consigo!"],["What can you do?","I can dance and draw.","O que você sabe fazer? Eu sei dançar e desenhar."]]},
+
+ {id:"vd-vocab", title:"O Grimório de Palavras", sub:"Vocabulário e montar frases",
+  explain:["Em inglês a frase quase sempre segue a ordem: <b>quem + verbo + o resto</b>.","Exemplo: <b>My brother</b> + <b>has</b> + a ring. (Meu irmão tem um anel.)"],
+  cola:[["vampire","vampiro"],["witch","bruxa"],["werewolf","lobisomem"],["ring","anel"],["diary","diário"],["moon","lua"],["forest","floresta"],["night","noite"],["brother","irmão"],["secret","segredo"],["dangerous","perigoso"],["strong","forte"],["scared","com medo"],["cousin","primo, prima"],["the best","o melhor, a melhor"],["the smartest","o mais inteligente"],["the coolest","o mais legal"]],
+  ex:[
+   {q:"Bruxa em inglês: ___",o:["vampire","witch","werewolf"],a:"witch",tr:"Bruxa = witch"},
+   {q:"Diary quer dizer: ___",o:["diário","dicionário","desenho"],a:"diário",pt:true},
+   {q:"Strong quer dizer: ___",o:["fraco","forte","rápido"],a:"forte",pt:true},
+   {w:["My","brother","has","a","ring."],ch:"HAVE_SG",tr:"Meu irmão tem um anel."},
+   {w:["The","forest","is","very","dark."],ch:"BE_SG",tr:"A floresta é muito escura."},
+   {w:["She","doesn't","have","a","diary."],ch:"DONT_SG",tr:"Ela não tem um diário."},
+   {w:["Where","is","my","ring?"],ch:"BE_SG",tr:"Onde está o meu anel?"},
+   {q:"Cousin quer dizer: ___",o:["tia","prima","irmã"],a:"prima",pt:true},
+   {w:["Bia","is","the","smartest","cousin."],ch:"BE_SG",tr:"A Bia é a prima mais inteligente."}
+  ],
+  talk:[["Do you have a pet?","Yes, I have a cat. / No, I don't.","Você tem um bichinho? Sim, tenho um gato. / Não, não tenho."],["Who is your best friend?","My best friend is...","Quem é a sua melhor amiga? Minha melhor amiga é..."],["Are you scared of the dark?","No, I'm not!","Você tem medo do escuro? Não, não tenho!"]]}
+];
+
+const SIDES = {
+  vampira:{nome:"Vampira", sw:"linear-gradient(135deg,#0f0a0b 50%,#b3202f 50%)",
+    t:{"--bg":"#0f0a0b","--sky":"#1a1012","--card":"#261418","--card2":"#33191f","--line":"#4f2229","--gold":"#e04a57","--gold-soft":"#f39aa2"}},
+  bruxa:{nome:"Bruxa", sw:"linear-gradient(135deg,#3b1f63 50%,#b98ce6 50%)",
+    t:{"--bg":"#140d1f","--sky":"#1e1430","--card":"#2a1c42","--card2":"#352452","--line":"#4d3673","--gold":"#b98ce6","--gold-soft":"#dcc4f5"}},
+  lobisomem:{nome:"Lobisomem", sw:"linear-gradient(135deg,#5b5650 50%,#e0a33a 50%)",
+    t:{"--bg":"#12110f","--sky":"#1c1a17","--card":"#282521","--card2":"#34302a","--line":"#4d473e","--gold":"#e0a33a","--gold-soft":"#f2cd85"}},
+  humana:{nome:"Humana", sw:"linear-gradient(135deg,#1c273b 50%,#e8d6b0 50%)",
+    t:{"--bg":"#0e1420","--sky":"#141c2c","--card":"#1c273b","--card2":"#24324a","--line":"#34476a","--gold":"#e8d6b0","--gold-soft":"#f6ecd6"}}
+};
+const VD_BASE = {"--bg":"#0d110f","--sky":"#141a17","--card":"#1c2420","--card2":"#242e29","--line":"#36433c","--gold":"#c8323f","--gold-soft":"#ec8e96"};
+
+const WORLDS = {
+  hp:{nome:"Escola de Magia", brand:"Escola de Magia da Lelê", guestHello:"Bem-vindo(a) à Escola de Magia!",
+      intro:"Cada sala é uma aula de inglês. Acerte os feitiços para ganhar pontos e medalhas. Errou? Tudo bem: você faz o Feitiço de Treino e segue em frente.",
+      exam:"O Grande Exame", examSub:"10 feitiços misturados de todas as salas", examPass:"Aprovada no Grande Exame!",
+      drill:"Feitiço de Treino", next:"Próximo feitiço →", pick:"Escolha a sua casa", picked:"Sua casa",
+      display:'"IM Fell English SC", Georgia, "Times New Roman", serif'},
+  vd:{nome:"Mystic Falls", brand:"Diários da Lelê", guestHello:"Bem-vindo(a) a Mystic Falls!",
+      intro:"Cada lugar da cidade é uma aula de inglês. Acerte para ganhar pontos e medalhas. Errou? Tudo bem: você faz o Ritual de Treino e segue em frente.",
+      exam:"O Baile dos Fundadores", examSub:"10 desafios misturados de todas as aulas", examPass:"Aprovada no Baile dos Fundadores!",
+      drill:"Ritual de Treino", next:"Próximo desafio →", pick:"Escolha o seu lado", picked:"Seu lado",
+      display:'"Cinzel", Georgia, "Times New Roman", serif'}
+};
+const W = () => WORLDS[state.world==="vd"?"vd":"hp"];
+const examKey = () => state.world==="vd" ? "vd-exam" : "exam";
+function applyWorld(){
+  LESSONS = state.world==="vd" ? LESSONS_VD : LESSONS_HP;
+  try{ document.documentElement.style.setProperty("--display", W().display); document.documentElement.classList.toggle("vd", state.world==="vd"); }catch(e){}
+  const t=document.getElementById("drill-title"); if(t) t.textContent=W().drill;
+}
+function worldHTML(){
+  return `<div class="worlds" role="group" aria-label="Escolha o mundo">${Object.entries(WORLDS).map(([id,w])=>
+    `<button class="world ${(state.world||"hp")===id?"on":""}" data-world="${id}" type="button" aria-pressed="${(state.world||"hp")===id}">${w.nome}</button>`).join("")}</div>`;
+}
+
+const CHN = () => ({BE_SG,BE_PL,WAS_SG,WAS_PL,LIKE_SG,PLAY_SG,HAVE_SG,DONT_SG,DONT_PL,DO_Q,CAN_SG,CAN_PL,HELP_SG});
+const chainFor = ex => (ex.ch && CHN()[ex.ch]) || CHAINS[ex.w ? ex.w.join(" ") : ex.q] || null;
 
 /* ---------- estado salvo neste aparelho ---------- */
 let state = {points:0, done:{}};
@@ -458,19 +625,25 @@ const HOUSES = {
   lufalufa:{nome:"Lufa-Lufa", sw:"linear-gradient(135deg,#f2c230 50%,#2b2618 50%)",
     t:{"--bg":"#15130b","--sky":"#201d10","--card":"#2c2815","--card2":"#38321a","--line":"#4f4624","--gold":"#f2c230","--gold-soft":"#f8de7e"}}
 };
+const isVD = () => state.world==="vd";
+const groups = () => isVD() ? SIDES : HOUSES;
+const groupKey = () => isVD() ? "side" : "house";
 function applyHouse(){
-  const h = HOUSES[state.house], r = document.documentElement;
+  applyWorld();
+  const h = groups()[state[groupKey()]], r = document.documentElement;
   ["--bg","--sky","--card","--card2","--line","--gold","--gold-soft"].forEach(k=>r.style.removeProperty(k));
-  if(h) Object.entries(h.t).forEach(([k,v])=>r.style.setProperty(k,v));
+  const t = h ? h.t : (isVD() ? VD_BASE : null);
+  if(t) Object.entries(t).forEach(([k,v])=>r.style.setProperty(k,v));
 }
 function houseHTML(){
-  return `<section class="houses"><span class="lbl">${state.house?"Sua casa: "+HOUSES[state.house].nome+" · toque para trocar":"Escolha a sua casa"}</span>
-    <div class="house-list">${Object.entries(HOUSES).map(([id,h])=>`<button class="house ${state.house===id?"on":""}" data-house="${id}" type="button" aria-pressed="${state.house===id}"><span class="sw" style="background:${h.sw}"></span>${h.nome}</button>`).join("")}</div></section>`;
+  const G = groups(), cur = state[groupKey()];
+  return `<section class="houses"><span class="lbl">${cur?W().picked+": "+G[cur].nome+" · toque para trocar":W().pick}</span>
+    <div class="house-list">${Object.entries(G).map(([id,h])=>`<button class="house ${cur===id?"on":""}" data-house="${id}" type="button" aria-pressed="${cur===id}"><span class="sw" style="background:${h.sw}"></span>${h.nome}</button>`).join("")}</div></section>`;
 }
 
 /* ---------- topo ---------- */
 function topBar(){
-  return `<header class="top"><span class="brand">Escola de Magia da Lelê</span>
+  return `<header class="top"><span class="brand">${W().brand}</span>
   <span style="display:flex;gap:8px;align-items:center"><span class="points" aria-label="Pontos de magia">✦ <b>${state.points}</b> pontos</span>${window.MAGIA_USER?`<button class="btn ghost small" type="button" onclick="try{localStorage.removeItem('lele-gate');sessionStorage.removeItem('lele-magia-visitante')}catch(e){};location.reload()">Sair</button>`:""}</span></header>`;
 }
 
@@ -480,8 +653,9 @@ function home(){
   const doneCount = LESSONS.filter(l=>state.done[l.id]).length;
   app.innerHTML = topBar() + `
   <section class="hero">
-    <h1>${IS_GUEST?"Bem-vindo(a) à Escola de Magia!":"Bem-vinda, "+PLAYER+"!"}</h1>
-    <p>Cada sala é uma aula de inglês. Acerte os feitiços para ganhar pontos e medalhas. Errou? Tudo bem: você faz o Feitiço de Treino e segue em frente.</p>
+    ${worldHTML()}
+    <h1>${IS_GUEST?W().guestHello:"Bem-vinda, "+PLAYER+"!"}</h1>
+    <p>${W().intro}</p>
   </section>
   ${houseHTML()}
   <nav class="rooms">
@@ -489,12 +663,12 @@ function home(){
       <button class="room ${state.done[l.id]?"done":""}" data-go="${l.id}" type="button">
         <span class="num">${["I","II","III","IV","V","VI","VII"][i]}</span>
         <div><h3>${esc(l.title)}</h3><small>${esc(l.sub)}</small></div>
-        <span class="tag">${state.done[l.id]?"Medalha":"Sala "+(i+1)}</span>
+        <span class="tag">${state.done[l.id]?"Medalha":"Aula "+(i+1)}</span>
       </button>`).join("")}
-    <button class="room exam ${state.done.exam?"done":""}" data-go="exam" type="button">
+    <button class="room exam ${state.done[examKey()]?"done":""}" data-go="exam" type="button">
       <span class="num">★</span>
-      <div><h3>O Grande Exame</h3><small>10 feitiços misturados de todas as salas</small></div>
-      <span class="tag">${state.done.exam?"Aprovada":"Final"}</span>
+      <div><h3>${W().exam}</h3><small>${W().examSub}</small></div>
+      <span class="tag">${state.done[examKey()]?"Aprovada":"Final"}</span>
     </button>
   </nav>
   <div class="medals"><span class="lbl">Suas medalhas: ${doneCount} de ${LESSONS.length}</span>
@@ -509,7 +683,10 @@ function home(){
   }
   app.insertAdjacentHTML("beforeend", installHTML()); bindInstall();
   app.querySelectorAll("[data-house]").forEach(b=>b.onclick=()=>{
-    state.house = b.dataset.house; save(); applyHouse(); home();
+    state[groupKey()] = b.dataset.house; save(); applyHouse(); home();
+  });
+  app.querySelectorAll("[data-world]").forEach(b=>b.onclick=()=>{
+    state.world = b.dataset.world; save(); applyHouse(); home();
   });
   app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{
     const id=b.dataset.go; id==="exam"?startExam():startLesson(id);
@@ -538,7 +715,7 @@ async function loadPanel(){
   const top=Object.entries(errs).sort((a,b)=>b[1]-a[1]).slice(0,6);
   const fmt=d=>{ try{ return new Date(d).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){ return d; } };
   out.innerHTML=`
-    <div class="qa-item"><span class="ask">${last.pontos} pontos · ${salas.size} de ${LESSONS.length} salas · ${exams.length} exame(s)</span>
+    <div class="qa-item"><span class="ask">${last.pontos} pontos · ${salas.size} aulas feitas · ${exams.length} exame(s)</span>
       <span>Última atividade: ${esc(fmt(last.quando))}</span></div>
     ${top.length?`<div class="qa-item"><span class="ask">O que ela mais erra</span>${top.map(([t,n])=>`<span>${esc(t)} <b style="color:var(--bad)">${n}x</b></span>`).join("")}</div>`:""}
     <div class="qa-item"><span class="ask">Últimas atividades</span>
@@ -556,7 +733,7 @@ function startLesson(id){
 function startExam(){
   const all = LESSONS.flatMap(l=>l.ex.map(e=>e));
   const pick = shuffle(all).slice(0,10);
-  run = {lesson:{id:"exam",title:"O Grande Exame"}, items:pick, i:0, results:[], wrong:[], exam:true, intro:false};
+  run = {lesson:{id:"exam",title:W().exam}, items:pick, i:0, results:[], wrong:[], exam:true, intro:false};
   renderRun();
 }
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
@@ -577,7 +754,7 @@ function renderRun(){
       <div class="cola-wrap"><table class="cola">${L.cola.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>
     </div>`;
   } else {
-    html += `<div class="lesson-head"><span class="eyebrow">Final</span><h2>O Grande Exame</h2></div>`;
+    html += `<div class="lesson-head"><span class="eyebrow">Final</span><h2>${esc(W().exam)}</h2></div>`;
   }
   html += `<div class="progress">${run.items.map((_,k)=>`<span class="${k<run.results.length?(run.results[k]?"ok":"bad"):(k===run.i?"now":"")}"></span>`).join("")}</div>`;
   html += `<div id="slot"></div>`;
@@ -592,7 +769,7 @@ function renderExercise(){
   const n = `Feitiço ${run.i+1} de ${run.items.length}`;
   if(ex.w){
     const bank = shuffle(ex.w.map((t,k)=>({t,k})));
-    slot.innerHTML = `<div class="ex"><span class="kind">${n} · Monte a frase</span>
+    slot.innerHTML = `<div class="ex"><span class="kind">${n} · Monte a frase</span>${ex.tr?`<p class="tr">Em português: ${esc(ex.tr)}</p>`:""}
       <div class="line empty" id="line"></div>
       <div class="bank" id="bank">${bank.map(b=>`<button class="chip" data-k="${b.k}" type="button">${esc(b.t)}</button>`).join("")}</div>
       <div class="row"><button class="btn" id="check" type="button" disabled>Conferir</button><button class="btn ghost" id="clear" type="button">Limpar</button></div>
@@ -617,7 +794,7 @@ function renderExercise(){
   } else {
     const q = esc(ex.q).replace("___",'<span class="blank">?</span>');
     slot.innerHTML = `<div class="ex"><span class="kind">${n} · Escolha a resposta</span>
-      <div class="q">${q}</div>
+      <div class="q">${q}</div>${ex.tr?`<p class="tr">Em português: ${esc(ex.tr)}</p>`:""}
       <div class="opts">${shuffle(ex.o).map(o=>`<button class="opt" type="button" data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div>
       <div class="feedback" id="fb" aria-live="polite"></div></div>`;
     slot.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
@@ -641,16 +818,16 @@ function answer(right, said){
     speak(fullSentence(ex));
     nextButton();
   } else {
-    fb.className="feedback bad"; fb.textContent = "Quase! Hora do Feitiço de Treino.";
+    fb.className="feedback bad"; fb.textContent = "Quase! Hora do "+W().drill+".";
     run.wrong.push(fullSentence(ex)+" (respondeu: "+said+")");
-    setTimeout(()=>openDrill(fullSentence(ex), said, nextButton, chainFor(ex)), 700);
+    setTimeout(()=>{ openDrill(fullSentence(ex), said, nextButton, chainFor(ex)); const tr=document.getElementById("drill-tr"); tr.textContent = ex.tr ? "Em português: "+ex.tr : ""; tr.hidden = !ex.tr; }, 700);
   }
   document.querySelector(".points b").textContent = state.points;
 }
 function nextButton(){
   const ex = document.querySelector(".ex");
   const row = document.createElement("div"); row.className="row";
-  row.innerHTML = `<button class="btn" type="button">${run.i+1<run.items.length?"Próximo feitiço →":"Terminar"}</button>`;
+  row.innerHTML = `<button class="btn" type="button">${run.i+1<run.items.length?W().next:"Terminar"}</button>`;
   ex.appendChild(row);
   const b=row.querySelector("button"); b.focus();
   b.onclick=()=>{ run.i++; renderRun(); };
@@ -752,10 +929,10 @@ function renderEnd(){
   const L = run.lesson;
   if(run.exam){
     const pass = hits>=7;
-    if(pass){ state.done.exam=true; state.points+=50; save(); }
-    logEvent({tipo:"exame",sala:"O Grande Exame",acertos:hits,total:run.items.length,detalhe:run.wrong.join(" | ")});
+    if(pass){ state.done[examKey()]=true; state.points+=50; save(); }
+    logEvent({tipo:"exame",sala:W().exam,acertos:hits,total:run.items.length,detalhe:run.wrong.join(" | ")});
     slot.innerHTML = `<div class="done-card"><span class="medal big ${pass?"on":""}">★</span>
-      <h3>${pass?"Aprovada no Grande Exame!":"Quase lá!"}</h3>
+      <h3>${pass?W().examPass:"Quase lá!"}</h3>
       <p>Você acertou ${hits} de ${run.items.length}.${pass?" Ganhou mais 50 pontos!":" Faça de novo: com 7 acertos você passa."}</p>
       <div class="row"><button class="btn" id="again" type="button">Fazer outro exame</button><button class="btn ghost" id="map" type="button">Voltar ao mapa</button></div></div>`;
     document.getElementById("again").onclick=startExam;
@@ -774,7 +951,7 @@ function renderEnd(){
       <p>Leia a pergunta em voz alta e responda falando, sem olhar. Depois toque em "Ver resposta" para conferir. Se quiser, pratique também com o Claude no modo de voz.</p>
       <div class="qa">${L.talk.map((t,k)=>`
         <div class="qa-item"><span class="ask">${esc(t[0])}</span>
-          <span class="ans" id="ans${k}" hidden>${esc(t[1])}</span>
+          <span class="ans" id="ans${k}" hidden>${esc(t[1])}${t[2]?`<br><span class="trq">${esc(t[2])}</span>`:""}</span>
           <div class="mini">${hasVoice?`<button class="btn ghost small" data-say="${esc(t[0])}" type="button">Ouvir</button>`:""}
           <button class="btn ghost small" data-show="${k}" type="button">Ver resposta</button></div></div>`).join("")}
       </div>
