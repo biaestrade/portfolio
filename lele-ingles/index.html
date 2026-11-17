@@ -125,7 +125,54 @@ html.vd .brand{letter-spacing:.06em}
 .seasons figcaption{color:var(--muted);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
 .room .season-img{grid-column:1/-1;width:100%;height:auto;display:block;border-radius:8px;aspect-ratio:798/100;object-fit:cover}
 .lesson-season{display:block;width:100%;max-width:560px;height:auto;border-radius:10px;border:1px solid var(--line);margin:4px 0 10px;aspect-ratio:798/100;object-fit:cover}
-.vd-logo{display:block;width:min(400px,88%);height:auto;margin:6px 0 14px}
+/* ---------- animações ---------- */
+html.vd .hero{text-align:center}
+html.vd .hero p{margin-inline:auto}
+.vd-logo{display:block;width:min(400px,88%);height:auto;margin:6px auto 14px;animation:logoIn 1.3s ease-out both, logoGlow 4.5s ease-in-out 1.3s infinite}
+@keyframes logoIn{from{opacity:0;transform:scale(.9) translateY(8px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes logoGlow{50%{filter:drop-shadow(0 0 16px color-mix(in srgb,var(--gold) 60%,transparent))}}
+.journey{display:grid;gap:6px;margin-top:16px}
+.journey small{color:var(--muted);font-weight:600}
+.bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden;width:100%;max-width:420px}
+html.vd .bar{margin:0 auto}
+.bar span{display:block;height:100%;width:var(--p);background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:5px;animation:fill 1.4s cubic-bezier(.2,.8,.2,1) .3s both}
+@keyframes fill{from{width:0}}
+.rooms .room{overflow:hidden;animation:rise .55s ease-out both;animation-delay:calc(var(--i,0) * 70ms)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+.room .season-img{transition:transform .6s ease}
+.room:hover .season-img,.room:focus-visible .season-img{transform:scale(1.05)}
+.room:active{transform:scale(.98)}
+.house,.world,.opt,.chip,.btn{transition:transform .15s,background-color .2s,border-color .2s}
+.house:active,.opt:active:not(:disabled),.chip:active,.btn:active{transform:scale(.95)}
+.ex{animation:rise .4s ease-out both}
+.lesson-season{animation:rise .5s ease-out both}
+.opt.right{animation:pop .45s}
+.opt.wrong,.line.shake{animation:shake .45s}
+@keyframes pop{50%{transform:scale(1.08)}}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.feedback:not(:empty){animation:rise .3s ease-out both}
+.progress span{transition:background-color .3s}
+.progress span.now{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.dots span.on{animation:pop .35s}
+.points.bump{animation:bump .55s}
+@keyframes bump{35%{transform:scale(1.2)}}
+.done-card .big{animation:medal 1s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes medal{from{transform:scale(0) rotate(-200deg)}}
+.drill:not([hidden]) .drill-box{animation:rise .35s ease-out both}
+.spark{position:fixed;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;background:var(--gold-soft);border-radius:2px;transform:rotate(45deg);pointer-events:none;z-index:40;animation:spark .95s ease-out forwards}
+.spark:nth-child(3n){background:var(--gold);width:6px;height:6px}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy)) rotate(260deg) scale(.2);opacity:0}}
+.float-pts{position:fixed;transform:translate(-50%,0);font-weight:800;font-size:1.25rem;color:var(--gold);pointer-events:none;z-index:40;animation:floatup 1.2s ease-out forwards;text-shadow:0 2px 8px var(--bg)}
+@keyframes floatup{to{transform:translate(-50%,-70px);opacity:0}}
+/* névoa andando em Mystic Falls */
+html.vd body::after{content:"";position:fixed;inset:-25%;pointer-events:none;z-index:0;
+  background:radial-gradient(38% 22% at 25% 35%, color-mix(in srgb,var(--ink) 8%,transparent), transparent 70%),
+             radial-gradient(32% 18% at 75% 65%, color-mix(in srgb,var(--ink) 6%,transparent), transparent 70%),
+             radial-gradient(28% 16% at 50% 90%, color-mix(in srgb,var(--gold) 6%,transparent), transparent 70%);
+  animation:fog 38s ease-in-out infinite alternate}
+@keyframes fog{to{transform:translate(9%,-4%)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .worlds{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--sky);border:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
 .world{border:none;background:transparent;border-radius:999px;padding:8px 16px;font-weight:800;color:var(--muted)}
 .world.on{background:var(--gold);color:var(--bg)}
@@ -667,16 +714,18 @@ function home(){
     ${isVD()?`<img class="vd-logo" src="vd-logo.png" alt="The Vampire Diaries" width="812" height="350">`:""}
     <h1>${IS_GUEST?W().guestHello:"Bem-vinda, "+PLAYER+"!"}</h1>
     <p>${W().intro}</p>
+    <div class="journey"><div class="bar"><span style="--p:${Math.round(100*(doneCount+(state.done[examKey()]?1:0))/(LESSONS.length+1))}%"></span></div>
+      <small>${doneCount+(state.done[examKey()]?1:0)} de ${LESSONS.length+1} ${isVD()?"capítulos":"salas"} · ${state.points} pontos</small></div>
   </section>
   ${houseHTML()}
   <nav class="rooms">
     ${LESSONS.map((l,i)=>`
-      <button class="room ${state.done[l.id]?"done":""}" data-go="${l.id}" type="button">${isVD()?`<img class="season-img" src="vd-t${i+1}.jpg" alt="Temporada ${i+1}" loading="lazy">`:""}
+      <button class="room ${state.done[l.id]?"done":""}" data-go="${l.id}" type="button" style="--i:${i}">${isVD()?`<img class="season-img" src="vd-t${i+1}.jpg" alt="Temporada ${i+1}" loading="lazy">`:""}
         <span class="num">${["I","II","III","IV","V","VI","VII"][i]}</span>
         <div><h3>${esc(l.title)}</h3><small>${esc(l.sub)}</small></div>
         <span class="tag">${state.done[l.id]?"Medalha":(isVD()?"Capítulo ":"Aula ")+(i+1)}</span>
       </button>`).join("")}
-    <button class="room exam ${state.done[examKey()]?"done":""}" data-go="exam" type="button">${isVD()?`<img class="season-img" src="vd-t8.jpg" alt="Temporada 8" loading="lazy">`:""}
+    <button class="room exam ${state.done[examKey()]?"done":""}" data-go="exam" type="button" style="--i:7">${isVD()?`<img class="season-img" src="vd-t8.jpg" alt="Temporada 8" loading="lazy">`:""}
       <span class="num">★</span>
       <div><h3>${W().exam}</h3><small>${W().examSub}</small></div>
       <span class="tag">${state.done[examKey()]?"Aprovada":"Final"}</span>
@@ -818,6 +867,26 @@ function renderExercise(){
   }
 }
 
+let RM=false; try{ RM = matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+function burst(el, n){
+  if(RM || !el) return;
+  const r=el.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+  for(let i=0;i<n;i++){
+    const s=document.createElement("span"); s.className="spark";
+    const a=Math.random()*6.283, d=45+Math.random()*80;
+    s.style.left=cx+"px"; s.style.top=cy+"px";
+    s.style.setProperty("--dx",(Math.cos(a)*d)+"px"); s.style.setProperty("--dy",(Math.sin(a)*d)+"px");
+    s.style.animationDelay=Math.round(Math.random()*90)+"ms";
+    document.body.appendChild(s); setTimeout(()=>s.remove(),1200);
+  }
+}
+function floatPts(el, txt){
+  if(RM || !el) return;
+  const r=el.getBoundingClientRect(), s=document.createElement("span");
+  s.className="float-pts"; s.textContent=txt; s.style.left=(r.left+r.width/2)+"px"; s.style.top=(r.top-6)+"px";
+  document.body.appendChild(s); setTimeout(()=>s.remove(),1300);
+}
+function bumpPoints(){ const p=document.querySelector(".points"); if(!p) return; p.classList.remove("bump"); void p.offsetWidth; p.classList.add("bump"); }
 const PRAISE = ["Excelente!","Feitiço perfeito!","Isso aí"+(IS_GUEST?"":", "+PLAYER)+"!","Mandou bem!","Brilhante!"];
 function answer(right, said){
   const ex = run.items[run.i];
@@ -827,10 +896,13 @@ function answer(right, said){
     state.points += 10; save();
     fb.className="feedback ok"; fb.textContent = PRAISE[Math.floor(Math.random()*PRAISE.length)]+" +10 pontos";
     speak(fullSentence(ex));
+    const src=document.querySelector(".opt.right")||document.getElementById("line")||document.getElementById("fb");
+    burst(src,16); floatPts(src,"+10"); bumpPoints();
     nextButton();
   } else {
     fb.className="feedback bad"; fb.textContent = "Quase! Hora do "+W().drill+".";
     run.wrong.push(fullSentence(ex)+" (respondeu: "+said+")");
+    const ln=document.getElementById("line"); if(ln){ ln.classList.remove("shake"); void ln.offsetWidth; ln.classList.add("shake"); }
     setTimeout(()=>{ openDrill(fullSentence(ex), said, nextButton, chainFor(ex)); const tr=document.getElementById("drill-tr"); tr.textContent = ex.tr ? "Em português: "+ex.tr : ""; tr.hidden = !ex.tr; }, 700);
   }
   document.querySelector(".points b").textContent = state.points;
@@ -946,6 +1018,7 @@ function renderEnd(){
       <h3>${pass?W().examPass:"Quase lá!"}</h3>
       <p>Você acertou ${hits} de ${run.items.length}.${pass?" Ganhou mais 50 pontos!":" Faça de novo: com 7 acertos você passa."}</p>
       <div class="row"><button class="btn" id="again" type="button">Fazer outro exame</button><button class="btn ghost" id="map" type="button">Voltar ao mapa</button></div></div>`;
+    if(pass) setTimeout(()=>{ burst(document.querySelector(".done-card .big"),40); bumpPoints(); },500);
     document.getElementById("again").onclick=startExam;
     document.getElementById("map").onclick=home;
     return;
@@ -972,6 +1045,7 @@ function renderEnd(){
   slot.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>{ document.getElementById("ans"+b.dataset.show).hidden=false; b.hidden=true; });
   document.getElementById("map").onclick=home;
   document.getElementById("redo").onclick=()=>startLesson(L.id);
+  setTimeout(()=>{ burst(document.querySelector(".done-card .big"),30); if(first) bumpPoints(); },500);
   document.querySelector(".points b").textContent = state.points;
 }
 
