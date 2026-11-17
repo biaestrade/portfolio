@@ -116,12 +116,14 @@ html.vd body{background:
   background-attachment:fixed; background-color:var(--bg)}
 html.vd .hero h1{letter-spacing:.02em}
 html.vd .brand{letter-spacing:.06em}
-.cover{margin:0 0 16px;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line);max-width:100%}
-.cover img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center 20%}
+.cover{margin:0 0 14px;border-radius:16px;overflow:hidden;position:relative;border:1px solid var(--line);max-width:460px}
+.cover img{display:block;width:100%;height:auto;aspect-ratio:12/5;object-fit:cover;object-position:center 22%}
 .cover::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,var(--bg))}
 .seasons{margin:22px auto 0;max-width:340px;display:grid;gap:8px;text-align:center}
 .seasons img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
 .seasons figcaption{color:var(--muted);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
+.room .season-img{grid-column:1/-1;width:100%;height:auto;display:block;border-radius:8px;aspect-ratio:798/100;object-fit:cover}
+.lesson-season{display:block;width:100%;max-width:560px;height:auto;border-radius:10px;border:1px solid var(--line);margin:4px 0 10px;aspect-ratio:798/100;object-fit:cover}
 .worlds{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--sky);border:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
 .world{border:none;background:transparent;border-radius:999px;padding:8px 16px;font-weight:800;color:var(--muted)}
 .world.on{background:var(--gold);color:var(--bg)}
@@ -667,12 +669,12 @@ function home(){
   ${houseHTML()}
   <nav class="rooms">
     ${LESSONS.map((l,i)=>`
-      <button class="room ${state.done[l.id]?"done":""}" data-go="${l.id}" type="button">
+      <button class="room ${state.done[l.id]?"done":""}" data-go="${l.id}" type="button">${isVD()?`<img class="season-img" src="vd-t${i+1}.jpg" alt="Temporada ${i+1}" loading="lazy">`:""}
         <span class="num">${["I","II","III","IV","V","VI","VII"][i]}</span>
         <div><h3>${esc(l.title)}</h3><small>${esc(l.sub)}</small></div>
-        <span class="tag">${state.done[l.id]?"Medalha":"Aula "+(i+1)}</span>
+        <span class="tag">${state.done[l.id]?"Medalha":(isVD()?"Capítulo ":"Aula ")+(i+1)}</span>
       </button>`).join("")}
-    <button class="room exam ${state.done[examKey()]?"done":""}" data-go="exam" type="button">
+    <button class="room exam ${state.done[examKey()]?"done":""}" data-go="exam" type="button">${isVD()?`<img class="season-img" src="vd-t8.jpg" alt="Temporada 8" loading="lazy">`:""}
       <span class="num">★</span>
       <div><h3>${W().exam}</h3><small>${W().examSub}</small></div>
       <span class="tag">${state.done[examKey()]?"Aprovada":"Final"}</span>
@@ -681,7 +683,6 @@ function home(){
   <div class="medals"><span class="lbl">Suas medalhas: ${doneCount} de ${LESSONS.length}</span>
     ${LESSONS.map((l,i)=>`<span class="medal ${state.done[l.id]?"on":""}" title="${esc(l.title)}">${["I","II","III","IV","V","VI","VII"][i]}</span>`).join("")}
   </div>`;
-  if(isVD()) app.insertAdjacentHTML("beforeend",`<figure class="seasons"><img src="vd-temporadas.jpg" alt="As 8 temporadas de The Vampire Diaries" width="399" height="501" loading="lazy"><figcaption>As 8 temporadas</figcaption></figure>`);
   if(window.MAGIA_USER==="admin"){
     app.insertAdjacentHTML("beforeend",`<section class="talk" style="margin-top:26px"><h3>Jornada da Lelê</h3>
       <p>Veja as aulas que ela fez, quantos acertos teve e o que errou.</p>
@@ -689,9 +690,7 @@ function home(){
       <div id="painel-out" style="display:grid;gap:10px"></div></section>`);
     document.getElementById("painel").onclick=loadPanel;
   }
-  if(isVD() && !app.querySelector(".seasons")) app.querySelector(".medals").insertAdjacentHTML("afterend",`<figure class="seasons"><img src="vd-temporadas.jpg" alt="As 8 temporadas de The Vampire Diaries" width="399" height="501" loading="lazy"><figcaption>As 8 temporadas</figcaption></figure>`);
   app.insertAdjacentHTML("beforeend", installHTML()); bindInstall();
-  if(isVD() && !app.querySelector(".seasons")) app.querySelector(".medals").insertAdjacentHTML("afterend",`<figure class="seasons"><img src="vd-temporadas.jpg" alt="As 8 temporadas de The Vampire Diaries" width="399" height="501" loading="lazy"><figcaption>As 8 temporadas</figcaption></figure>`);
   app.querySelectorAll("[data-house]").forEach(b=>b.onclick=()=>{
     state[groupKey()] = b.dataset.house; save(); applyHouse(); home();
   });
@@ -758,13 +757,13 @@ function renderRun(){
   const L = run.lesson;
   let html = topBar() + `<button class="back" id="back" type="button">← Voltar ao mapa</button>`;
   if(!run.exam){
-    html += `<div class="lesson-head"><span class="eyebrow">Aula</span><h2>${esc(L.title)}</h2></div>
+    html += `<div class="lesson-head">${isVD()?`<img class="lesson-season" src="vd-t${LESSONS.indexOf(L)+1}.jpg" alt="Temporada ${LESSONS.indexOf(L)+1}">`:""}<span class="eyebrow">${isVD()?"Capítulo "+(LESSONS.indexOf(L)+1):"Aula"}</span><h2>${esc(L.title)}</h2></div>
     <div class="explain">${L.explain.map(p=>`<p>${p}</p>`).join("")}
       <span class="cola-title">Cola mágica</span>
       <div class="cola-wrap"><table class="cola">${L.cola.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>
     </div>`;
   } else {
-    html += `<div class="lesson-head"><span class="eyebrow">Final</span><h2>${esc(W().exam)}</h2></div>`;
+    html += `<div class="lesson-head">${isVD()?`<img class="lesson-season" src="vd-t8.jpg" alt="Temporada 8">`:""}<span class="eyebrow">${isVD()?"Capítulo final":"Final"}</span><h2>${esc(W().exam)}</h2></div>`;
   }
   html += `<div class="progress">${run.items.map((_,k)=>`<span class="${k<run.results.length?(run.results[k]?"ok":"bad"):(k===run.i?"now":"")}"></span>`).join("")}</div>`;
   html += `<div id="slot"></div>`;
