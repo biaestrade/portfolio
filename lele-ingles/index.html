@@ -165,6 +165,49 @@ html.vd .bar{margin:0 auto}
 @keyframes spark{to{transform:translate(var(--dx),var(--dy)) rotate(260deg) scale(.2);opacity:0}}
 .float-pts{position:fixed;transform:translate(-50%,0);font-weight:800;font-size:1.25rem;color:var(--gold);pointer-events:none;z-index:40;animation:floatup 1.2s ease-out forwards;text-shadow:0 2px 8px var(--bg)}
 @keyframes floatup{to{transform:translate(-50%,-70px);opacity:0}}
+/* ---------- aula mais visual + sangue lúdico (Mystic Falls) ---------- */
+.explain,.ex{position:relative}
+.lead{display:grid;gap:10px}
+.lead p{margin:0;font-size:1.15rem;line-height:1.45;animation:rise .5s ease-out both;animation-delay:calc(var(--k,0) * 160ms)}
+.lead p:first-child{font-size:1.35rem;font-weight:800;line-height:1.3}
+.lead b{display:inline-block;padding:1px 10px;border-radius:999px;background:color-mix(in srgb,var(--gold) 24%,transparent);color:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);animation:pillGlow 2.6s ease-in-out infinite}
+@keyframes pillGlow{50%{box-shadow:0 0 14px color-mix(in srgb,var(--gold) 55%,transparent)}}
+.cola-title{font-size:.85rem;font-weight:800;color:var(--gold-soft)}
+.cola-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:8px}
+.tile{display:grid;gap:2px;align-content:start;text-align:left;background:var(--sky);border:2px solid var(--line);border-radius:12px;padding:10px 12px;animation:rise .45s ease-out both;animation-delay:calc(var(--k,0) * 60ms)}
+.tile b{font-size:1.2rem;color:var(--gold-soft);line-height:1.2}
+.tile span{color:var(--muted);font-size:.92rem}
+.tile:hover{border-color:var(--gold)}
+html.vd .tile:hover{box-shadow:0 0 16px color-mix(in srgb,var(--gold) 40%,transparent)}
+.tile.hit{animation:pop .4s}
+.ex .kind{font-size:.9rem;font-weight:800;color:var(--gold-soft);letter-spacing:.1em;text-transform:uppercase}
+.ex .inst{font-family:var(--display);font-size:clamp(1.5rem,5.5vw,2rem);color:var(--gold);line-height:1.1;margin-top:-8px}
+.ex .q{font-size:clamp(1.6rem,6vw,2rem)}
+.ex .tr{font-size:1.08rem;color:var(--ink);opacity:.85}
+.ex .tr b{font-size:.75rem;letter-spacing:.08em;padding:2px 8px;border-radius:6px;background:var(--line);color:var(--muted);margin-right:6px;vertical-align:2px}
+html.vd .explain,html.vd .ex{padding-top:46px}
+html.vd .lesson-head h2{text-shadow:0 0 22px color-mix(in srgb,var(--gold) 50%,transparent)}
+/* gotas escorrendo do topo dos cartões */
+.drips{--blood:#b51624;position:absolute;left:14px;right:14px;top:0;height:0;pointer-events:none;z-index:2}
+.drips::before{content:"";position:absolute;left:-14px;right:-14px;top:-1px;height:7px;background:var(--blood);border-radius:14px 14px 0 0}
+.drips i{position:absolute;top:4px;width:var(--w);height:var(--len);background:var(--blood);border-radius:0 0 999px 999px;transform-origin:top;animation:drip 3.4s ease-in-out var(--d) infinite alternate}
+.drips i::after{content:"";position:absolute;left:50%;top:calc(100% - 4px);width:calc(var(--w) * .8);height:calc(var(--w) * 1.05);margin-left:calc(var(--w) * -.4);background:var(--blood);border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;animation:fall 3.4s ease-in var(--d) infinite}
+@keyframes drip{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
+@keyframes fall{0%,55%{transform:translateY(-6px) scale(.6);opacity:0}62%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(70px) scale(.8);opacity:0}}
+/* gotinha pingando da lacuna */
+html.vd .ex .q .blank{position:relative}
+html.vd .ex .q .blank::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:10px;margin-left:-4px;background:#b51624;border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;animation:fall 2.2s ease-in infinite}
+/* respingo na resposta errada */
+html.vd .opt.wrong{position:relative;isolation:isolate;overflow:hidden}
+html.vd .opt.wrong::after{content:"";position:absolute;left:50%;top:50%;width:150%;aspect-ratio:1;z-index:-1;transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 50% 50%,#b51624 0 18%,transparent 19%),radial-gradient(circle at 30% 38%,#b51624 0 7%,transparent 8%),radial-gradient(circle at 70% 62%,#b51624 0 8%,transparent 9%),radial-gradient(circle at 64% 30%,#b51624 0 4%,transparent 5%),radial-gradient(circle at 34% 68%,#b51624 0 5%,transparent 6%);
+  opacity:.55;animation:splat .45s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes splat{from{transform:translate(-50%,-50%) scale(0)}}
+/* faíscas viram gotas de sangue com gravidade */
+html.vd .spark{background:#d21f2f;width:10px;height:10px;border-radius:50% 0 50% 50%;animation-name:bloodspark;animation-duration:1.15s;animation-timing-function:cubic-bezier(.2,.7,.4,1)}
+html.vd .spark:nth-child(3n){background:#ff5a67;width:7px;height:7px}
+@keyframes bloodspark{55%{transform:translate(var(--dx),var(--dy)) rotate(200deg)}100%{transform:translate(var(--dx),calc(var(--dy) + 80px)) rotate(260deg) scale(.5);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* névoa andando em Mystic Falls */
 html.vd body::after{content:"";position:fixed;inset:-25%;pointer-events:none;z-index:0;
   background:radial-gradient(38% 22% at 25% 35%, color-mix(in srgb,var(--ink) 8%,transparent), transparent 70%),
@@ -809,9 +852,10 @@ function renderRun(){
   let html = topBar() + `<button class="back" id="back" type="button">← Voltar ao mapa</button>`;
   if(!run.exam){
     html += `<div class="lesson-head">${isVD()?`<img class="lesson-season" src="vd-t${LESSONS.indexOf(L)+1}.jpg" alt="Temporada ${LESSONS.indexOf(L)+1}">`:""}<span class="eyebrow">${isVD()?"Capítulo "+(LESSONS.indexOf(L)+1):"Aula"}</span><h2>${esc(L.title)}</h2></div>
-    <div class="explain">${L.explain.map(p=>`<p>${p}</p>`).join("")}
-      <span class="cola-title">Cola mágica</span>
-      <div class="cola-wrap"><table class="cola">${L.cola.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table></div>
+    <div class="explain">${isVD()?DRIPS(9):""}
+      <div class="lead">${L.explain.map((p,k)=>`<p style="--k:${k}">${p}</p>`).join("")}</div>
+      <span class="cola-title">${isVD()?"Cola de vampiro":"Cola mágica"} · toque numa palavra para ouvir</span>
+      <div class="cola-grid">${L.cola.map((r,k)=>`<button class="tile" type="button" data-say="${esc(r[0])}" style="--k:${k}"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></button>`).join("")}</div>
     </div>`;
   } else {
     html += `<div class="lesson-head">${isVD()?`<img class="lesson-season" src="vd-t8.jpg" alt="Temporada 8">`:""}<span class="eyebrow">${isVD()?"Capítulo final":"Final"}</span><h2>${esc(W().exam)}</h2></div>`;
@@ -820,16 +864,17 @@ function renderRun(){
   html += `<div id="slot"></div>`;
   app.innerHTML = html;
   document.getElementById("back").onclick = home;
+  app.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{ speak(b.dataset.say); b.classList.remove("hit"); void b.offsetWidth; b.classList.add("hit"); if(isVD()) burst(b,8); });
   if(run.i < run.items.length) renderExercise(); else renderEnd();
 }
 
 function renderExercise(){
   const ex = run.items[run.i];
   const slot = document.getElementById("slot");
-  const n = `Feitiço ${run.i+1} de ${run.items.length}`;
+  const n = `${isVD()?"Desafio":"Feitiço"} ${run.i+1} de ${run.items.length}`;
   if(ex.w){
     const bank = shuffle(ex.w.map((t,k)=>({t,k})));
-    slot.innerHTML = `<div class="ex"><span class="kind">${n} · Monte a frase</span>${ex.tr?`<p class="tr">Em português: ${esc(ex.tr)}</p>`:""}
+    slot.innerHTML = `<div class="ex">${isVD()?DRIPS(7):""}<span class="kind">${n}</span><span class="inst">Monte a frase</span>${ex.tr?`<p class="tr"><b>PT</b>${esc(ex.tr)}</p>`:""}
       <div class="line empty" id="line"></div>
       <div class="bank" id="bank">${bank.map(b=>`<button class="chip" data-k="${b.k}" type="button">${esc(b.t)}</button>`).join("")}</div>
       <div class="row"><button class="btn" id="check" type="button" disabled>Conferir</button><button class="btn ghost" id="clear" type="button">Limpar</button></div>
@@ -853,8 +898,8 @@ function renderExercise(){
     };
   } else {
     const q = esc(ex.q).replace("___",'<span class="blank">?</span>');
-    slot.innerHTML = `<div class="ex"><span class="kind">${n} · Escolha a resposta</span>
-      <div class="q">${q}</div>${ex.tr?`<p class="tr">Em português: ${esc(ex.tr)}</p>`:""}
+    slot.innerHTML = `<div class="ex">${isVD()?DRIPS(7):""}<span class="kind">${n}</span><span class="inst">Escolha a resposta</span>
+      <div class="q">${q}</div>${ex.tr?`<p class="tr"><b>PT</b>${esc(ex.tr)}</p>`:""}
       <div class="opts">${shuffle(ex.o).map(o=>`<button class="opt" type="button" data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div>
       <div class="feedback" id="fb" aria-live="polite"></div></div>`;
     slot.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
@@ -868,6 +913,14 @@ function renderExercise(){
 }
 
 let RM=false; try{ RM = matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+function DRIPS(n){
+  let h="";
+  for(let i=0;i<n;i++){
+    const l=Math.round(i*(96/n)+Math.random()*5), w=8+Math.round(Math.random()*9), len=10+Math.round(Math.random()*22), d=(Math.random()*3).toFixed(2);
+    h+=`<i style="left:${l}%;--w:${w}px;--len:${len}px;--d:${d}s"></i>`;
+  }
+  return `<div class="drips" aria-hidden="true">${h}</div>`;
+}
 function burst(el, n){
   if(RM || !el) return;
   const r=el.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
